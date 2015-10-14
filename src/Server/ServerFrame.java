@@ -20,7 +20,7 @@ public class ServerFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtLog = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         txtFilepath = new java.awt.TextField();
         btnBrowse = new javax.swing.JButton();
@@ -32,9 +32,9 @@ public class ServerFrame extends javax.swing.JFrame {
         setName("frmServer"); // NOI18N
         setResizable(false);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtLog.setColumns(20);
+        txtLog.setRows(5);
+        jScrollPane1.setViewportView(txtLog);
 
         jLabel1.setText("Database File:");
 
@@ -117,9 +117,16 @@ public class ServerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFilepathTextValueChanged
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        serverListener = new 
+        serverListener = new ServerListener(this);
+        Thread thread = new Thread(serverListener);
+        thread.start();
+        btnBrowse.setEnabled(false);
+        btnConnect.setEnabled(false);
     }//GEN-LAST:event_btnConnectActionPerformed
 
+    public void setLog(String str) {
+        txtLog.append(str);
+    }
     /**
      * @param args the command line arguments
      */
@@ -144,7 +151,7 @@ public class ServerFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnConnect;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private java.awt.TextField txtFilepath;
+    private javax.swing.JTextArea txtLog;
     // End of variables declaration//GEN-END:variables
 }
