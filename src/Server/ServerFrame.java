@@ -112,7 +112,7 @@ public class ServerFrame extends javax.swing.JFrame {
 
     private void txtFilepathTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_txtFilepathTextValueChanged
         if (txtFilepath == null || txtFilepath.getText().length() == 0) {
-            btnConnect.setEnabled(false);
+            btnConnect.setEnabled(false);            
         }        
     }//GEN-LAST:event_txtFilepathTextValueChanged
 
