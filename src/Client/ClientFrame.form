@@ -159,6 +159,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="localhost"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -169,6 +172,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="4508"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnConnect">
       <Properties>
@@ -188,6 +194,9 @@
         <Property name="text" type="java.lang.String" value="boeing"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -221,6 +230,9 @@
         <Property name="text" type="java.lang.String" value="password"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="tabPanel">
       <Events>
@@ -268,7 +280,7 @@
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="rows" type="int" value="5"/>
-                    <Property name="text" type="java.lang.String" value="Welcome to  HST p2p chat application.&#xa;First, you have to register an account to start chatting with everyone. &#xa;If you already had one, just login with it.&#xa;After login with your account, all available users are show in the right box. &#xa;Just choose who you want to talk and chat with him/her.&#xa;You can send a file (less than 5Mb) to anyone by using the button &quot;Transfer File&quot; at the bottom of the windows.&#xa;Enjoy your chatting and having a good time!"/>
+                    <Property name="text" type="java.lang.String" value="Welcome to  HST p2p chat application.&#xa;First, you have to register an account to start chatting with everyone. &#xa;If you already had one, just login with it.&#xa;After login with your account, all available users are show in the right box. &#xa;Just choose who you want to talk and chat with him/her.&#xa;You can send a file (less than 5Mb) to anyone by using the button &quot;Transfer File&quot; at the bottom of the windows.&#xa;If you don&apos;t want to talk anymore, just double click to the current tab. The chat tab will close.&#xa;Enjoy your chatting and having a good time!"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
@@ -365,6 +377,9 @@
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

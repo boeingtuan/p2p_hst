@@ -1,21 +1,29 @@
 package Client;
 
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 
+import Server.*;
+
 public class ClientFrame extends javax.swing.JFrame {    
     
     private ArrayList<Entry> lstTabChat;
+    private String filepath="";
+    private JFileChooser fileChooser;
+    private ClientToServer serverGate;
+    private ListPeerManager lstOnlineManager;
     
     public ClientFrame() {      
         initComponents();
-        
+        fileChooser = new JFileChooser();
         lstTabChat = new ArrayList<>();
     }
 
@@ -110,7 +118,7 @@ public class ClientFrame extends javax.swing.JFrame {
         txtAreaChat.setColumns(20);
         txtAreaChat.setLineWrap(true);
         txtAreaChat.setRows(5);
-        txtAreaChat.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nEnjoy your chatting and having a good time!");
+        txtAreaChat.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!");
         txtAreaChat.setWrapStyleWord(true);
         txtAreaChat.setBorder(null);
         txtAreaChat.setFocusable(false);
@@ -273,11 +281,15 @@ public class ClientFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        DefaultListModel model;
+        /*DefaultListModel model;
         model = new DefaultListModel();
         model.addElement("All");
         model.addElement("All1");
-        lstOnline.setModel(model);        
+        lstOnline.setModel(model);*/
+        serverGate = new ClientToServer(this, lstOnlineManager, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
+        Thread serverThread = new Thread(serverGate);
+        serverThread.start();
+        btnConnect.setEnabled(false);
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -293,7 +305,14 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
+        fileChooser.showDialog(this, "Select file you want to send");
+        File file = fileChooser.getSelectedFile();
         
+        if (file != null) {
+            filepath = file.getPath();
+            txtDirFile.setText(filepath);
+            btnConnect.setEnabled(true);
+        }        
     }//GEN-LAST:event_btnTransferActionPerformed
 
     private void lstOnlineValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstOnlineValueChanged
@@ -336,19 +355,19 @@ public class ClientFrame extends javax.swing.JFrame {
     private JPanel createTab() {
         JPanel jp = new JPanel();
         JScrollPane jScrollPane = new JScrollPane();
-        JTextArea txtAreaChat = new JTextArea();
+        JTextArea txtArea = new JTextArea();
         
-        txtAreaChat.setColumns(20);
-        txtAreaChat.setLineWrap(true);
-        txtAreaChat.setRows(5);
-        txtAreaChat.setText("123");
-        txtAreaChat.setWrapStyleWord(true);
-        txtAreaChat.setBorder(null);
-        txtAreaChat.setFocusable(false);
+        txtArea.setColumns(20);
+        txtArea.setLineWrap(true);
+        txtArea.setRows(5);
+        txtArea.setText("123");
+        txtArea.setWrapStyleWord(true);
+        txtArea.setBorder(null);
+        txtArea.setFocusable(false);
         
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setFocusable(false);          
-        jScrollPane.setViewportView(txtAreaChat);         
+        jScrollPane.setViewportView(txtArea);         
         
         GroupLayout jPanelLayout = new GroupLayout(jp);
         jp.setLayout(jPanelLayout);
@@ -411,12 +430,12 @@ public class ClientFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JTextArea txtAreaChat;
     private javax.swing.JTextField txtDirFile;
-    private javax.swing.JTextField txtHostAddress;
-    private javax.swing.JTextField txtHostPort;
+    public javax.swing.JTextField txtHostAddress;
+    public javax.swing.JTextField txtHostPort;
     private javax.swing.JTextArea txtMessage;
-    private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtPort;
-    private javax.swing.JTextField txtUsername;
+    public javax.swing.JPasswordField txtPassword;
+    public javax.swing.JTextField txtPort;
+    public javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
 
