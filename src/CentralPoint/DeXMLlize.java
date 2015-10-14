@@ -113,12 +113,5 @@ public class DeXMLlize {
             default:
                 return new FileContentInfo(true, null, true);
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        String xmlRecords = "<CHAT_MSG>Chat 1321321313132 31321321321 3132132132 3132132131 313131 message</CHAT_MSG>";
-        DeXMLlize x = new DeXMLlize(xmlRecords);
-        x.deXMLlize();
-    }
-    
+    }   
 }
