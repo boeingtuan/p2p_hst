@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class DeXMLlize {
-    private String XML_Str;
+    private final String XML_Str;
     private Document doc = null;
       
     public DeXMLlize(String XML_Str) {
@@ -32,18 +32,18 @@ public class DeXMLlize {
         return 1;
     }
     
-    private UserInfo getRegister() throws Exception {        
+    private PeerInfo getRegister() throws Exception {        
         String username = UserDatabase.getTargetValue(ConstantTags.USERNAME_TAG, doc.getDocumentElement());
         String password = UserDatabase.getTargetValue(ConstantTags.PASSWORD_TAG, doc.getDocumentElement());
         int portNum = Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement()));
-        return new UserInfo(username, password, portNum, UserInfo.REGISTER);
+        return new PeerInfo(username, password, portNum, PeerInfo.REGISTER);
     }
     
-    private UserInfo getLogin() throws Exception {
+    private PeerInfo getLogin() throws Exception {
         String username = UserDatabase.getTargetValue(ConstantTags.USERNAME_TAG, doc.getDocumentElement());
         String password = UserDatabase.getTargetValue(ConstantTags.PASSWORD_TAG, doc.getDocumentElement());
         int portNum = Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement()));
-        return new UserInfo(username, password, portNum, UserInfo.LOGIN);        
+        return new PeerInfo(username, password, portNum, PeerInfo.LOGIN);        
     }
     
     private OnlinePeerInfo getOnlinePeer() throws Exception {
