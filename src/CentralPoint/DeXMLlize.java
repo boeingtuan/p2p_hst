@@ -27,27 +27,26 @@ public class DeXMLlize {
         }
     }
     
-    public Object deXMLlize() throws Exception {
-        System.out.println(getMessage().getMessage());
-        return 1;
+    public String firstTag() {
+        return doc.getDocumentElement().getNodeName();
     }
-    
-    private PeerInfo getRegister() throws Exception {        
+       
+    public PeerInfo getRegister() throws Exception {        
         String username = UserDatabase.getTargetValue(ConstantTags.USERNAME_TAG, doc.getDocumentElement());
         String password = UserDatabase.getTargetValue(ConstantTags.PASSWORD_TAG, doc.getDocumentElement());
         int portNum = Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement()));
         return new PeerInfo(username, password, portNum, PeerInfo.REGISTER);
     }
     
-    private PeerInfo getLogin() throws Exception {
+    public PeerInfo getLogin() throws Exception {
         String username = UserDatabase.getTargetValue(ConstantTags.USERNAME_TAG, doc.getDocumentElement());
         String password = UserDatabase.getTargetValue(ConstantTags.PASSWORD_TAG, doc.getDocumentElement());
         int portNum = Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement()));
         return new PeerInfo(username, password, portNum, PeerInfo.LOGIN);        
     }
     
-    private OnlinePeerInfo getOnlinePeer() throws Exception {
-        ArrayList<PeerInfo> lstOnlinePeer = new ArrayList<PeerInfo>();
+    public OnlinePeerInfo getOnlinePeer() throws Exception {
+        ArrayList<PeerInfo> lstOnlinePeer = new ArrayList<>();
         NodeList nList = doc.getElementsByTagName(ConstantTags.PEER_TAG);
         for (int i = 0; i < nList.getLength(); i++) {
             Element elemPeer = (Element) nList.item(i);
@@ -59,7 +58,7 @@ public class DeXMLlize {
         return new OnlinePeerInfo(lstOnlinePeer);
     }
     
-    private RegisResponeInfo getRegisterRespone() throws Exception {
+    public RegisResponeInfo getRegisterRespone() throws Exception {
         System.out.println(doc.getDocumentElement().getNodeName());
         if (doc.getDocumentElement().getNodeName().equals(ConstantTags.SESSION_DENY_TAG)) {
             return new RegisResponeInfo(false);
@@ -69,7 +68,7 @@ public class DeXMLlize {
         }
     }
     
-    private StatusInfo getClientStatus() throws Exception {
+    public StatusInfo getClientStatus() throws Exception {
         if (doc.getDocumentElement().getChildNodes().item(0).getNodeValue().equals(ConstantTags.ALIVE)) {
             return new StatusInfo(StatusInfo.ALIVE);
         }
@@ -78,34 +77,34 @@ public class DeXMLlize {
         }
     }
     
-    private ChatRequestInfo getChatRequest() throws Exception {
+    public ChatRequestInfo getChatRequest() throws Exception {
         return new ChatRequestInfo(UserDatabase.getTargetValue(ConstantTags.USERNAME_TAG, doc.getDocumentElement()));
     }
     
-    private ChatResponeInfo getChatRespone() throws Exception {
+    public ChatResponeInfo getChatRespone() throws Exception {
         return new ChatResponeInfo(doc.getDocumentElement().getNodeName().equals(ConstantTags.CHAT_ACCEPT_TAG));
     }
     
-    private MessageInfo getMessage() throws Exception {
+    public MessageInfo getMessage() throws Exception {
         return new MessageInfo(doc.getDocumentElement().getChildNodes().item(0).getNodeValue());
     }
     
-    private ChatCloseInfo getChatClose() throws Exception {
+    public ChatCloseInfo getChatClose() throws Exception {
         return new ChatCloseInfo(true);
     }
     
-    private FileNameInfo getFileName() throws Exception {
+    public FileNameInfo getFileName() throws Exception {
         return new FileNameInfo(doc.getDocumentElement().getChildNodes().item(0).getNodeValue());
     }
     
-    private FileAckInfo getFileAck() throws Exception {
+    public FileAckInfo getFileAck() throws Exception {
         if (doc.getDocumentElement().getNodeName().equals(ConstantTags.FILE_REQ_NOACK_TAG))
             return new FileAckInfo(false);
         else 
             return new FileAckInfo(true, Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement())));
     }
     
-    private FileContentInfo getContent() throws Exception {
+    public FileContentInfo getContent() throws Exception {
         switch (doc.getDocumentElement().getNodeName()) {
             case ConstantTags.FILE_DATA_BEGIN_TAG: 
                 return new FileContentInfo(true, null, false);
