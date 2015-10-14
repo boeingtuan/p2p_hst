@@ -4,12 +4,14 @@ public class ConstantTags {
    public static final String USER_TAG = "USER";
    public static final String USERNAME_TAG = "USERNAME";
    public static final String PASSWORD_TAG = "PASSWORD";
+   public static final String REGISTER_TAG = "REGISTER";
+   public static final String LOGIN_TAG = "LOGIN";
    public static final String PORT_TAG = "PORT";
    public static final String SESSION_DENY_TAG = "SESSION_DENY";
    public static final String SESSION_ACCEPT_TAG = "SESSION_ACCEPT";
    public static final String ONLINE_PEER_TAG = "ONLINE_PEER";
    public static final String PEER_TAG = "PEER";
-   public static final String ID_TAG = "ID";
+   public static final String IP_TAG = "IP";
    public static final String STATUS_TAG = "STATUS";
    public static final String ALIVE = "ALIVE";
    public static final String DYING = "DYING";
@@ -27,5 +29,5 @@ public class ConstantTags {
    
    public static final String CHAT_CLOSE_TAG = "CHAT_CLOSE";
    
-   public static final int MAX_MSG_SIZE = 1024;   
+   public static final int MAX_MSG_SIZE = 1024;
 }
