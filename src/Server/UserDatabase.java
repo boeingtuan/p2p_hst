@@ -9,6 +9,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import CentralPoint.ConstantTags;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class UserDatabase {
     private String filepath;
@@ -82,9 +83,8 @@ public class UserDatabase {
             Node data = doc.getLastChild();
             
             Element newuser = doc.createElement(ConstantTags.USER_TAG);
-            Element newusername = doc.createElement(ConstantTags.USERNAME_TAG);
-            Element newpassword = doc.createElement(ConstantTags.PASSWORD_TAG);
-            newuser.appendChild(newusername); newuser.appendChild(newpassword);
+            newuser.appendChild(createNode(ConstantTags.USERNAME_TAG, username, doc));
+            newuser.appendChild(createNode(ConstantTags.PASSWORD_TAG, password, doc));            
             data.appendChild(newuser);
             
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -104,4 +104,17 @@ public class UserDatabase {
         Node node = (Node) xmlTree.getElementsByTagName(tag).item(0).getChildNodes().item(0);
         return node.getNodeValue();
     }
+    
+    private Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       
+        Element elem = doc.createElement(tag);
+        elem.appendChild(doc.createTextNode(content));
+        
+        return elem;
+    }    
+    
+    /*public static void main(String[] a) {
+        String x = "C:\\Users\\Tuân\\Documents\\NetBeansProjects\\ChatAssignment\\Data.xml";
+        UserDatabase at = new UserDatabase(x);
+        at.addUser("boeing", "123456");
+    }*/
 }

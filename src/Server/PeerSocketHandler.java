@@ -60,6 +60,8 @@ public class PeerSocketHandler implements Runnable {
                 }
                 else {
                     serverLog.setLog("User " + user.getUsername() + " register failed at IP: " + user.getIP() + "\n");
+                    streamOut.writeUTF("<" + ConstantTags.SESSION_DENY_TAG + "/>");
+                    break;
                 }
             }
             
@@ -72,13 +74,14 @@ public class PeerSocketHandler implements Runnable {
                     userPeer = user;
                     
                     String listXML = lstPeerOnline.createPeerListXML();
-                    streamOut.writeUTF(listXML);
+                    streamOut.writeUTF("<" + ConstantTags.SESSION_ACCEPT_TAG + ">" + listXML.substring(listXML.indexOf("?>") + 2) + "</" + ConstantTags.SESSION_ACCEPT_TAG + ">");
                     streamOut.flush();
                     
                     timerKillPeer();
                 }
                 else {
                     serverLog.setLog("User " + user.getUsername() + " login failed at IP: " + user.getIP() + "\n");
+                    streamOut.writeUTF("<" + ConstantTags.SESSION_DENY_TAG + "/>");
                 }
                 break;
             }
@@ -92,7 +95,7 @@ public class PeerSocketHandler implements Runnable {
                 }
                 else {
                     lstPeerOnline.logout(userPeer);
-                    serverLog.setLog("User " + userPeer.getUsername() + "log out at IP: " + userPeer.getIP() + "\n");
+                    serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
                 }
             }
             
@@ -110,7 +113,7 @@ public class PeerSocketHandler implements Runnable {
                         time_count--;
                         if (time_count < 0) {
                             lstPeerOnline.logout(userPeer);
-                            serverLog.setLog("User " + userPeer.getUsername() + "terminate at IP: " + userPeer.getIP() + "\n");
+                            serverLog.setLog("User " + userPeer.getUsername() + " terminate at IP: " + userPeer.getIP() + "\n");
                             timer.cancel();                        
                             close();
                         }
