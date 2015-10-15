@@ -112,9 +112,9 @@ public class ClientFrame extends javax.swing.JFrame {
         txtHostPort.setText("4508");
 
         btnConnect.setText("Connect");
-        btnConnect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConnectActionPerformed(evt);
+        btnConnect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConnectMouseClicked(evt);
             }
         });
 
@@ -127,17 +127,17 @@ public class ClientFrame extends javax.swing.JFrame {
 
         btnLogin.setText("Login");
         btnLogin.setEnabled(false);
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLoginMouseClicked(evt);
             }
         });
 
         btnSignUp.setText("Sign Up");
         btnSignUp.setEnabled(false);
-        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSignUpActionPerformed(evt);
+        btnSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSignUpMouseClicked(evt);
             }
         });
 
@@ -192,11 +192,6 @@ public class ClientFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(txtMessage);
 
         btnSend.setText("Send Message");
-        btnSend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSendActionPerformed(evt);
-            }
-        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("File");
@@ -338,34 +333,6 @@ public class ClientFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        /*DefaultListModel model;
-        model = new DefaultListModel();
-        model.addElement("All");
-        model.addElement("All1");
-        lstOnline.setModel(model);*/
-        serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
-        Thread serverThread = new Thread(serverGate);
-        serverThread.start();
-        btnConnect.setEnabled(false);
-    }//GEN-LAST:event_btnConnectActionPerformed
-
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
-    }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
-        
-    }//GEN-LAST:event_btnSignUpActionPerformed
-
-    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        
-    }//GEN-LAST:event_btnSendActionPerformed
-
-    private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
-        
-    }//GEN-LAST:event_btnTransferActionPerformed
-
     private void lstOnlineValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstOnlineValueChanged
         
     }//GEN-LAST:event_lstOnlineValueChanged
@@ -381,32 +348,28 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabPanelMouseClicked
 
+    private void btnConnectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConnectMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConnectMouseClicked
+
+    private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoginMouseClicked
+
+    private void btnSignUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSignUpMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSignUpMouseClicked
+
     private void btnStartChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartChatActionPerformed
         // TODO add your handling code here:
-        String peername = lstOnline.getSelectedValue().toString();
-        JPanel jp;
-        if ((jp = findTab(peername)) != null) {
-            tabPanel.setSelectedComponent(jp);
-        }
-        else {
-            jp = createTab();
-            tabPanel.addTab(peername, jp);
-            lstTabChat.add(new Entry(peername, jp));
-            if (lstTabChat.size() == 1) tabPanel.remove(jPanel1);
-            tabPanel.setSelectedIndex(lstTabChat.size() - 1);           
-        }
     }//GEN-LAST:event_btnStartChatActionPerformed
+
+    private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTransferActionPerformed
 
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         // TODO add your handling code here:
-        fileChooser.showDialog(this, "Select file you want to send");
-        File file = fileChooser.getSelectedFile();
-        
-        if (file != null) {
-            filepath = file.getPath();
-            txtDirFile.setText(filepath);
-            btnConnect.setEnabled(true);
-        }        
     }//GEN-LAST:event_btnBrowseActionPerformed
     
     private JPanel findTab(String peername) {
