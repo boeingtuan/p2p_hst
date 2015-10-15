@@ -1,5 +1,7 @@
 package Server;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import java.io.File;
@@ -12,7 +14,33 @@ public class ServerFrame extends javax.swing.JFrame {
     
     public ServerFrame() {
         initComponents();
-        fileChooser = new JFileChooser();        
+        fileChooser = new JFileChooser(); 
+        addWindowListener(new WindowListener() {
+
+            @Override
+            public void windowOpened(WindowEvent e) { }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                serverListener.writeConversation();
+                serverListener.stopServer();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) { }
+
+            @Override
+            public void windowIconified(WindowEvent e) { }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) { }
+
+            @Override
+            public void windowActivated(WindowEvent e) { }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) { }
+        });
     }
 
     @SuppressWarnings("unchecked")

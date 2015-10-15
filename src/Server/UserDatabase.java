@@ -9,6 +9,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import CentralPoint.ConstantTags;
+import CentralPoint.PairUser;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class UserDatabase {
@@ -98,6 +103,37 @@ public class UserDatabase {
             System.out.println("Database exception: addUser()");
             return false;
         }
+    }
+    
+    public HashMap<PairUser, String> getConversation() {
+        HashMap<PairUser, String> res = null;
+        try {            
+            res = new HashMap<>();
+            NodeList nList = doc.getElementsByTagName(ConstantTags.SAVE_CONVERSATION_TAG);
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node node = nList.item(i);
+                Element elem = (Element) node;
+                String user1 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(0).getFirstChild()).getNodeValue();
+                String user2 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(1).getFirstChild()).getNodeValue();
+                String text = ((Node) elem.getElementsByTagName(ConstantTags.TEXT_TAG).item(0).getFirstChild()).getNodeValue();
+                
+                res.put(new PairUser(user1, user2), text);
+                res.put(new PairUser(user2, user1), text);
+            }           
+        }
+        catch (Exception e) {
+            System.out.println("Exception getConversation");
+        }
+        return res;
+    }
+    
+    public void writeConversation(String str) {
+        try {
+            Files.write(Paths.get(filepath), str.getBytes(), StandardOpenOption.APPEND);
+        }
+        catch (Exception e) {
+            System.out.println("Exception writeConversation");
+        }        
     }
     
     public static String getTargetValue(String tag, Element xmlTree) {

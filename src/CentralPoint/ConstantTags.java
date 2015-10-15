@@ -1,6 +1,9 @@
 package CentralPoint;
 
-public class ConstantTags {   
+public class ConstantTags {
+   public static final String SAVE_CONVERSATION_TAG = "SAVE_CONVERSATION";
+   public static final String CONVERSATION_TAG = "CONVERSATION";
+   public static final String TEXT_TAG = "TEXT";
    public static final String USER_TAG = "USER";
    public static final String USERNAME_TAG = "USERNAME";
    public static final String PASSWORD_TAG = "PASSWORD";

@@ -99,8 +99,25 @@ public class PeerSocketHandler implements Runnable {
                     lstPeerOnline.logout(userPeer);
                     serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
                 }
-            }
                 break;
+            }                
+            
+            case ConstantTags.CONVERSATION_TAG: {
+                PairUser pairUser = xml.getPairUser();
+                streamOut.writeUTF("<" + ConstantTags.TEXT_TAG + ">" + serverLog.serverListener.lstConversation.get(pairUser) + "</" + ConstantTags.TEXT_TAG + ">");
+                break;
+            }
+            
+            case ConstantTags.SAVE_CONVERSATION_TAG: {
+                Conversation conversation = xml.getConversation();
+                serverLog.serverListener.lstConversation.remove(conversation.getPairUser());
+                serverLog.serverListener.lstConversation.remove(conversation.getPairUser().swap());
+                
+                serverLog.serverListener.lstConversation.put(conversation.getPairUser(), conversation.getText());
+                serverLog.serverListener.lstConversation.put(conversation.getPairUser().swap(), conversation.getText());
+                System.out.println("Update conversation " + conversation.getPairUser().getUser1() + " " + conversation.getPairUser().getUser2());
+                break;
+            }
             default: System.out.println("Wrong format XML");
         }
     }

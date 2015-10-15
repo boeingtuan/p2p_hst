@@ -14,6 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class DeXMLlize {
@@ -121,6 +122,21 @@ public class DeXMLlize {
         }
     }
     
+    public PairUser getPairUser() throws Exception {
+        Element elem = doc.getDocumentElement();
+        String user1 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(0).getFirstChild()).getNodeValue();
+        String user2 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(1).getFirstChild()).getNodeValue();        
+        return new PairUser(user1, user2);
+    }
+    
+    public Conversation getConversation() throws Exception {
+        return new Conversation(getPairUser(), UserDatabase.getTargetValue(ConstantTags.TEXT_TAG, doc.getDocumentElement()));
+    }
+    
+    public String getText() throws Exception {
+        return UserDatabase.getTargetValue(ConstantTags.TEXT_TAG, doc.getDocumentElement());
+    }
+    
     public static String createUserXML(String username, String password, String tag,int port) throws Exception {
         // Initialize
         String res = "";
@@ -175,6 +191,59 @@ public class DeXMLlize {
 
         return sb.toString();         
     }
+    
+    public static String createSaveConversation(Conversation con) throws Exception {
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        Element rootElement = doc.createElement(ConstantTags.SAVE_CONVERSATION_TAG);
+        doc.appendChild(rootElement);
+        
+        rootElement.appendChild(createNode(ConstantTags.USERNAME_TAG, con.getPairUser().getUser1(), doc));
+        rootElement.appendChild(createNode(ConstantTags.USERNAME_TAG, con.getPairUser().getUser2(), doc));
+        rootElement.appendChild(createNode(ConstantTags.TEXT_TAG, con.getText(), doc));            
+        
+        //ToString
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();       
+    }
+
+    public static String createConversation(PairUser pairUser) throws Exception {
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        Element rootElement = doc.createElement(ConstantTags.CONVERSATION_TAG);
+        doc.appendChild(rootElement);
+        
+        rootElement.appendChild(createNode(ConstantTags.USERNAME_TAG, pairUser.getUser1(), doc));
+        rootElement.appendChild(createNode(ConstantTags.USERNAME_TAG, pairUser.getUser2(), doc));
+        
+        //ToString
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();       
+    }    
     
     private static Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       
         Element elem = doc.createElement(tag);
