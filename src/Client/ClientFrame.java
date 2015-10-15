@@ -2,13 +2,18 @@ package Client;
 
 import CentralPoint.ConstantTags;
 import CentralPoint.DeXMLlize;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,6 +33,37 @@ public class ClientFrame extends javax.swing.JFrame {
         initComponents();
         fileChooser = new JFileChooser();
         lstTabChat = new ArrayList<>();
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowListener() {
+
+            @Override
+            public void windowOpened(WindowEvent e) {}
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    serverGate.send(DeXMLlize.createStatusXML(ConstantTags.DYING));
+                } catch (Exception ex) {
+                    Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {}
+
+            @Override
+            public void windowIconified(WindowEvent e) {}
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+
+            @Override
+            public void windowActivated(WindowEvent e) {}
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -305,11 +341,11 @@ public class ClientFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        DefaultListModel model;
+        /* model;
         model = new DefaultListModel();
         model.addElement("All");
-        model.addElement("All1");
-        lstOnline.setModel(model);
+        model.addElement("All1
+        lstOnline.setModel(model);*/
         serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
         Thread serverThread = new Thread(serverGate);
         serverThread.start();
@@ -317,11 +353,19 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
+        try {
+            serverGate.send(DeXMLlize.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.LOGIN_TAG,Integer.parseInt(txtPort.getText())));
+        } catch (Exception ex) {
+            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
-        
+        try {
+            serverGate.send(DeXMLlize.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.REGISTER_TAG,Integer.parseInt(txtPort.getText())));
+        } catch (Exception ex) {
+            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
@@ -359,7 +403,9 @@ public class ClientFrame extends javax.swing.JFrame {
             tabPanel.addTab(peername, jp);
             lstTabChat.add(new Entry(peername, jp));
             if (lstTabChat.size() == 1) tabPanel.remove(jPanel1);
-            tabPanel.setSelectedIndex(lstTabChat.size() - 1);    
+            tabPanel.setSelectedIndex(lstTabChat.size() - 1);
+            ClientToClient.getTextArea(jp).append("Waiting for accepting...");
+            
             // request chat
             // TODO
         }

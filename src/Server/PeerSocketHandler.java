@@ -100,7 +100,7 @@ public class PeerSocketHandler implements Runnable {
                     serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
                 }
             }
-            
+                break;
             default: System.out.println("Wrong format XML");
         }
     }

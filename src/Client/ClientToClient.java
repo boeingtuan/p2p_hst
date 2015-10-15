@@ -96,7 +96,7 @@ public class ClientToClient implements Runnable{
         }
     }
      
-    private JTextArea getTextArea(JComponent com) {
+    public static JTextArea getTextArea(JComponent com) {
         return ((JTextArea)(((JViewport)(((JScrollPane)(com.getComponent(0))).getComponent(0))).getComponent(0)));
     }
 }
