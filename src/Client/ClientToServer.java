@@ -9,8 +9,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.DefaultListModel;
 
 public class ClientToServer implements Runnable{
@@ -69,11 +67,11 @@ public class ClientToServer implements Runnable{
         DeXMLlize xml = new DeXMLlize(msg);
         switch (xml.firstTag()) {
             case ConstantTags.SESSION_DENY_TAG: {
-                peerChat.txtAreaChatServer.append("Server: Unsuccessfully! Please try again!\n");
+                peerChat.txtAreaChatServer.append("Unsuccessfully! Please try again!\n");
                 break;
             }
             case ConstantTags.SESSION_ACCEPT_TAG: {
-                peerChat.txtAreaChatServer.append("Server: Successfully! Looking a friend and start to chat\n");
+                peerChat.txtAreaChatServer.append("Successfully! Looking a friend and start to chat\n");
                 
                 peerChat.txtUsername.setEnabled(false);
                 peerChat.txtPassword.setEnabled(false);
@@ -81,35 +79,15 @@ public class ClientToServer implements Runnable{
 
                 peerChat.btnLogin.setEnabled(false);
                 peerChat.btnSignUp.setEnabled(false);
-                
-                sendRequestAlive();
-                peerChat.lstOnline.setModel(model);
             }
-            case ConstantTags.ONLINE_PEER_TAG: {             
-                model.clear();
+            case ConstantTags.ONLINE_PEER_TAG: {                
                 for (PeerInfo peer : xml.getOnlinePeer().getOnlinePeer()) {
-                    if (peerChat.txtUsername.getText().equals(peer.getUsername())) continue;
-                    model.addElement(peer.getUsername());                    
-                }                  
+                    model.addElement(peer.getUsername());
+                }
+                peerChat.lstOnline.setModel(model);  
                 break;
             }
         }
-    }
-    
-    public void sendRequestAlive() {
-        final Timer timer;
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {              
-                    try {
-                        send(DeXMLlize.createStatusXML(ConstantTags.ALIVE));
-                    } catch (Exception ex) {
-                        System.out.println("Exception sendRequestAlive");
-                        ex.printStackTrace();
-                    }
-            }
-        }, 0, 1000);        
     }
     
 }

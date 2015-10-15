@@ -25,10 +25,6 @@ public class ListPeerManager {
     }
     
     public boolean login(PeerInfo user) {
-        for (PeerInfo p : lstPeer) {
-            if (p.getUsername().equals(user.getUsername())) 
-                return false;
-        }
         if (database.checkLogin(user.getUsername(), user.getPassword())) {
             lstPeer.add(user);
             return true;

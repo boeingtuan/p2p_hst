@@ -5,24 +5,48 @@
  */
 package Client;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.Socket;
 
 /**
  *
  * @author sonng_000
  */
-public class ReceiveFile {
+public class ReceiveFile implements Runnable{
     
-    private Socket socket;
-    private String filepath; // filepath: duong dan toi file can gui. VD: C:\Users\sonng_000\Documents\abc.txt
+    private final Socket socket;
+    private final String saveLocation; // duong dan toi noi save file
+    private InputStream In;
+    private FileOutputStream Out;
     
-    public ReceiveFile(Socket socket, String filepath) {
+    public ReceiveFile(Socket socket, String saveLocation) {
         this.socket = socket;
-        this.filepath = filepath;
+        this.saveLocation = saveLocation;
     }
     
-    public void receiveFile() { 
-        // hien thuc gui file qua socket, gia su socket da duoc ket noi
+    @Override
+    public void run() { 
+        try {
+         
+            In = socket.getInputStream();
+            Out = new FileOutputStream(saveLocation);
+            
+            byte[] buffer = new byte[1024];
+            int count;
+            
+            while((count = In.read(buffer)) >= 0){
+                Out.write(buffer, 0, count);
+            }
+            
+            Out.flush();
+            
+            if(Out != null){ Out.close(); }
+            if(In != null){ In.close(); }
+        } 
+        catch (Exception ex) {
+            System.out.println("Exception [Download : run(...)]");
+        }
         
     }
 }

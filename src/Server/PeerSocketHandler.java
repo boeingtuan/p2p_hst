@@ -19,8 +19,7 @@ public class PeerSocketHandler implements Runnable {
     private DataInputStream streamIn  =  null;
     private DataOutputStream streamOut = null;
     private PeerInfo userPeer;
-    private int time_count = 10;
-    private Timer timer;
+    private int time_count = 60;
     
     public PeerSocketHandler(Socket peer, ListPeerManager lstPeerOnline, ServerFrame serverLog) throws IOException {
         this.peer = peer;
@@ -35,7 +34,7 @@ public class PeerSocketHandler implements Runnable {
         try {            
             while (true) {
                 String msg =  streamIn.readUTF();
-                //System.out.println(msg);
+                System.out.println(msg);
                 processRequest(msg);
             }
         } 
@@ -62,6 +61,7 @@ public class PeerSocketHandler implements Runnable {
                 else {
                     serverLog.setLog("User " + user.getUsername() + " register failed at IP: " + user.getIP() + "\n");
                     streamOut.writeUTF("<" + ConstantTags.SESSION_DENY_TAG + "/>");
+                    streamOut.flush();
                     break;
                 }
             }
@@ -83,6 +83,7 @@ public class PeerSocketHandler implements Runnable {
                 else {
                     serverLog.setLog("User " + user.getUsername() + " login failed at IP: " + user.getIP() + "\n");
                     streamOut.writeUTF("<" + ConstantTags.SESSION_DENY_TAG + "/>");
+                    streamOut.flush();
                 }
                 break;
             }
@@ -90,17 +91,14 @@ public class PeerSocketHandler implements Runnable {
             case ConstantTags.STATUS_TAG: {
                 StatusInfo status = xml.getClientStatus();
                 if (status.isAlive()) {
-                    time_count = 10;
+                    time_count = 60;
                     streamOut.writeUTF(lstPeerOnline.createPeerListXML());
                     streamOut.flush();
                 }
                 else {
                     lstPeerOnline.logout(userPeer);
                     serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
-                    timer.cancel();
-                    close();
                 }
-                break;
             }
             
             default: System.out.println("Wrong format XML");
@@ -108,6 +106,7 @@ public class PeerSocketHandler implements Runnable {
     }
     
     private void timerKillPeer(){
+        final Timer timer;
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
