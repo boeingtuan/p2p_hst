@@ -176,6 +176,48 @@ public class DeXMLlize {
         return sb.toString();         
     }
     
+    public static String createMessage(String content) throws Exception {
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        doc.appendChild(createNode(ConstantTags.CHAT_MSG_TAG, content, doc));
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();  
+    }
+    
+    public static String createChatRequestXML(String content) throws Exception {
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        Element rootElement = doc.createElement(ConstantTags.CHAT_REQ_TAG);
+        doc.appendChild(rootElement);
+        rootElement.appendChild(createNode(ConstantTags.USERNAME_TAG, content, doc));
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();  
+    }
+    
     private static Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       
         Element elem = doc.createElement(tag);
         elem.appendChild(doc.createTextNode(content));

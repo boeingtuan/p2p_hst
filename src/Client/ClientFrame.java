@@ -2,11 +2,14 @@ package Client;
 
 import CentralPoint.ConstantTags;
 import CentralPoint.DeXMLlize;
+import CentralPoint.PeerInfo;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,6 +29,7 @@ import javax.swing.UIManager;
 public class ClientFrame extends javax.swing.JFrame {    
     
     private ArrayList<Entry> lstTabChat;
+    private ArrayList<PeerInfo> lstPeerOnline;
     private String filepath="";
     private JFileChooser fileChooser;
     private ClientToServer serverGate;
@@ -146,6 +151,11 @@ public class ClientFrame extends javax.swing.JFrame {
         txtPassword.setText("password");
         txtPassword.setEnabled(false);
 
+        tabPanel.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabPanelStateChanged(evt);
+            }
+        });
         tabPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabPanelMouseClicked(evt);
@@ -158,7 +168,7 @@ public class ClientFrame extends javax.swing.JFrame {
         txtAreaChatServer.setColumns(20);
         txtAreaChatServer.setLineWrap(true);
         txtAreaChatServer.setRows(5);
-        txtAreaChatServer.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!");
+        txtAreaChatServer.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!\n");
         txtAreaChatServer.setWrapStyleWord(true);
         txtAreaChatServer.setBorder(null);
         txtAreaChatServer.setFocusable(false);
@@ -194,6 +204,7 @@ public class ClientFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(txtMessage);
 
         btnSend.setText("Send Message");
+        btnSend.setEnabled(false);
         btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendActionPerformed(evt);
@@ -204,6 +215,7 @@ public class ClientFrame extends javax.swing.JFrame {
         jLabel5.setText("File");
 
         btnTransfer.setText("Transfer File");
+        btnTransfer.setEnabled(false);
         btnTransfer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTransferActionPerformed(evt);
@@ -341,12 +353,13 @@ public class ClientFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        /* model;
+        /*DefaultListModel<String> model;
         model = new DefaultListModel();
         model.addElement("All");
-        model.addElement("All1
+        model.addElement("All1");
         lstOnline.setModel(model);*/
-        serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
+        lstPeerOnline = new ArrayList<>();
+        serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()), lstPeerOnline, lstTabChat, tabPanel);
         Thread serverThread = new Thread(serverGate);
         serverThread.start();
         btnConnect.setEnabled(false);
@@ -369,7 +382,15 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        
+        DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
+        try {
+            pOut.writeUTF(DeXMLlize.createMessage(txtMessage.getText()));
+            pOut.flush();
+            retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(txtUsername.getText() + ": " + txtMessage.getText() + "\n");
+            txtMessage.setText("");
+        } catch (Exception ex) {
+            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
@@ -382,11 +403,20 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void tabPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPanelMouseClicked
         if (evt.getClickCount() == 2) {
+            DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
+            try {
+                pOut.writeUTF("<" + ConstantTags.CHAT_CLOSE_TAG + "/>");
+                pOut.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             int index = tabPanel.getSelectedIndex();
             lstTabChat.remove(index);
             tabPanel.remove(tabPanel.getSelectedComponent());
             if (lstTabChat.size() == 0) {
                 tabPanel.addTab("Server", jPanel1);
+                btnSend.setEnabled(false);
+                btnTransfer.setEnabled(false);
             }
         }
     }//GEN-LAST:event_tabPanelMouseClicked
@@ -404,13 +434,53 @@ public class ClientFrame extends javax.swing.JFrame {
             lstTabChat.add(new Entry(peername, jp));
             if (lstTabChat.size() == 1) tabPanel.remove(jPanel1);
             tabPanel.setSelectedIndex(lstTabChat.size() - 1);
-            ClientToClient.getTextArea(jp).append("Waiting for accepting...");
-            
-            // request chat
-            // TODO
+            retrieveTxt(jp).append("Waiting for accepting...\n");
+            PeerInfo info = findPeerInfo(lstPeerOnline, peername);
+            try {
+                String IP = info.getIP().substring(1, info.getIP().indexOf(':'));
+                Socket socket = new Socket(IP, info.getPortNum());
+                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                DataInputStream in = new DataInputStream(socket.getInputStream());
+                out.writeUTF(DeXMLlize.createChatRequestXML(txtUsername.getText()));
+                String msg = in.readUTF();
+                DeXMLlize xml = new DeXMLlize(msg);
+                switch (xml.firstTag()) {
+                    case ConstantTags.CHAT_ACCEPT_TAG:
+                        retrieveTxt(jp).append("Ready to chat!\n");
+                        btnSend.setEnabled(true);
+                        btnTransfer.setEnabled(true);
+                        lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
+                        lstTabChat.get(tabPanel.getSelectedIndex()).in = in;
+                        lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
+                        Thread t = new Thread(new ClientFromClient(this, in, peername, lstTabChat, tabPanel));
+                        t.start();
+                        break;
+                    case ConstantTags.CHAT_DENY_TAG:
+                        retrieveTxt(jp).append("Failed to chat!\n");
+                        btnSend.setEnabled(false);
+                        btnTransfer.setEnabled(false);
+                        lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = false;
+                        in.close();
+                        out.close();
+                        socket.close();
+                        break;
+                }
+                // request chat
+                // TODO
+            } catch (Exception ex) {
+                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnStartChatActionPerformed
 
+    private PeerInfo findPeerInfo(ArrayList<PeerInfo> lst, String peerName) {
+        for (PeerInfo i : lst) {
+            if (i.getUsername() == peerName)
+                return i;
+        }
+        return null;
+    }
+    
     private void btnBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseActionPerformed
         // TODO add your handling code here:
         fileChooser.showDialog(this, "Select file you want to send");
@@ -422,6 +492,20 @@ public class ClientFrame extends javax.swing.JFrame {
             btnConnect.setEnabled(true);
         }        
     }//GEN-LAST:event_btnBrowseActionPerformed
+
+    private void tabPanelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPanelStateChanged
+        // TODO add your handling code here:
+        if (lstTabChat != null && lstTabChat.size() >= 1) {
+            if (lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat) {
+                btnSend.setEnabled(true);
+                btnTransfer.setEnabled(true);
+            }
+            else {
+                btnSend.setEnabled(false);
+                btnTransfer.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_tabPanelStateChanged
     
     private JPanel findTab(String peername) {
         for (Entry tmp : lstTabChat) {
@@ -491,24 +575,24 @@ public class ClientFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBrowse;
     public javax.swing.JButton btnConnect;
     public javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnSend;
+    public javax.swing.JButton btnSend;
     public javax.swing.JButton btnSignUp;
     private javax.swing.JButton btnStartChat;
-    private javax.swing.JButton btnTransfer;
+    public javax.swing.JButton btnTransfer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
+    public static javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private java.awt.Label label1;
     public javax.swing.JList lstOnline;
-    private javax.swing.JTabbedPane tabPanel;
+    public javax.swing.JTabbedPane tabPanel;
     public javax.swing.JTextArea txtAreaChatServer;
     private javax.swing.JTextField txtDirFile;
     public javax.swing.JTextField txtHostAddress;

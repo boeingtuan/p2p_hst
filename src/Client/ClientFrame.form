@@ -249,12 +249,19 @@
     </Component>
     <Container class="javax.swing.JTabbedPane" name="tabPanel">
       <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="tabPanelStateChanged"/>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabPanelMouseClicked"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Server" toolTip="">
@@ -293,7 +300,7 @@
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="rows" type="int" value="5"/>
-                    <Property name="text" type="java.lang.String" value="Welcome to  HST p2p chat application.&#xa;First, you have to register an account to start chatting with everyone. &#xa;If you already had one, just login with it.&#xa;After login with your account, all available users are show in the right box. &#xa;Just choose who you want to talk and chat with him/her.&#xa;You can send a file (less than 5Mb) to anyone by using the button &quot;Transfer File&quot; at the bottom of the windows.&#xa;If you don&apos;t want to talk anymore, just double click to the current tab. The chat tab will close.&#xa;Enjoy your chatting and having a good time!"/>
+                    <Property name="text" type="java.lang.String" value="Welcome to  HST p2p chat application.&#xa;First, you have to register an account to start chatting with everyone. &#xa;If you already had one, just login with it.&#xa;After login with your account, all available users are show in the right box. &#xa;Just choose who you want to talk and chat with him/her.&#xa;You can send a file (less than 5Mb) to anyone by using the button &quot;Transfer File&quot; at the bottom of the windows.&#xa;If you don&apos;t want to talk anymore, just double click to the current tab. The chat tab will close.&#xa;Enjoy your chatting and having a good time!&#xa;"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
@@ -361,10 +368,14 @@
     <Component class="javax.swing.JButton" name="btnSend">
       <Properties>
         <Property name="text" type="java.lang.String" value="Send Message"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSendActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -377,10 +388,14 @@
     <Component class="javax.swing.JButton" name="btnTransfer">
       <Properties>
         <Property name="text" type="java.lang.String" value="Transfer File"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTransferActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>

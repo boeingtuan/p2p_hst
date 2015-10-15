@@ -9,24 +9,32 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.DefaultListModel;
+import javax.swing.JTabbedPane;
 
 public class ClientToServer implements Runnable{
-private ClientFrame peerChat;
+    private ClientFrame peerChat;
     private String hostIP;
     private int hostPort;
     private Socket server;
     private DataInputStream streamIn  =  null;
     private DataOutputStream streamOut = null;
+    private ArrayList<PeerInfo> lstPeerOnline;
+    private ArrayList<Entry> lstTabChat;
+    private JTabbedPane tabPanel;
     DefaultListModel model;
     
-    public ClientToServer(ClientFrame peerChat, String hostIP, int hostPort) {
+    public ClientToServer(ClientFrame peerChat, String hostIP, int hostPort, ArrayList<PeerInfo> lstPeerOnline, ArrayList<Entry> lstTabChat, JTabbedPane tabPanel) {
         this.peerChat = peerChat;
         this.hostIP = hostIP;
         this.hostPort = hostPort;
+        this.lstPeerOnline = lstPeerOnline;
         model = new DefaultListModel();
+        this.lstTabChat = lstTabChat;
+        this.tabPanel = tabPanel;
     }
     
     @Override
@@ -81,14 +89,20 @@ private ClientFrame peerChat;
                 peerChat.btnLogin.setEnabled(false);
                 peerChat.btnSignUp.setEnabled(false);
                 
+                ClientListener listener = new ClientListener(peerChat, hostPort, lstTabChat, tabPanel);
+                Thread t = new Thread(listener);
+                t.start();
+                
                 sendRequestAlive();
                 peerChat.lstOnline.setModel(model);
             }
             case ConstantTags.ONLINE_PEER_TAG: {             
                 model.clear();
+                lstPeerOnline.clear();
                 for (PeerInfo peer : xml.getOnlinePeer().getOnlinePeer()) {
                     if (peerChat.txtUsername.getText().equals(peer.getUsername())) continue;
-                    model.addElement(peer.getUsername());                    
+                    model.addElement(peer.getUsername()); 
+                    lstPeerOnline.add(peer);
                 }                  
                 break;
             }
@@ -108,7 +122,7 @@ private ClientFrame peerChat;
                         ex.printStackTrace();
                     }
             }
-        }, 0, 1000);        
+        }, 0, 3000);        
     }
     
 }
