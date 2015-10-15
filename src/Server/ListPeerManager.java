@@ -36,7 +36,6 @@ public class ListPeerManager {
     
     public boolean register(PeerInfo user) {
         if (database.addUser(user.getUsername(), user.getPassword())) {
-            lstPeer.add(user);
             return true;
         }
         else {
@@ -65,18 +64,18 @@ public class ListPeerManager {
             rootElement.appendChild(newElem);
         }
         
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            
-            StringWriter outWriter = new StringWriter();
-            StreamResult result = new StreamResult(outWriter);
-            
-            transformer.transform(source, result);  
-            
-            StringBuffer sb = outWriter.getBuffer(); 
-            
-            return sb.toString();
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();
     }
     
     private Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       

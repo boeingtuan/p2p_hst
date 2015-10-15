@@ -3,9 +3,15 @@ package CentralPoint;
 import Server.UserDatabase;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -113,5 +119,49 @@ public class DeXMLlize {
             default:
                 return new FileContentInfo(true, null, true);
         }
-    }   
+    }
+    
+    public static String createUserXML(String username, String password, String tag,int port) throws Exception {
+        // Initialize
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        Element rootElement = doc.createElement(tag);
+        doc.appendChild(rootElement);
+
+        Element newElem = doc.createElement(ConstantTags.USER_TAG);
+        newElem.appendChild(createNode(ConstantTags.USERNAME_TAG, username, doc));
+        newElem.appendChild(createNode(ConstantTags.PASSWORD_TAG, password, doc));
+        newElem.appendChild(createNode(ConstantTags.PORT_TAG, String.valueOf(port), doc));
+            
+        rootElement.appendChild(newElem);        
+        
+        //ToString
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();        
+    }
+    
+    private static Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       
+        Element elem = doc.createElement(tag);
+        elem.appendChild(doc.createTextNode(content));
+        
+        return elem;
+    }    
+    
+    /*public static void main(String[] args) throws Exception {
+        String x = createRegisterXML("boeingtuan", "password", 4508);
+        DeXMLlize a = new DeXMLlize(x);
+        System.out.println(a.getRegister().getPortNum());
+    }*/
 }
