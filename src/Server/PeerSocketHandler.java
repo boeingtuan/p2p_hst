@@ -20,9 +20,8 @@ public class PeerSocketHandler implements Runnable {
     private DataOutputStream streamOut = null;
     private PeerInfo userPeer;
     private int time_count = 60;
-    private Timer timer;
     
-    public PeerSocketHandler(Socket peer, ListPeerManager lstPeerOnline, ServerFrame serverLog) throws Exception {
+    public PeerSocketHandler(Socket peer, ListPeerManager lstPeerOnline, ServerFrame serverLog) throws IOException {
         this.peer = peer;
         this.lstPeerOnline = lstPeerOnline;
         this.serverLog = serverLog;
@@ -97,17 +96,15 @@ public class PeerSocketHandler implements Runnable {
                 else {
                     lstPeerOnline.logout(userPeer);
                     serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
-                    timer.cancel();
-                    close();
                 }
-                break;
             }
             
             default: System.out.println("Wrong format XML");
         }
     }
     
-    private void timerKillPeer(){        
+    private void timerKillPeer(){
+        final Timer timer;
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -117,7 +114,7 @@ public class PeerSocketHandler implements Runnable {
                         if (time_count < 0) {
                             lstPeerOnline.logout(userPeer);
                             serverLog.setLog("User " + userPeer.getUsername() + " terminate at IP: " + userPeer.getIP() + "\n");
-                            timer.cancel();                      
+                            timer.cancel();                        
                             close();
                         }
                     } catch (Exception ex) {

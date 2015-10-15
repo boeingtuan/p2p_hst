@@ -67,11 +67,11 @@ public class ClientToServer implements Runnable{
         DeXMLlize xml = new DeXMLlize(msg);
         switch (xml.firstTag()) {
             case ConstantTags.SESSION_DENY_TAG: {
-                peerChat.txtAreaChatServer.append("Unsuccessfully! Please try again!\n");
+                peerChat.txtAreaChatServer.append("Server: Unsuccessfully! Please try again!\n");
                 break;
             }
             case ConstantTags.SESSION_ACCEPT_TAG: {
-                peerChat.txtAreaChatServer.append("Successfully! Looking a friend and start to chat\n");
+                peerChat.txtAreaChatServer.append("Server: Successfully! Looking a friend and start to chat\n");
                 
                 peerChat.txtUsername.setEnabled(false);
                 peerChat.txtPassword.setEnabled(false);
