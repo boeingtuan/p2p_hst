@@ -85,4 +85,12 @@ public class ListPeerManager {
         
         return elem;
     }
+    
+    public PeerInfo findPeerByName(String name) {
+        for (PeerInfo i : lstPeer) {
+            if (i.getUsername() == name)
+                return i;
+        }
+        return null;
+    }
 }
