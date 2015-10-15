@@ -157,7 +157,31 @@ public class DeXMLlize {
         elem.appendChild(doc.createTextNode(content));
         
         return elem;
-    }    
+    }
+    
+    public static String createStatusXML(String content) throws Exception {
+        // Initialize
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        Element rootElement = createNode(ConstantTags.STATUS_TAG, content, doc);
+        doc.appendChild(rootElement);       
+        
+        //ToString
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();        
+    }
     
     /*public static void main(String[] args) throws Exception {
         String x = createRegisterXML("boeingtuan", "password", 4508);

@@ -15,9 +15,12 @@ import javax.swing.UIManager;
 
 import Server.*;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 public class ClientFrame extends javax.swing.JFrame {    
     
@@ -30,6 +33,37 @@ public class ClientFrame extends javax.swing.JFrame {
         initComponents();
         fileChooser = new JFileChooser();
         lstTabChat = new ArrayList<>();
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowListener() {
+
+            @Override
+            public void windowOpened(WindowEvent e) {}
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    serverGate.send(DeXMLlize.createStatusXML(ConstantTags.DYING));
+                } catch (Exception ex) {
+                    Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {}
+
+            @Override
+            public void windowIconified(WindowEvent e) {}
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+
+            @Override
+            public void windowActivated(WindowEvent e) {}
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -122,7 +156,7 @@ public class ClientFrame extends javax.swing.JFrame {
         txtAreaChatServer.setColumns(20);
         txtAreaChatServer.setLineWrap(true);
         txtAreaChatServer.setRows(5);
-        txtAreaChatServer.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!");
+        txtAreaChatServer.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!\n");
         txtAreaChatServer.setWrapStyleWord(true);
         txtAreaChatServer.setBorder(null);
         txtAreaChatServer.setFocusable(false);
