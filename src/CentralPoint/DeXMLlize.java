@@ -3,8 +3,15 @@ package CentralPoint;
 import Server.UserDatabase;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +25,7 @@ import org.w3c.dom.NodeList;
 
 public class DeXMLlize {
     private final String XML_Str;
-    private Document doc = null;
+    public Document doc = null;
       
     public DeXMLlize(String XML_Str) {
         this.XML_Str = XML_Str;
@@ -196,6 +203,26 @@ public class DeXMLlize {
         return sb.toString();  
     }
     
+    public static String createFileRequest(String fileName) throws Exception {
+        String res = "";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        doc.appendChild(createNode(ConstantTags.FILE_REQ_TAG, fileName, doc));
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+
+        StringWriter outWriter = new StringWriter();
+        StreamResult result = new StreamResult(outWriter);
+
+        transformer.transform(source, result);  
+
+        StringBuffer sb = outWriter.getBuffer(); 
+
+        return sb.toString();  
+    }
+    
     public static String createChatRequestXML(String content) throws Exception {
         String res = "";
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -216,6 +243,33 @@ public class DeXMLlize {
         StringBuffer sb = outWriter.getBuffer(); 
 
         return sb.toString();  
+    }
+    
+    public static String createFileXML(String filepath) {
+        try {
+            String res = "";
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
+            Path path = Paths.get(filepath);
+            byte[] data = Files.readAllBytes(path);
+            doc.appendChild(createNode(ConstantTags.FILE_DATA_TAG, new String(data, "UTF-8"), doc));
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+
+            StringWriter outWriter = new StringWriter();
+            StreamResult result = new StreamResult(outWriter);
+
+            transformer.transform(source, result);  
+
+            StringBuffer sb = outWriter.getBuffer(); 
+
+            return sb.toString(); 
+        } catch (Exception ex) {
+            Logger.getLogger(DeXMLlize.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     private static Element createNode(String tag, String content, Document doc) throws ParserConfigurationException {       

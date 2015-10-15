@@ -30,9 +30,10 @@ public class ClientFrame extends javax.swing.JFrame {
     
     private ArrayList<Entry> lstTabChat;
     private ArrayList<PeerInfo> lstPeerOnline;
-    private String filepath="";
+    public String filepath="";
     private JFileChooser fileChooser;
     private ClientToServer serverGate;
+    public boolean isSharingFile = false;
     
     public ClientFrame() {      
         initComponents();
@@ -394,6 +395,22 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
+        if (isSharingFile) {
+            JOptionPane.showMessageDialog(this, "In progress of sharing file...");
+        }
+        else {
+            DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
+            isSharingFile = true;
+            filepath = txtDirFile.getText();
+            try {
+                pOut.writeUTF(DeXMLlize.createFileRequest(filepath.substring(filepath.lastIndexOf('\\') + 1)));
+                pOut.flush();
+                retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append("Sending file tranferring request to " + lstTabChat.get(tabPanel.getSelectedIndex()).username + "\n");
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         
     }//GEN-LAST:event_btnTransferActionPerformed
 

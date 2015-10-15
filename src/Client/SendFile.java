@@ -6,9 +6,13 @@
 
 package Client;
 
+import CentralPoint.ConstantTags;
+import CentralPoint.DeXMLlize;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -16,17 +20,17 @@ import java.net.Socket;
  */
 public class SendFile  implements Runnable{
     
-    private Socket socket;
     private String filepath; // filepath: duong dan toi file can gui. VD: C:\Users\sonng_000\Documents\abc.txt
-    private OutputStream Out;
+    private DataOutputStream Out;
     private FileInputStream In;
+    private JTextArea txt;
     
-    public SendFile(Socket socket, String filepath) {
+    public SendFile(DataOutputStream Out, String filepath, JTextArea txt) {
         try {
-            this.socket = socket;
             this.filepath = filepath;
-            this.Out = socket.getOutputStream();
+            this.Out = Out;
             this.In = new FileInputStream(filepath);
+            this.txt = txt;
         } catch (Exception e) {
             System.out.println("Exception in [Sendfile: Sendfile()] ! ");
         }   
@@ -34,16 +38,10 @@ public class SendFile  implements Runnable{
     
     @Override
     public void run() { 
-         try {       
-            byte[] buffer = new byte[1024];
-            int count;
-            while((count = In.read(buffer)) >= 0) {
-                Out.write(buffer, 0, count);
-            }
-            
-            Out.flush();
-            if(In != null){ In.close(); }
-            if(Out != null){ Out.close(); }
+        try {       
+            Out.writeUTF(DeXMLlize.createFileXML(filepath));
+            txt.append("File sending done!\n");
+            In.close();
         }
         catch (Exception ex) {
             System.out.println("Exception [Sendfile : run()]");
