@@ -80,11 +80,6 @@ public class ClientFrame extends javax.swing.JFrame {
         txtHostPort.setText("4508");
 
         btnConnect.setText("Connect");
-        btnConnect.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnConnectMouseClicked(evt);
-            }
-        });
         btnConnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConnectActionPerformed(evt);
@@ -100,17 +95,17 @@ public class ClientFrame extends javax.swing.JFrame {
 
         btnLogin.setText("Login");
         btnLogin.setEnabled(false);
-        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLoginMouseClicked(evt);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
             }
         });
 
         btnSignUp.setText("Sign Up");
         btnSignUp.setEnabled(false);
-        btnSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSignUpMouseClicked(evt);
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
             }
         });
 
