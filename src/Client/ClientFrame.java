@@ -1,5 +1,7 @@
 package Client;
 
+import CentralPoint.ConstantTags;
+import CentralPoint.DeXMLlize;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -12,6 +14,10 @@ import javax.swing.JViewport;
 import javax.swing.UIManager;
 
 import Server.*;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientFrame extends javax.swing.JFrame {    
     
@@ -19,7 +25,6 @@ public class ClientFrame extends javax.swing.JFrame {
     private String filepath="";
     private JFileChooser fileChooser;
     private ClientToServer serverGate;
-    private ListPeerManager lstOnlineManager;
     
     public ClientFrame() {      
         initComponents();
@@ -45,7 +50,7 @@ public class ClientFrame extends javax.swing.JFrame {
         tabPanel = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtAreaChat = new javax.swing.JTextArea();
+        txtAreaChatServer = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstOnline = new javax.swing.JList();
@@ -64,7 +69,6 @@ public class ClientFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("bChat");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(615, 560));
         setResizable(false);
 
         jLabel1.setText("Host Address");
@@ -76,6 +80,11 @@ public class ClientFrame extends javax.swing.JFrame {
         txtHostPort.setText("4508");
 
         btnConnect.setText("Connect");
+        btnConnect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConnectMouseClicked(evt);
+            }
+        });
         btnConnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConnectActionPerformed(evt);
@@ -91,17 +100,17 @@ public class ClientFrame extends javax.swing.JFrame {
 
         btnLogin.setText("Login");
         btnLogin.setEnabled(false);
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLoginMouseClicked(evt);
             }
         });
 
         btnSignUp.setText("Sign Up");
         btnSignUp.setEnabled(false);
-        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSignUpActionPerformed(evt);
+        btnSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSignUpMouseClicked(evt);
             }
         });
 
@@ -117,14 +126,14 @@ public class ClientFrame extends javax.swing.JFrame {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setFocusable(false);
 
-        txtAreaChat.setColumns(20);
-        txtAreaChat.setLineWrap(true);
-        txtAreaChat.setRows(5);
-        txtAreaChat.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!");
-        txtAreaChat.setWrapStyleWord(true);
-        txtAreaChat.setBorder(null);
-        txtAreaChat.setFocusable(false);
-        jScrollPane2.setViewportView(txtAreaChat);
+        txtAreaChatServer.setColumns(20);
+        txtAreaChatServer.setLineWrap(true);
+        txtAreaChatServer.setRows(5);
+        txtAreaChatServer.setText("Welcome to  HST p2p chat application.\nFirst, you have to register an account to start chatting with everyone. \nIf you already had one, just login with it.\nAfter login with your account, all available users are show in the right box. \nJust choose who you want to talk and chat with him/her.\nYou can send a file (less than 5Mb) to anyone by using the button \"Transfer File\" at the bottom of the windows.\nIf you don't want to talk anymore, just double click to the current tab. The chat tab will close.\nEnjoy your chatting and having a good time!");
+        txtAreaChatServer.setWrapStyleWord(true);
+        txtAreaChatServer.setBorder(null);
+        txtAreaChatServer.setFocusable(false);
+        jScrollPane2.setViewportView(txtAreaChatServer);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -308,7 +317,7 @@ public class ClientFrame extends javax.swing.JFrame {
         model.addElement("All");
         model.addElement("All1");
         lstOnline.setModel(model);
-        serverGate = new ClientToServer(this, lstOnlineManager, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
+        serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()));
         Thread serverThread = new Thread(serverGate);
         serverThread.start();
         btnConnect.setEnabled(false);
@@ -440,10 +449,10 @@ public class ClientFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBrowse;
-    private javax.swing.JButton btnConnect;
-    private javax.swing.JButton btnLogin;
+    public javax.swing.JButton btnConnect;
+    public javax.swing.JButton btnLogin;
     private javax.swing.JButton btnSend;
-    private javax.swing.JButton btnSignUp;
+    public javax.swing.JButton btnSignUp;
     private javax.swing.JButton btnStartChat;
     private javax.swing.JButton btnTransfer;
     private javax.swing.JLabel jLabel1;
@@ -458,9 +467,9 @@ public class ClientFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private java.awt.Label label1;
-    public static javax.swing.JList lstOnline;
+    public javax.swing.JList lstOnline;
     private javax.swing.JTabbedPane tabPanel;
-    private javax.swing.JTextArea txtAreaChat;
+    public javax.swing.JTextArea txtAreaChatServer;
     private javax.swing.JTextField txtDirFile;
     public javax.swing.JTextField txtHostAddress;
     public javax.swing.JTextField txtHostPort;
