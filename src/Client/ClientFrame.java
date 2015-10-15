@@ -13,11 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 
-import Server.*;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;

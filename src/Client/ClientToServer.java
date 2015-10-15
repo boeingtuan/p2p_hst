@@ -9,6 +9,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.DefaultListModel;
 
 public class ClientToServer implements Runnable{
@@ -79,15 +81,35 @@ public class ClientToServer implements Runnable{
 
                 peerChat.btnLogin.setEnabled(false);
                 peerChat.btnSignUp.setEnabled(false);
+                
+                sendRequestAlive();
+                peerChat.lstOnline.setModel(model);
             }
-            case ConstantTags.ONLINE_PEER_TAG: {                
+            case ConstantTags.ONLINE_PEER_TAG: {             
+                model.clear();
                 for (PeerInfo peer : xml.getOnlinePeer().getOnlinePeer()) {
-                    model.addElement(peer.getUsername());
-                }
-                peerChat.lstOnline.setModel(model);  
+                    if (peerChat.txtUsername.getText().equals(peer.getUsername())) continue;
+                    model.addElement(peer.getUsername());                    
+                }                  
                 break;
             }
         }
+    }
+    
+    public void sendRequestAlive() {
+        final Timer timer;
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {              
+                    try {
+                        send(DeXMLlize.createStatusXML(ConstantTags.ALIVE));
+                    } catch (Exception ex) {
+                        System.out.println("Exception sendRequestAlive");
+                        ex.printStackTrace();
+                    }
+            }
+        }, 0, 1000);        
     }
     
 }
