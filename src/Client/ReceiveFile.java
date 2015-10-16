@@ -5,9 +5,13 @@
  */
 package Client;
 
+import CentralPoint.DeXMLlize;
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.Socket;
+import java.nio.charset.Charset;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -15,34 +19,26 @@ import java.net.Socket;
  */
 public class ReceiveFile implements Runnable{
     
-    private final Socket socket;
     private final String saveLocation; // duong dan toi noi save file
-    private InputStream In;
+    private DeXMLlize xml;
     private FileOutputStream Out;
+    private JTextArea txt;
     
-    public ReceiveFile(Socket socket, String saveLocation) {
-        this.socket = socket;
+    public ReceiveFile(DeXMLlize xml, String saveLocation, JTextArea txt) {
+        this.xml = xml;
         this.saveLocation = saveLocation;
+        this.txt = txt;
     }
     
     @Override
     public void run() { 
         try {
-         
-            In = socket.getInputStream();
-            Out = new FileOutputStream(saveLocation);
-            
-            byte[] buffer = new byte[1024];
-            int count;
-            
-            while((count = In.read(buffer)) >= 0){
-                Out.write(buffer, 0, count);
-            }
-            
-            Out.flush();
-            
+            byte[] data = xml.doc.getDocumentElement().getChildNodes().item(0).getNodeValue().getBytes(Charset.forName("UTF-8"));
+            FileOutputStream fos = new FileOutputStream(saveLocation);
+            fos.write(data);
+            fos.close();
+            txt.append("File downloading done!\n");
             if(Out != null){ Out.close(); }
-            if(In != null){ In.close(); }
         } 
         catch (Exception ex) {
             System.out.println("Exception [Download : run(...)]");
