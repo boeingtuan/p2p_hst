@@ -94,16 +94,16 @@ public class ClientToServer implements Runnable{
                 t.start();
                 
                 sendRequestAlive();
-                peerChat.lstOnline.setModel(model);
             }
             case ConstantTags.ONLINE_PEER_TAG: {             
-                model.clear();
+                model = new DefaultListModel();
                 lstPeerOnline.clear();
                 for (PeerInfo peer : xml.getOnlinePeer().getOnlinePeer()) {
                     if (peerChat.txtUsername.getText().equals(peer.getUsername())) continue;
                     model.addElement(peer.getUsername()); 
                     lstPeerOnline.add(peer);
-                }                  
+                }
+                peerChat.lstOnline.setModel(model);
                 break;
             }
         }

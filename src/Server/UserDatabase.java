@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.Scanner;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class UserDatabase {
@@ -129,7 +130,13 @@ public class UserDatabase {
     
     public void writeConversation(String str) {
         try {
-            Files.write(Paths.get(filepath), str.getBytes(), StandardOpenOption.APPEND);
+            File file = new File(filepath);
+            Scanner scanner = new Scanner(file);
+            String line = scanner.next();
+            String newLine = line.substring(0, line.length() - 7) + str + line.substring(line.length() - 7);
+            FileWriter writer = new FileWriter(file);
+            writer.write(newLine);
+            writer.close();
         }
         catch (Exception e) {
             System.out.println("Exception writeConversation");

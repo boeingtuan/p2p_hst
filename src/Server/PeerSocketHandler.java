@@ -20,7 +20,8 @@ public class PeerSocketHandler implements Runnable {
     private DataOutputStream streamOut = null;
     private PeerInfo userPeer;
     private int time_count = 60;
-    
+    private Timer timer;
+            
     public PeerSocketHandler(Socket peer, ListPeerManager lstPeerOnline, ServerFrame serverLog) throws IOException {
         this.peer = peer;
         this.lstPeerOnline = lstPeerOnline;
@@ -98,6 +99,8 @@ public class PeerSocketHandler implements Runnable {
                 else {
                     lstPeerOnline.logout(userPeer);
                     serverLog.setLog("User " + userPeer.getUsername() + " log out at IP: " + userPeer.getIP() + "\n");
+                    timer.cancel();
+                    close();
                 }
                 break;
             }                
@@ -123,7 +126,6 @@ public class PeerSocketHandler implements Runnable {
     }
     
     private void timerKillPeer(){
-        final Timer timer;
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

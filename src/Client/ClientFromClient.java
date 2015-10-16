@@ -44,25 +44,22 @@ public class ClientFromClient implements Runnable {
     
     @Override
     public void run() {
+        try {
         String msg = "";
             DeXMLlize xml;
             while (true) {
-                try {
-                    msg = in.readUTF();
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            
+                msg = in.readUTF();
                 xml = new DeXMLlize(msg);
                 switch (xml.firstTag()) {
-                    case ConstantTags.CHAT_MSG_TAG:
-                    {
+                    case ConstantTags.CHAT_MSG_TAG: {
                         try {
                             retrieveTxt(findTab(peerName)).append(peerName + ": " + xml.getMessage().getMessage() + "\n");
                         } catch (Exception ex) {
                             Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                        break;
+                    break;
                     case ConstantTags.CHAT_CLOSE_TAG:
                         for (Entry tmp : lstTabChat) {
                             if (tmp.username == peerName) {
@@ -70,12 +67,11 @@ public class ClientFromClient implements Runnable {
                                 break;
                             }
                         }
-                        if (lstTabChat.get(tabPanel.getSelectedIndex()).username == peerName)
-                        {
+                        if (lstTabChat.get(tabPanel.getSelectedIndex()).username == peerName) {
                             peerChat.btnSend.setEnabled(false);
                             peerChat.btnTransfer.setEnabled(false);
                         }
-                        retrieveTxt(findTab(peerName)).append(peerName + " has just logged out");
+                        retrieveTxt(findTab(peerName)).append(peerName + " has just closed chat to you");
                         break;
                     case ConstantTags.FILE_REQ_TAG:
                         FileNameInfo info = null;
@@ -91,7 +87,7 @@ public class ClientFromClient implements Runnable {
                                 try {
                                     pOut.writeUTF("<" + ConstantTags.FILE_REQ_ACK_TAG + "/>");
                                     pOut.flush();
-                                    retrieveTxt(findTab(peerName)).append("Accepting tranferring file\n");                                    
+                                    retrieveTxt(findTab(peerName)).append("Accepting tranferring file\n");
                                 } catch (IOException ex) {
                                     Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -118,13 +114,13 @@ public class ClientFromClient implements Runnable {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                        
+
                         break;
                     case ConstantTags.FILE_DATA_TAG:
                         DataInputStream pIn = findEntry(peerName).in;
                         JFileChooser file = new JFileChooser();
                         file.showSaveDialog(peerChat);
-                        
+
                         try {
                             Thread t = new Thread(new ReceiveFile(xml, file.getSelectedFile().getPath(), retrieveTxt(findTab(peerName))));
                             t.start();
@@ -132,7 +128,21 @@ public class ClientFromClient implements Runnable {
                             ex.printStackTrace();
                         }
                 }
-            }
+        }
+            } catch (Exception ex) {
+                System.out.println("Exception ClientFromClient run()");
+                for (Entry tmp : lstTabChat) {
+                    if (tmp.username == peerName) {
+                        tmp.availableToChat = false;
+                        if (lstTabChat.get(tabPanel.getSelectedIndex()).username == peerName) {
+                            peerChat.btnSend.setEnabled(false);
+                            peerChat.btnTransfer.setEnabled(false);
+                        }
+                        retrieveTxt(findTab(peerName)).append(peerName + " has just closed chat to you\n");                        
+                        break;
+                    }
+                }
+            }            
     }
     
     private JPanel findTab(String peername) {

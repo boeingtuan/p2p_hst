@@ -3,6 +3,7 @@ package Client;
 import CentralPoint.ConstantTags;
 import CentralPoint.DeXMLlize;
 import CentralPoint.PeerInfo;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.DataInputStream;
@@ -188,6 +189,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
         tabPanel.addTab("Server", null, jPanel1, "");
 
+        lstOnline.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstOnlineMouseClicked(evt);
+            }
+        });
         lstOnline.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstOnlineValueChanged(evt);
@@ -202,6 +208,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
         txtMessage.setColumns(20);
         txtMessage.setRows(2);
+        txtMessage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMessageKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(txtMessage);
 
         btnSend.setText("Send Message");
@@ -424,13 +435,13 @@ public class ClientFrame extends javax.swing.JFrame {
             try {
                 pOut.writeUTF("<" + ConstantTags.CHAT_CLOSE_TAG + "/>");
                 pOut.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                System.out.println("Client closed");
             }
             int index = tabPanel.getSelectedIndex();
             lstTabChat.remove(index);
             tabPanel.remove(tabPanel.getSelectedComponent());
-            if (lstTabChat.size() == 0) {
+            if (lstTabChat.isEmpty()) {
                 tabPanel.addTab("Server", jPanel1);
                 btnSend.setEnabled(false);
                 btnTransfer.setEnabled(false);
@@ -439,7 +450,6 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tabPanelMouseClicked
 
     private void btnStartChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartChatActionPerformed
-        // TODO add your handling code here:
         String peername = lstOnline.getSelectedValue().toString();
         JPanel jp;
         if ((jp = findTab(peername)) != null) {
@@ -463,7 +473,8 @@ public class ClientFrame extends javax.swing.JFrame {
                 DeXMLlize xml = new DeXMLlize(msg);
                 switch (xml.firstTag()) {
                     case ConstantTags.CHAT_ACCEPT_TAG:
-                        retrieveTxt(jp).append("Ready to chat!\n");
+                        //retrieveTxt(jp).append("Ready to chat!\n");
+                        JOptionPane.showMessageDialog(this, "Ready to chat!");
                         btnSend.setEnabled(true);
                         btnTransfer.setEnabled(true);
                         lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
@@ -473,7 +484,8 @@ public class ClientFrame extends javax.swing.JFrame {
                         t.start();
                         break;
                     case ConstantTags.CHAT_DENY_TAG:
-                        retrieveTxt(jp).append("Failed to chat!\n");
+                        //retrieveTxt(jp).append("Failed to chat!\n");
+                        JOptionPane.showMessageDialog(this, "Failed to chat!");                        
                         btnSend.setEnabled(false);
                         btnTransfer.setEnabled(false);
                         lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = false;
@@ -523,6 +535,19 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tabPanelStateChanged
+
+    private void lstOnlineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstOnlineMouseClicked
+        if (evt.getClickCount() == 2 && lstOnline.getSelectedValue() != null) {
+            btnStartChat.doClick();
+        }
+    }//GEN-LAST:event_lstOnlineMouseClicked
+
+    private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            evt.consume();
+            btnSend.doClick();
+        }
+    }//GEN-LAST:event_txtMessageKeyPressed
     
     private JPanel findTab(String peername) {
         for (Entry tmp : lstTabChat) {

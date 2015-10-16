@@ -22,8 +22,10 @@ public class ServerFrame extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                serverListener.writeConversation();
-                serverListener.stopServer();
+                if (serverListener != null) {
+                    serverListener.writeConversation();
+                    serverListener.stopServer();
+                }
             }
 
             @Override
