@@ -24,13 +24,15 @@ public class SendFile  implements Runnable{
     private DataOutputStream Out;
     private FileInputStream In;
     private JTextArea txt;
+    private ClientFrame peerChat;
     
-    public SendFile(DataOutputStream Out, String filepath, JTextArea txt) {
+    public SendFile(ClientFrame peerChat, DataOutputStream Out, String filepath, JTextArea txt) {
         try {
             this.filepath = filepath;
             this.Out = Out;
             this.In = new FileInputStream(filepath);
             this.txt = txt;
+            this.peerChat = peerChat;
         } catch (Exception e) {
             System.out.println("Exception in [Sendfile: Sendfile()] ! ");
         }   
@@ -41,6 +43,7 @@ public class SendFile  implements Runnable{
         try {       
             Out.writeUTF(DeXMLlize.createFileXML(filepath));
             txt.append("File sending done!\n");
+            peerChat.isSharingFile = false;
             In.close();
         }
         catch (Exception ex) {

@@ -113,7 +113,7 @@ public class ClientFromClient implements Runnable {
                     case ConstantTags.FILE_REQ_ACK_TAG:
                         pOut = findEntry(peerName).out;
                         try {
-                            Thread t = new Thread(new SendFile(pOut, peerChat.filepath, retrieveTxt(findTab(peerName))));
+                            Thread t = new Thread(new SendFile(peerChat, pOut, peerChat.filepath, retrieveTxt(findTab(peerName))));
                             t.start();
                         } catch (Exception ex) {
                             ex.printStackTrace();

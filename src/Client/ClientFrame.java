@@ -525,7 +525,7 @@ public class ClientFrame extends javax.swing.JFrame {
         if (file != null) {
             filepath = file.getPath();
             txtDirFile.setText(filepath);
-            btnConnect.setEnabled(true);
+            //btnConnect.setEnabled(true);
         }        
     }//GEN-LAST:event_btnBrowseActionPerformed
 

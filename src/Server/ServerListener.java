@@ -57,11 +57,11 @@ public class ServerListener implements Runnable {
 
                 res += "<" + ConstantTags.USERNAME_TAG + ">"
                         + pair.getUser1()
-                        + "<" + ConstantTags.USERNAME_TAG + ">";
+                        + "</" + ConstantTags.USERNAME_TAG + ">";
 
                 res += "<" + ConstantTags.USERNAME_TAG + ">"
                         + pair.getUser2()
-                        + "<" + ConstantTags.USERNAME_TAG + ">";
+                        + "</" + ConstantTags.USERNAME_TAG + ">";
 
                 res += "<" + ConstantTags.TEXT_TAG + ">" + txt + "</" + ConstantTags.TEXT_TAG + ">";
 

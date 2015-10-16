@@ -5,6 +5,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerFrame extends javax.swing.JFrame {
     
@@ -147,11 +149,15 @@ public class ServerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFilepathTextValueChanged
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        serverListener = new ServerListener(this);
-        Thread thread = new Thread(serverListener);
-        thread.start();
-        btnBrowse.setEnabled(false);
-        btnConnect.setEnabled(false);
+        try {
+            serverListener = new ServerListener(this);
+            Thread thread = new Thread(serverListener);
+            thread.start();
+            btnBrowse.setEnabled(false);
+            btnConnect.setEnabled(false);
+        } catch (Exception ex) {
+            Logger.getLogger(ServerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnConnectActionPerformed
 
     public void setLog(String str) {
