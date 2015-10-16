@@ -52,6 +52,10 @@ public class ClientFromClient implements Runnable {
                 msg = in.readUTF();
                 xml = new DeXMLlize(msg);
                 switch (xml.firstTag()) {
+                    case ConstantTags.TEXT_TAG: {
+                        retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(xml.getText());                        
+                        break;
+                    }
                     case ConstantTags.CHAT_MSG_TAG: {
                         try {
                             retrieveTxt(findTab(peerName)).append(peerName + ": " + xml.getMessage().getMessage() + "\n");
@@ -71,7 +75,7 @@ public class ClientFromClient implements Runnable {
                             peerChat.btnSend.setEnabled(false);
                             peerChat.btnTransfer.setEnabled(false);
                         }
-                        retrieveTxt(findTab(peerName)).append(peerName + " has just closed chat to you");
+                        JOptionPane.showMessageDialog(peerChat, peerName + " has just closed chat to you\n");
                         break;
                     case ConstantTags.FILE_REQ_TAG:
                         FileNameInfo info = null;

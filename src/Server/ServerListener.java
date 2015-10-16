@@ -17,7 +17,7 @@ public class ServerListener implements Runnable {
     
     public HashMap<PairUser, String> lstConversation;
     
-    public ServerListener(ServerFrame serverLog) {
+    public ServerListener(ServerFrame serverLog) throws Exception {
         this.serverLog = serverLog;
         this.serverPort = 4508;
         lstOnline = new ListPeerManager(serverLog.filepath);
@@ -46,12 +46,12 @@ public class ServerListener implements Runnable {
     }
     
     public void writeConversation() {
-        String res = "<CONTENT>";
+        String res = "";
         ArrayList<PairUser> check = new ArrayList<>();
         for (Map.Entry<PairUser, String> entry : lstConversation.entrySet()) {
             PairUser pair = entry.getKey();
             String txt = entry.getValue();
-            if (check.contains(pair.swap())) {
+            if (!check.contains(pair.swap())) {
                 check.add(pair);
                 res += "<" + ConstantTags.SAVE_CONVERSATION_TAG + ">";
 
@@ -67,9 +67,7 @@ public class ServerListener implements Runnable {
 
                 res += "</" + ConstantTags.SAVE_CONVERSATION_TAG + ">";
             }
-        }
-        res += "</CONTENT>";
-        
+        }        
         lstOnline.writeConversation(res);
     }
     

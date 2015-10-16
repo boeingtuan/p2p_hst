@@ -58,13 +58,14 @@ public class ClientToServer implements Runnable{
                         
             while (true) {
                 String msg = streamIn.readUTF();
-                System.out.println(msg);
+                //System.out.println(msg);
                 processRespone(msg);
             }
             
         }
         catch (Exception e) {
             System.out.println("Exception ClientToServer: run()");
+            e.printStackTrace();
         }
     }
     
@@ -105,6 +106,11 @@ public class ClientToServer implements Runnable{
                 }
                 peerChat.lstOnline.setModel(model);
                 break;
+            }
+            case ConstantTags.TEXT_TAG: {        
+                System.out.println(xml.getText());
+                if (!xml.getText().equals("null"))
+                    peerChat.retrieveTxt(peerChat.lstTabChat.get(peerChat.tabPanel.getSelectedIndex()).jp).append(xml.getText());
             }
         }
     }

@@ -1,7 +1,9 @@
 package Client;
 
 import CentralPoint.ConstantTags;
+import CentralPoint.Conversation;
 import CentralPoint.DeXMLlize;
+import CentralPoint.PairUser;
 import CentralPoint.PeerInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -29,7 +31,7 @@ import javax.swing.UIManager;
 
 public class ClientFrame extends javax.swing.JFrame {    
     
-    private ArrayList<Entry> lstTabChat;
+    public ArrayList<Entry> lstTabChat;
     private ArrayList<PeerInfo> lstPeerOnline;
     public String filepath="";
     private JFileChooser fileChooser;
@@ -50,10 +52,14 @@ public class ClientFrame extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 try {
+                    for (Entry en : lstTabChat) {
+                        Conversation con = new Conversation(new PairUser(txtUsername.getText(), en.username), retrieveTxt(en.jp).getText());
+                        serverGate.send(DeXMLlize.createSaveConversation(con));
+                    }
                     serverGate.send(DeXMLlize.createStatusXML(ConstantTags.DYING));
                 } catch (Exception ex) {
                     Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }               
             }
 
             @Override
@@ -192,11 +198,6 @@ public class ClientFrame extends javax.swing.JFrame {
         lstOnline.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstOnlineMouseClicked(evt);
-            }
-        });
-        lstOnline.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstOnlineValueChanged(evt);
             }
         });
         jScrollPane1.setViewportView(lstOnline);
@@ -425,14 +426,12 @@ public class ClientFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnTransferActionPerformed
 
-    private void lstOnlineValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstOnlineValueChanged
-        
-    }//GEN-LAST:event_lstOnlineValueChanged
-
     private void tabPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPanelMouseClicked
         if (evt.getClickCount() == 2) {
             DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
             try {
+                Conversation con = new Conversation(new PairUser(txtUsername.getText(), lstTabChat.get(tabPanel.getSelectedIndex()).username), retrieveTxt((JPanel)tabPanel.getSelectedComponent()).getText());
+                serverGate.send(DeXMLlize.createSaveConversation(con));
                 pOut.writeUTF("<" + ConstantTags.CHAT_CLOSE_TAG + "/>");
                 pOut.flush();
             } catch (Exception ex) {
@@ -461,7 +460,13 @@ public class ClientFrame extends javax.swing.JFrame {
             lstTabChat.add(new Entry(peername, jp));
             if (lstTabChat.size() == 1) tabPanel.remove(jPanel1);
             tabPanel.setSelectedIndex(lstTabChat.size() - 1);
-            retrieveTxt(jp).append("Waiting for accepting...\n");
+            //retrieveTxt(jp).append("Waiting for accepting...\n");
+            try {
+                serverGate.send(DeXMLlize.createConversation(new PairUser(txtUsername.getText(), peername)));                
+            } catch (Exception ex) {
+                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             PeerInfo info = findPeerInfo(lstPeerOnline, peername);
             try {
                 String IP = info.getIP().substring(1, info.getIP().indexOf(':'));
@@ -474,12 +479,14 @@ public class ClientFrame extends javax.swing.JFrame {
                 switch (xml.firstTag()) {
                     case ConstantTags.CHAT_ACCEPT_TAG:
                         //retrieveTxt(jp).append("Ready to chat!\n");
-                        JOptionPane.showMessageDialog(this, "Ready to chat!");
+                        JOptionPane.showMessageDialog(this, "Ready to chat!");                        
                         btnSend.setEnabled(true);
                         btnTransfer.setEnabled(true);
                         lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
                         lstTabChat.get(tabPanel.getSelectedIndex()).in = in;
                         lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
+                        if (!retrieveTxt(jp).getText().equals("")) 
+                            out.writeUTF("<" + ConstantTags.TEXT_TAG + ">" + retrieveTxt(jp).getText() + "</" + ConstantTags.TEXT_TAG + ">");
                         Thread t = new Thread(new ClientFromClient(this, in, peername, lstTabChat, tabPanel));
                         t.start();
                         break;
@@ -549,7 +556,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtMessageKeyPressed
     
-    private JPanel findTab(String peername) {
+    public JPanel findTab(String peername) {
         for (Entry tmp : lstTabChat) {
             if (tmp.username.equals(peername)) {
                 return tmp.jp;
@@ -588,7 +595,7 @@ public class ClientFrame extends javax.swing.JFrame {
         return jp;
     }
     
-    private JTextArea retrieveTxt(JPanel jp) {
+    public JTextArea retrieveTxt(JPanel jp) {
         JScrollPane j = (JScrollPane) jp.getComponent(0);
         JViewport vp = (JViewport) j.getComponent(0);
         JTextArea txtArea = (JTextArea) vp.getComponent(0);

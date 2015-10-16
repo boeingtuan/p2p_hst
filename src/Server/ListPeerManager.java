@@ -102,7 +102,7 @@ public class ListPeerManager {
         return null;
     }
     
-    public HashMap<PairUser, String> getConversation() {
+    public HashMap<PairUser, String> getConversation() throws Exception {
         return database.getConversation();
     }
     

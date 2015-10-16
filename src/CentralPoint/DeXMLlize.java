@@ -141,7 +141,7 @@ public class DeXMLlize {
     }
     
     public String getText() throws Exception {
-        return UserDatabase.getTargetValue(ConstantTags.TEXT_TAG, doc.getDocumentElement());
+        return doc.getDocumentElement().getFirstChild().getNodeValue();
     }
     
     public static String createUserXML(String username, String password, String tag,int port) throws Exception {

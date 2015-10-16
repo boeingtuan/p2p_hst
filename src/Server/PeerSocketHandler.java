@@ -35,7 +35,7 @@ public class PeerSocketHandler implements Runnable {
         try {            
             while (true) {
                 String msg =  streamIn.readUTF();
-                System.out.println(msg);
+                //System.out.println(msg);
                 processRequest(msg);
             }
         } 
@@ -107,7 +107,7 @@ public class PeerSocketHandler implements Runnable {
             
             case ConstantTags.CONVERSATION_TAG: {
                 PairUser pairUser = xml.getPairUser();
-                streamOut.writeUTF("<" + ConstantTags.TEXT_TAG + ">" + serverLog.serverListener.lstConversation.get(pairUser) + "</" + ConstantTags.TEXT_TAG + ">");
+                streamOut.writeUTF("<" + ConstantTags.TEXT_TAG + ">" + serverLog.serverListener.lstConversation.get(pairUser) + "</" + ConstantTags.TEXT_TAG + ">");                
                 break;
             }
             

@@ -1,5 +1,7 @@
 package CentralPoint;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class PairUser {
     private String user1;
     private String user2;
@@ -20,5 +22,14 @@ public class PairUser {
     public PairUser swap() {
         return new PairUser(user2, user1);
     }
+    
+    @Override
+    public boolean equals(Object p) {        
+        return (user1.equals(((PairUser) p).user1) && user2.equals(((PairUser) p).user2));
+    }
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder(41, 59).append(user1).append(user2).toHashCode();
+    }    
     
 }
