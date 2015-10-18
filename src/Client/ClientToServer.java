@@ -1,7 +1,7 @@
 package Client;
 
 import CentralPoint.ConstantTags;
-import CentralPoint.DeXMLlize;
+import CentralPoint.XML;
 import CentralPoint.PeerInfo;
 import Server.ListPeerManager;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
@@ -44,6 +44,7 @@ public class ClientToServer implements Runnable{
             //TODO: implement communicate between client and server
             streamIn = new DataInputStream(server.getInputStream());
             streamOut = new DataOutputStream(server.getOutputStream());
+            peerChat.isConnectToServer = true;
             
             peerChat.txtHostAddress.setEnabled(false);
             peerChat.txtHostPort.setEnabled(false);
@@ -74,7 +75,7 @@ public class ClientToServer implements Runnable{
     }
 
     private void processRespone(String msg) throws Exception {
-        DeXMLlize xml = new DeXMLlize(msg);
+        XML xml = new XML(msg);
         switch (xml.firstTag()) {
             case ConstantTags.SESSION_DENY_TAG: {
                 peerChat.txtAreaChatServer.append("Server: Unsuccessfully! Please try again!\n");
@@ -122,13 +123,13 @@ public class ClientToServer implements Runnable{
             @Override
             public void run() {              
                     try {
-                        send(DeXMLlize.createStatusXML(ConstantTags.ALIVE));
+                        send(XML.createStatusXML(ConstantTags.ALIVE));
                     } catch (Exception ex) {
                         System.out.println("Exception sendRequestAlive");
                         ex.printStackTrace();
                     }
             }
-        }, 0, 3000);        
+        }, 0, 1000);        
     }
     
 }

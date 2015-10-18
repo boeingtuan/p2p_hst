@@ -2,7 +2,7 @@ package Client;
 
 import CentralPoint.ChatRequestInfo;
 import CentralPoint.ConstantTags;
-import CentralPoint.DeXMLlize;
+import CentralPoint.XML;
 import CentralPoint.PeerInfo;
 import Server.ListPeerManager;
 import Server.PeerSocketHandler;
@@ -56,7 +56,7 @@ public class ClientToClient implements Runnable{
             in = new DataInputStream(peer.getInputStream());
             out = new DataOutputStream(peer.getOutputStream());
             String request = in.readUTF();
-            DeXMLlize xml = new DeXMLlize(request);
+            XML xml = new XML(request);
             switch (xml.firstTag())
             {
                 case ConstantTags.CHAT_REQ_TAG:
@@ -93,6 +93,7 @@ public class ClientToClient implements Runnable{
             lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
             lstTabChat.get(tabPanel.getSelectedIndex()).in = in;
             lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
+            lstTabChat.get(tabPanel.getSelectedIndex()).socket = peer;
             peerChat.btnSend.setEnabled(true);
             peerChat.btnTransfer.setEnabled(true);
             Thread t = new Thread(new ClientFromClient(peerChat, in, peerName, lstTabChat, tabPanel));

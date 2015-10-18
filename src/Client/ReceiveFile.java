@@ -5,12 +5,17 @@
  */
 package Client;
 
-import CentralPoint.DeXMLlize;
+import CentralPoint.XML;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
@@ -19,20 +24,29 @@ import javax.swing.JTextArea;
  */
 public class ReceiveFile implements Runnable{
     
-    private final String saveLocation; // duong dan toi noi save file
-    private DeXMLlize xml;
+    private String saveLocation = ""; // duong dan toi noi save file
+    private DataInputStream In;
     private FileOutputStream Out;
-    private JTextArea txt;
+    private int fileSize = 0;
+    //private BufferedOutputStream Bout;
+    private ClientFrame peerChat;
     
-    public ReceiveFile(DeXMLlize xml, String saveLocation, JTextArea txt) {
-        this.xml = xml;
-        this.saveLocation = saveLocation;
-        this.txt = txt;
+    public ReceiveFile(ClientFrame peerChat, DataInputStream In, String saveLocation, int fileSize) {
+        try {
+            this.In = In;
+            this.saveLocation = saveLocation;
+            this.peerChat = peerChat;
+            this.Out = new FileOutputStream(saveLocation);
+            this.fileSize = fileSize;
+            //this.Bout = new BufferedOutputStream(Out);
+        } catch (IOException ex) {
+            Logger.getLogger(ReceiveFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void run() { 
-        try {
+        /*try {
             byte[] data = xml.doc.getDocumentElement().getChildNodes().item(0).getNodeValue().getBytes(Charset.forName("UTF-8"));
             FileOutputStream fos = new FileOutputStream(saveLocation);
             fos.write(data);
@@ -42,7 +56,32 @@ public class ReceiveFile implements Runnable{
         } 
         catch (Exception ex) {
             System.out.println("Exception [Download : run(...)]");
+        }*/
+        int filesize = 5242880; 
+	int bytesRead;
+        try {
+            //byte [] bytearray  = new byte [filesize];
+            //bytesRead = In.read(bytearray,0,bytearray.length);
+            //int a = In.read(bytearray,0,bytearray.length);
+            int count;
+            int countSize = 0;
+            byte[] buffer = new byte[8192];
+            while (countSize < fileSize && (count = In.read(buffer, 0, 8192)) > 0)
+            {
+                Out.write(buffer, 0, count);
+                countSize += count;
+            }
+            peerChat.isReceivingFile = false;
+            /*Bout.write(bytearray, 0 , bytesRead);
+	    Bout.flush();*/
+            Out.flush();
+            //Bout.close();
+            Out.close();
+            JOptionPane.showMessageDialog(peerChat, "File downloading done!");
+            //In.close();
+        } 
+        catch (Exception ex) {
+            System.out.println("Exception [Download : run(...)]");
         }
-        
     }
 }

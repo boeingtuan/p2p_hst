@@ -6,10 +6,11 @@
 package Client;
 
 import CentralPoint.ConstantTags;
-import CentralPoint.DeXMLlize;
+import CentralPoint.XML;
 import CentralPoint.FileNameInfo;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ public class ClientFromClient implements Runnable {
     private ArrayList<Entry> lstTabChat;
     private ClientFrame peerChat;
     private JTabbedPane tabPanel;
+    private File fileToSave;
     
     public ClientFromClient(ClientFrame peerChat, DataInputStream in, String peerName, ArrayList<Entry> lstTabChat, JTabbedPane tabPanel) {
         this.in = in;
@@ -46,11 +48,11 @@ public class ClientFromClient implements Runnable {
     public void run() {
         try {
         String msg = "";
-            DeXMLlize xml;
+            XML xml;
             while (true) {
-            
+                while (peerChat.isReceivingFile);
                 msg = in.readUTF();
-                xml = new DeXMLlize(msg);
+                xml = new XML(msg);
                 switch (xml.firstTag()) {
                     case ConstantTags.TEXT_TAG: {
                         retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(xml.getText());                        
@@ -84,53 +86,63 @@ public class ClientFromClient implements Runnable {
                         } catch (Exception ex) {
                             Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        boolean isAccept = true;
                         int answer = JOptionPane.showConfirmDialog(peerChat, peerName + " want to send you a file \"" + info.getFileName() + "\". Accept?", "Confirm Request", JOptionPane.YES_NO_OPTION);
                         DataOutputStream pOut = findEntry(peerName).out;
                         switch (answer) {
                             case JOptionPane.YES_OPTION:
-                                try {
-                                    pOut.writeUTF("<" + ConstantTags.FILE_REQ_ACK_TAG + "/>");
-                                    pOut.flush();
-                                    retrieveTxt(findTab(peerName)).append("Accepting tranferring file\n");
-                                } catch (IOException ex) {
-                                    Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
+                                JFileChooser file = new JFileChooser();
+                                file.setSelectedFile(new File(info.getFileName()));
+                                switch (file.showSaveDialog(peerChat)) {
+                                    case JFileChooser.APPROVE_OPTION:
+                                        isAccept = true;
+                                        fileToSave = file.getSelectedFile();
+                                        break;
+                                    case JFileChooser.CANCEL_OPTION:
+                                        isAccept = false;
+                                        break;
                                 }
                                 break;
                             case JOptionPane.NO_OPTION:
-                                try {
-                                    pOut.writeUTF("<" + ConstantTags.FILE_REQ_NOACK_TAG + "/>");
-                                    pOut.flush();
-                                } catch (IOException ex) {
-                                    Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                                isAccept = false;
                                 break;
+                        }
+                        if (isAccept) {
+                            try {
+                                pOut.writeUTF("<" + ConstantTags.FILE_REQ_ACK_TAG + "/>");
+                                pOut.flush();
+                                JOptionPane.showMessageDialog(peerChat, "Accepting tranferring file\n");
+                                try {
+                                    peerChat.isReceivingFile = true;
+                                    Thread t = new Thread(new ReceiveFile(peerChat, findEntry(peerName).in, fileToSave.getPath(), Integer.parseInt(info.getFileSize())));
+                                    t.start();
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            } catch (IOException ex) {
+                                Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            try {
+                                pOut.writeUTF("<" + ConstantTags.FILE_REQ_NOACK_TAG + "/>");
+                                pOut.flush();
+                            } catch (IOException ex) {
+                                Logger.getLogger(ClientFromClient.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         break;
                     case ConstantTags.FILE_REQ_NOACK_TAG:
                         peerChat.isSharingFile = false;
-                        retrieveTxt(findTab(peerName)).append("Request failed!\n");
+                        JOptionPane.showMessageDialog(peerChat, "Request failed!\n");
                         break;
                     case ConstantTags.FILE_REQ_ACK_TAG:
-                        pOut = findEntry(peerName).out;
                         try {
-                            Thread t = new Thread(new SendFile(peerChat, pOut, peerChat.filepath, retrieveTxt(findTab(peerName))));
+                            Thread t = new Thread(new SendFile(peerChat, findEntry(peerName).out, peerChat.filepath));
                             t.start();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-
                         break;
-                    case ConstantTags.FILE_DATA_TAG:
-                        DataInputStream pIn = findEntry(peerName).in;
-                        JFileChooser file = new JFileChooser();
-                        file.showSaveDialog(peerChat);
-
-                        try {
-                            Thread t = new Thread(new ReceiveFile(xml, file.getSelectedFile().getPath(), retrieveTxt(findTab(peerName))));
-                            t.start();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
                 }
         }
             } catch (Exception ex) {
@@ -142,7 +154,7 @@ public class ClientFromClient implements Runnable {
                             peerChat.btnSend.setEnabled(false);
                             peerChat.btnTransfer.setEnabled(false);
                         }
-                        retrieveTxt(findTab(peerName)).append(peerName + " has just closed chat to you\n");                        
+                        JOptionPane.showMessageDialog(peerChat, peerName + " has just closed chat to you\n");                        
                         break;
                     }
                 }

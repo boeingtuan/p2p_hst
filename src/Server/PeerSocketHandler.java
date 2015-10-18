@@ -19,7 +19,7 @@ public class PeerSocketHandler implements Runnable {
     private DataInputStream streamIn  =  null;
     private DataOutputStream streamOut = null;
     private PeerInfo userPeer;
-    private int time_count = 60;
+    private int time_count = 10;
     private Timer timer;
             
     public PeerSocketHandler(Socket peer, ListPeerManager lstPeerOnline, ServerFrame serverLog) throws IOException {
@@ -51,7 +51,7 @@ public class PeerSocketHandler implements Runnable {
     }        
 
     private void processRequest(String msg) throws Exception {
-        DeXMLlize xml = new DeXMLlize(msg);
+        XML xml = new XML(msg);
         switch (xml.firstTag()) {
             case ConstantTags.REGISTER_TAG: {
                 PeerInfo user = xml.getRegister();
@@ -92,7 +92,7 @@ public class PeerSocketHandler implements Runnable {
             case ConstantTags.STATUS_TAG: {
                 StatusInfo status = xml.getClientStatus();
                 if (status.isAlive()) {
-                    time_count = 60;
+                    time_count = 10;
                     streamOut.writeUTF(lstPeerOnline.createPeerListXML());
                     streamOut.flush();
                 }

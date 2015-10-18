@@ -2,7 +2,7 @@ package Client;
 
 import CentralPoint.ConstantTags;
 import CentralPoint.Conversation;
-import CentralPoint.DeXMLlize;
+import CentralPoint.XML;
 import CentralPoint.PairUser;
 import CentralPoint.PeerInfo;
 import java.awt.event.KeyEvent;
@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -37,6 +38,8 @@ public class ClientFrame extends javax.swing.JFrame {
     private JFileChooser fileChooser;
     private ClientToServer serverGate;
     public boolean isSharingFile = false;
+    public boolean isReceivingFile = false;
+    public boolean isConnectToServer = false;
     
     public ClientFrame() {      
         initComponents();
@@ -54,9 +57,9 @@ public class ClientFrame extends javax.swing.JFrame {
                 try {
                     for (Entry en : lstTabChat) {
                         Conversation con = new Conversation(new PairUser(txtUsername.getText(), en.username), retrieveTxt(en.jp).getText());
-                        serverGate.send(DeXMLlize.createSaveConversation(con));
+                        serverGate.send(XML.createSaveConversation(con));
                     }
-                    serverGate.send(DeXMLlize.createStatusXML(ConstantTags.DYING));
+                    serverGate.send(XML.createStatusXML(ConstantTags.DYING));
                 } catch (Exception ex) {
                     Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }               
@@ -375,12 +378,13 @@ public class ClientFrame extends javax.swing.JFrame {
         serverGate = new ClientToServer(this, txtHostAddress.getText(), Integer.parseInt(txtHostPort.getText()), lstPeerOnline, lstTabChat, tabPanel);
         Thread serverThread = new Thread(serverGate);
         serverThread.start();
-        btnConnect.setEnabled(false);
+        if (isConnectToServer)
+            btnConnect.setEnabled(false);
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         try {
-            serverGate.send(DeXMLlize.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.LOGIN_TAG,Integer.parseInt(txtPort.getText())));
+            serverGate.send(XML.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.LOGIN_TAG,Integer.parseInt(txtPort.getText())));
         } catch (Exception ex) {
             Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -388,50 +392,53 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         try {
-            serverGate.send(DeXMLlize.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.REGISTER_TAG,Integer.parseInt(txtPort.getText())));
+            serverGate.send(XML.createUserXML(txtUsername.getText(), txtPassword.getText(), ConstantTags.REGISTER_TAG,Integer.parseInt(txtPort.getText())));
         } catch (Exception ex) {
             Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
-        try {
-            pOut.writeUTF(DeXMLlize.createMessage(txtMessage.getText()));
-            pOut.flush();
-            retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(txtUsername.getText() + ": " + txtMessage.getText() + "\n");
-            txtMessage.setText("");
-        } catch (Exception ex) {
-            Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (isSharingFile || isReceivingFile) {
+            JOptionPane.showMessageDialog(this, "In progress of sharing file! Please wait to complete the previous one!");
+        } else {
+            DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
+            try {
+                pOut.writeUTF(XML.createMessage(txtMessage.getText()));
+                pOut.flush();
+                retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(txtUsername.getText() + ": " + txtMessage.getText() + "\n");
+                txtMessage.setText("");
+            } catch (Exception ex) {
+                Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }   
         }
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
-        if (isSharingFile) {
-            JOptionPane.showMessageDialog(this, "In progress of sharing file...");
+        if (isSharingFile || isReceivingFile) {
+            JOptionPane.showMessageDialog(this, "In progress of sharing file! Please wait to complete the previous one!");
         }
         else {
             DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
             isSharingFile = true;
             filepath = txtDirFile.getText();
             try {
-                pOut.writeUTF(DeXMLlize.createFileRequest(filepath.substring(filepath.lastIndexOf('\\') + 1)));
+                pOut.writeUTF(XML.createFileRequest(filepath.substring(filepath.lastIndexOf('\\') + 1), String.valueOf((new File(filepath)).length())));
                 pOut.flush();
-                retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append("Sending file tranferring request to " + lstTabChat.get(tabPanel.getSelectedIndex()).username + "\n");
+                JOptionPane.showMessageDialog(this, "Sending file tranferring request to " + lstTabChat.get(tabPanel.getSelectedIndex()).username + "\n");
             }
             catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        
     }//GEN-LAST:event_btnTransferActionPerformed
 
     private void tabPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPanelMouseClicked
         if (evt.getClickCount() == 2) {
             DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
             try {
-                Conversation con = new Conversation(new PairUser(txtUsername.getText(), lstTabChat.get(tabPanel.getSelectedIndex()).username), retrieveTxt((JPanel)tabPanel.getSelectedComponent()).getText());
-                serverGate.send(DeXMLlize.createSaveConversation(con));
+                Conversation con = new Conversation(new PairUser(txtUsername.getText(), lstTabChat.get(tabPanel.getSelectedIndex()).username), retrieveTxt((JPanel)tabPanel.getSelectedComponent()).getText() + "\n----------------------------------------------------\nConversation ended at " + (new Date()).toString() + "\n----------------------------------------------------\n\n");
+                serverGate.send(XML.createSaveConversation(con));
                 pOut.writeUTF("<" + ConstantTags.CHAT_CLOSE_TAG + "/>");
                 pOut.flush();
             } catch (Exception ex) {
@@ -462,7 +469,7 @@ public class ClientFrame extends javax.swing.JFrame {
             tabPanel.setSelectedIndex(lstTabChat.size() - 1);
             //retrieveTxt(jp).append("Waiting for accepting...\n");
             try {
-                serverGate.send(DeXMLlize.createConversation(new PairUser(txtUsername.getText(), peername)));                
+                serverGate.send(XML.createConversation(new PairUser(txtUsername.getText(), peername)));                
             } catch (Exception ex) {
                 Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -473,9 +480,9 @@ public class ClientFrame extends javax.swing.JFrame {
                 Socket socket = new Socket(IP, info.getPortNum());
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 DataInputStream in = new DataInputStream(socket.getInputStream());
-                out.writeUTF(DeXMLlize.createChatRequestXML(txtUsername.getText()));
+                out.writeUTF(XML.createChatRequestXML(txtUsername.getText()));
                 String msg = in.readUTF();
-                DeXMLlize xml = new DeXMLlize(msg);
+                XML xml = new XML(msg);
                 switch (xml.firstTag()) {
                     case ConstantTags.CHAT_ACCEPT_TAG:
                         //retrieveTxt(jp).append("Ready to chat!\n");
@@ -485,6 +492,7 @@ public class ClientFrame extends javax.swing.JFrame {
                         lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
                         lstTabChat.get(tabPanel.getSelectedIndex()).in = in;
                         lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
+                        lstTabChat.get(tabPanel.getSelectedIndex()).socket = socket;
                         if (!retrieveTxt(jp).getText().equals("")) 
                             out.writeUTF("<" + ConstantTags.TEXT_TAG + ">" + retrieveTxt(jp).getText() + "</" + ConstantTags.TEXT_TAG + ">");
                         Thread t = new Thread(new ClientFromClient(this, in, peername, lstTabChat, tabPanel));
@@ -659,6 +667,7 @@ class Entry {
     public boolean availableToChat;
     public DataInputStream in;
     public DataOutputStream out;
+    public Socket socket;
 
     public Entry(String username, JPanel jp) {
         this.username = username;

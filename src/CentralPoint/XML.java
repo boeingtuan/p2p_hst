@@ -24,11 +24,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DeXMLlize {
+public class XML {
     private final String XML_Str;
     public Document doc = null;
       
-    public DeXMLlize(String XML_Str) {
+    public XML(String XML_Str) {
         this.XML_Str = XML_Str;
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -108,7 +108,9 @@ public class DeXMLlize {
     }
     
     public FileNameInfo getFileName() throws Exception {
-        return new FileNameInfo(doc.getDocumentElement().getChildNodes().item(0).getNodeValue());
+        String fileName = UserDatabase.getTargetValue(ConstantTags.FILE_NAME_TAG, doc.getDocumentElement());
+        String fileSize = UserDatabase.getTargetValue(ConstantTags.FILE_SIZE_TAG, doc.getDocumentElement());
+        return new FileNameInfo(fileName, fileSize);
     }
     
     public FileAckInfo getFileAck() throws Exception {
@@ -116,17 +118,6 @@ public class DeXMLlize {
             return new FileAckInfo(false);
         else 
             return new FileAckInfo(true, Integer.parseInt(UserDatabase.getTargetValue(ConstantTags.PORT_TAG, doc.getDocumentElement())));
-    }
-    
-    public FileContentInfo getContent() throws Exception {
-        switch (doc.getDocumentElement().getNodeName()) {
-            case ConstantTags.FILE_DATA_BEGIN_TAG: 
-                return new FileContentInfo(true, null, false);
-            case ConstantTags.FILE_DATA_TAG:
-                return new FileContentInfo(true, doc.getDocumentElement().getChildNodes().item(0).getNodeValue().getBytes(), false);
-            default:
-                return new FileContentInfo(true, null, true);
-        }
     }
     
     public PairUser getPairUser() throws Exception {
@@ -219,12 +210,16 @@ public class DeXMLlize {
         return sb.toString();  
     }
     
-    public static String createFileRequest(String fileName) throws Exception {
+    public static String createFileRequest(String fileName, String fileSize) throws Exception {
         String res = "";
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.newDocument();
-        doc.appendChild(createNode(ConstantTags.FILE_REQ_TAG, fileName, doc));
+        Element rootElement = doc.createElement(ConstantTags.FILE_REQ_TAG);
+        doc.appendChild(rootElement);
+        rootElement.appendChild(createNode(ConstantTags.FILE_NAME_TAG, fileName, doc));
+        rootElement.appendChild(createNode(ConstantTags.FILE_SIZE_TAG, fileSize, doc));
+        
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(doc);
@@ -259,33 +254,6 @@ public class DeXMLlize {
         StringBuffer sb = outWriter.getBuffer(); 
 
         return sb.toString();  
-    }
-    
-    public static String createFileXML(String filepath) {
-        try {
-            String res = "";
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-            Path path = Paths.get(filepath);
-            byte[] data = Files.readAllBytes(path);
-            doc.appendChild(createNode(ConstantTags.FILE_DATA_TAG, new String(data, "UTF-8"), doc));
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-
-            StringWriter outWriter = new StringWriter();
-            StreamResult result = new StreamResult(outWriter);
-
-            transformer.transform(source, result);  
-
-            StringBuffer sb = outWriter.getBuffer(); 
-
-            return sb.toString(); 
-        } catch (Exception ex) {
-            Logger.getLogger(DeXMLlize.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 
     public static String createSaveConversation(Conversation con) throws Exception {
@@ -350,7 +318,7 @@ public class DeXMLlize {
     
     /*public static void main(String[] args) throws Exception {
         String x = createRegisterXML("boeingtuan", "password", 4508);
-        DeXMLlize a = new DeXMLlize(x);
+        XML a = new XML(x);
         System.out.println(a.getRegister().getPortNum());
     }*/
 }
