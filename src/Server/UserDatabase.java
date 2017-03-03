@@ -56,7 +56,7 @@ public class UserDatabase {
             return false;
         }
         catch (Exception e) {
-            System.out.println("Database exception: isUserExist()");
+            System.out.println("Database exception: isUserExist()" + e);
             return false;
         }
     }

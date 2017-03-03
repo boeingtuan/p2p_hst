@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><USER><USER><USERNAME>boeing</USERNAME><PASSWORD>password</PASSWORD></USER><USER><USERNAME>boeing1</USERNAME><PASSWORD>password</PASSWORD></USER><SAVE_CONVERSATION><USERNAME>boeing</USERNAME><USERNAME>boeing1</USERNAME><TEXT>boeing: hahah
+boeing1: wtf
+</TEXT></SAVE_CONVERSATION></USER>
