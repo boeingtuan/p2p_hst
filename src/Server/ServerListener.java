@@ -1,7 +1,11 @@
 package Server;
 
+import CentralPoint.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerListener implements Runnable {
     
@@ -11,10 +15,13 @@ public class ServerListener implements Runnable {
     private ListPeerManager lstOnline;
     private boolean open_port = true;
     
-    public ServerListener(ServerFrame serverLog) {
+    public HashMap<PairUser, String> lstConversation;
+    
+    public ServerListener(ServerFrame serverLog) throws Exception {
         this.serverLog = serverLog;
         this.serverPort = 4508;
         lstOnline = new ListPeerManager(serverLog.filepath);
+        lstConversation = lstOnline.getConversation();
     }
     
     @Override
@@ -36,6 +43,32 @@ public class ServerListener implements Runnable {
         catch (Exception e) {
             System.out.println("Exception at ServerListener: run()");
         }
+    }
+    
+    public void writeConversation() {
+        String res = "";
+        ArrayList<PairUser> check = new ArrayList<>();
+        for (Map.Entry<PairUser, String> entry : lstConversation.entrySet()) {
+            PairUser pair = entry.getKey();
+            String txt = entry.getValue();
+            if (!check.contains(pair.swap())) {
+                check.add(pair);
+                res += "<" + ConstantTags.SAVE_CONVERSATION_TAG + ">";
+
+                res += "<" + ConstantTags.USERNAME_TAG + ">"
+                        + pair.getUser1()
+                        + "</" + ConstantTags.USERNAME_TAG + ">";
+
+                res += "<" + ConstantTags.USERNAME_TAG + ">"
+                        + pair.getUser2()
+                        + "</" + ConstantTags.USERNAME_TAG + ">";
+
+                res += "<" + ConstantTags.TEXT_TAG + ">" + txt + "</" + ConstantTags.TEXT_TAG + ">";
+
+                res += "</" + ConstantTags.SAVE_CONVERSATION_TAG + ">";
+            }
+        }        
+        lstOnline.writeConversation(res);
     }
     
     public void stopServer() {

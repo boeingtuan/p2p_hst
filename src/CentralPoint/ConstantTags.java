@@ -1,6 +1,9 @@
 package CentralPoint;
 
-public class ConstantTags {   
+public class ConstantTags {
+   public static final String SAVE_CONVERSATION_TAG = "SAVE_CONVERSATION";
+   public static final String CONVERSATION_TAG = "CONVERSATION";
+   public static final String TEXT_TAG = "TEXT";
    public static final String USER_TAG = "USER";
    public static final String USERNAME_TAG = "USERNAME";
    public static final String PASSWORD_TAG = "PASSWORD";
@@ -23,9 +26,9 @@ public class ConstantTags {
    public static final String FILE_REQ_TAG = "FILE_REQ";
    public static final String FILE_REQ_NOACK_TAG = "FILE_REQ_NOACK";
    public static final String FILE_REQ_ACK_TAG = "FILE_REQ_ACK";
-   public static final String FILE_DATA_BEGIN_TAG = "FILE_DATA_BEGIN";
-   public static final String FILE_DATA_TAG = "FILE_DATA";
-   public static final String FILE_DATA_END_TAG = "FILE_DATA_END";
+   public static final String FILE_NAME_TAG = "FILE_NAME";
+   public static final String FILE_SIZE_TAG = "FILE_SIZE";
+   
    
    public static final String CHAT_CLOSE_TAG = "CHAT_CLOSE";
    

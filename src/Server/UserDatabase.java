@@ -9,7 +9,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import CentralPoint.ConstantTags;
+import CentralPoint.PairUser;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
+import java.util.Scanner;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
 
 public class UserDatabase {
     private String filepath;
@@ -98,6 +106,50 @@ public class UserDatabase {
             System.out.println("Database exception: addUser()");
             return false;
         }
+    }
+    
+    public HashMap<PairUser, String> getConversation() throws Exception {
+        
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File(filepath));
+        transformer.transform(source, result);        
+        
+        HashMap<PairUser, String> res = null;
+        try {            
+            res = new HashMap<>();
+            NodeList nList = doc.getElementsByTagName(ConstantTags.SAVE_CONVERSATION_TAG);
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node node = nList.item(i);
+                Element elem = (Element) node;
+                String user1 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(0).getFirstChild()).getNodeValue();
+                String user2 = ((Node) elem.getElementsByTagName(ConstantTags.USERNAME_TAG).item(1).getFirstChild()).getNodeValue();
+                String text = ((Node) elem.getElementsByTagName(ConstantTags.TEXT_TAG).item(0).getFirstChild()).getNodeValue();
+
+                res.put(new PairUser(user1, user2), text);
+                res.put(new PairUser(user2, user1), text);
+            }           
+        }
+        catch (Exception e) {
+            System.out.println("Exception getConversation");
+        }
+        return res;
+    }
+    
+    public void writeConversation(String str) {
+        try {
+            File file = new File(filepath);
+            String line = new String(Files.readAllBytes(Paths.get(filepath)), Charset.defaultCharset());
+            String newLine = line.substring(0, line.length() - 7) + str + line.substring(line.length() - 7, line.length());
+            FileWriter writer = new FileWriter(file);
+            writer.write(newLine);
+            writer.close();
+        }
+        catch (Exception e) {
+            System.out.println("Exception writeConversation");
+            e.printStackTrace();
+        }        
     }
     
     public static String getTargetValue(String tag, Element xmlTree) {

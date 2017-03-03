@@ -2,7 +2,11 @@ package Server;
 
 import CentralPoint.*;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,6 +29,11 @@ public class ListPeerManager {
     }
     
     public boolean login(PeerInfo user) {
+        for (PeerInfo p : lstPeer) {
+            if (p.getUsername().equals(user.getUsername())) {
+                return false;
+            }
+        }
         if (database.checkLogin(user.getUsername(), user.getPassword())) {
             lstPeer.add(user);
             return true;
@@ -92,4 +101,12 @@ public class ListPeerManager {
         }
         return null;
     }
+    
+    public HashMap<PairUser, String> getConversation() throws Exception {
+        return database.getConversation();
+    }
+    
+    public void writeConversation(String str) {
+        database.writeConversation(str);
+    }    
 }
