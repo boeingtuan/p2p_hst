@@ -95,7 +95,7 @@ public class ClientToClient implements Runnable{
             lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
             lstTabChat.get(tabPanel.getSelectedIndex()).socket = peer;
             peerChat.btnSend.setEnabled(true);
-            peerChat.btnTransfer.setEnabled(true);
+            peerChat.btnTransfer.setEnabled(false);
             Thread t = new Thread(new ClientFromClient(peerChat, in, peerName, lstTabChat, tabPanel));
             t.start();
             // to do next
