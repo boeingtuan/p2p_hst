@@ -1152,12 +1152,34 @@ public class CryptoFrame extends javax.swing.JFrame {
                     _LoggerDES.append("Missing Initialize Vector. Please check again.\n");
                     return;
                 }
-                _LoggerDES.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
-                String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                        modeBlock, modePadding, key, iv, file, _LoggerDES);
-                _LoggerDES.append("Encrypt successfully at:" + cryptoDESFilepath + "\n");
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        _LoggerDES.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
+                        String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerDES);
+                        if (!cryptoDESFilepath.isEmpty()) {
+                            if (!cryptoDESFilepath.isEmpty()) {
+                                _LoggerDES.append("Encrypt successfully at:" + cryptoDESFilepath + "\n");
+                            } else {
+                                _LoggerDES.append("Encrypt unsuccessfully!\n");
+                            }
+                        }
+                    }
+                } else {
+                    _LoggerDES.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
+                    String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                            modeBlock, modePadding, key, iv, file, _LoggerDES);
+                    if (!cryptoDESFilepath.isEmpty()) {
+                        _LoggerDES.append("Encrypt successfully at:" + cryptoDESFilepath + "\n");
+                    } else {
+                        _LoggerDES.append("Encrypt unsuccessfully!\n");
+                    }
+                }
+
             }
-        });
+        }
+        );
         cryptoThread.start();
     }//GEN-LAST:event_jButtonEncryptActionPerformed
 
@@ -1180,12 +1202,31 @@ public class CryptoFrame extends javax.swing.JFrame {
                     _LoggerDES.append("Missing Initialize Vector. Please check again.\n");
                     return;
                 }
-                String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.DECRYPT,
-                        modeBlock, modePadding, key, iv, file, _LoggerDES);
-                _LoggerDES.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
-                        + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.DECRYPT,
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerDES);
+                        if (!cryptoDESFilepath.isEmpty()) {
+                            _LoggerDES.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
+                                    + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
+                        } else {
+                            _LoggerDES.append("Decrypt unsuccessfully!\n");
+                        }
+                    }
+                } else {
+                    String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.DECRYPT,
+                            modeBlock, modePadding, key, iv, file, _LoggerDES);
+                    if (!cryptoDESFilepath.isEmpty()) {
+                        _LoggerDES.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
+                                + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
+                    } else {
+                        _LoggerDES.append("Decrypt unsuccessfully!\n");
+                    }
+                }
             }
-        });
+        }
+        );
         cryptoThread.start();
     }//GEN-LAST:event_jButtonDecryptActionPerformed
 
