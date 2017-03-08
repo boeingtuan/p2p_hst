@@ -5,9 +5,14 @@ import CentralPoint.Conversation;
 import CentralPoint.XML;
 import CentralPoint.PairUser;
 import CentralPoint.PeerInfo;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -17,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.naming.InsufficientResourcesException;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
@@ -25,8 +32,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
 
@@ -135,6 +145,33 @@ public class ClientFrame extends javax.swing.JFrame {
                 btnConnectActionPerformed(evt);
             }
         });
+        
+        txtDirFile.getDocument().addDocumentListener(new DocumentListener() {		
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				checkTransferFile();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				checkTransferFile();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				checkTransferFile();
+			}
+			
+			private void checkTransferFile() {
+				if (txtDirFile.getText().length() == 0)
+					btnTransfer.setEnabled(false);
+				else
+					btnTransfer.setEnabled(true);
+			}
+		});
 
         jLabel3.setText("Username");
 
@@ -388,6 +425,7 @@ public class ClientFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setTitle(txtUsername.getText());
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
@@ -396,6 +434,7 @@ public class ClientFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(ClientFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setTitle(txtUsername.getText());
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
@@ -422,14 +461,20 @@ public class ClientFrame extends javax.swing.JFrame {
             DataOutputStream pOut = lstTabChat.get(tabPanel.getSelectedIndex()).out;
             isSharingFile = true;
             filepath = txtDirFile.getText();
-            try {
-                pOut.writeUTF(XML.createFileRequest(filepath.substring(filepath.lastIndexOf('\\') + 1), String.valueOf((new File(filepath)).length())));
-                pOut.flush();
-                JOptionPane.showMessageDialog(this, "Sending file tranferring request to " + lstTabChat.get(tabPanel.getSelectedIndex()).username + "\n");
+            File file = new File(filepath);
+            if (file.exists()) {
+            	try {
+                    pOut.writeUTF(XML.createFileRequest(filepath.substring(filepath.lastIndexOf('\\') + 1), String.valueOf((new File(filepath)).length())));
+                    pOut.flush();
+                    JOptionPane.showMessageDialog(this, "Sending file tranferring request to " + lstTabChat.get(tabPanel.getSelectedIndex()).username + "\n");
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+            	JOptionPane.showMessageDialog(this, "No existing file");
             }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            
         }
     }//GEN-LAST:event_btnTransferActionPerformed
 
@@ -488,7 +533,7 @@ public class ClientFrame extends javax.swing.JFrame {
                         //retrieveTxt(jp).append("Ready to chat!\n");
                         JOptionPane.showMessageDialog(this, "Ready to chat!");                        
                         btnSend.setEnabled(true);
-                        btnTransfer.setEnabled(true);
+                        //btnTransfer.setEnabled(true);
                         lstTabChat.get(tabPanel.getSelectedIndex()).availableToChat = true;
                         lstTabChat.get(tabPanel.getSelectedIndex()).in = in;
                         lstTabChat.get(tabPanel.getSelectedIndex()).out = out;
@@ -599,7 +644,6 @@ public class ClientFrame extends javax.swing.JFrame {
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
         );  
-        
         return jp;
     }
     
