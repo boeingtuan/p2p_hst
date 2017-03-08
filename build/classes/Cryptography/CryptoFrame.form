@@ -4,7 +4,7 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="modeButtonGroup">
     </Component>
-    <Component class="javax.swing.ButtonGroup" name="paddingButtonGroup1">
+    <Component class="javax.swing.ButtonGroup" name="paddingButtonGroup">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -79,19 +79,17 @@
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel6" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextMD5" max="32767" attributes="0"/>
+                                  <Component id="jTextMD5DES" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jTextFilePath" max="32767" attributes="0"/>
+                                      <Component id="jTextFilePathDES" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jButtonBrowseFile" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -102,8 +100,8 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextKey" max="32767" attributes="0"/>
-                                          <Component id="jTextIV" max="32767" attributes="0"/>
+                                          <Component id="jTextKeyDES" max="32767" attributes="0"/>
+                                          <Component id="jTextIVDES" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -152,12 +150,12 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextKeyDES" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextIV" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextIVDES" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -177,7 +175,6 @@
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonGenKey" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonGenIV" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -185,7 +182,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonBrowseFile" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFilePathDES" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -199,7 +196,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextMD5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextMD5DES" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -231,7 +228,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jRadioPKCS5" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jRadioLZero" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRadioISO10126" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -240,7 +237,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jRadioPKCS5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jRadioLZero" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioISO10126" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -250,20 +247,22 @@
                 <Component class="javax.swing.JRadioButton" name="jRadioPKCS5">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="PKCS5"/>
+                    <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioPKCS5ActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="jRadioLZero">
+                <Component class="javax.swing.JRadioButton" name="jRadioISO10126">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Leading zeroes"/>
+                    <Property name="text" type="java.lang.String" value="ISO10126"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -307,6 +306,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="modeButtonGroup"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="ECB"/>
                   </Properties>
                 </Component>
@@ -352,7 +352,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextKey">
+            <Component class="javax.swing.JTextField" name="jTextKeyDES">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
@@ -367,7 +367,7 @@
                 <Property name="text" type="java.lang.String" value="IV (hex):"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextIV">
+            <Component class="javax.swing.JTextField" name="jTextIVDES">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
               </Properties>
@@ -376,33 +376,51 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseKeyActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonBrowseIV">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseIVActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSaveIV">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveIVActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSaveKey">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveKeyActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonGenKey">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Random Key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenKeyActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonGenIV">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Geneate Random IV"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenIVActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFilePath">
+            <Component class="javax.swing.JTextField" name="jTextFilePathDES">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
@@ -412,6 +430,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseFileActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -436,7 +457,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextAreaFileContent">
+                <Component class="javax.swing.JTextArea" name="jTextAreaFileContentDES">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
@@ -452,7 +473,7 @@
                 <Property name="text" type="java.lang.String" value="MD5:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextMD5">
+            <Component class="javax.swing.JTextField" name="jTextMD5DES">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
@@ -462,11 +483,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Encrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEncryptActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonDecrypt">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Decrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDecryptActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel6">
               <Properties>
@@ -489,7 +516,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane4" alignment="0" pref="143" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" alignment="0" pref="149" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -501,9 +528,10 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea2">
+                    <Component class="javax.swing.JTextArea" name="_LoggerDES">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
@@ -753,6 +781,7 @@
                       <ComponentRef name="modeButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="CBC"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -792,9 +821,9 @@
                 <Component class="javax.swing.JRadioButton" name="jRadioPKCS8">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="PKCS5"/>
+                    <Property name="text" type="java.lang.String" value="PKCS1"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioPKCS8ActionPerformed"/>
@@ -803,9 +832,10 @@
                 <Component class="javax.swing.JRadioButton" name="jRadioLZero3">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Leading zeroes"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1091,10 +1121,8 @@
                                       <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel12" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
@@ -1189,7 +1217,6 @@
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonGenKey1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonGenIV1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1262,7 +1289,7 @@
                 <Component class="javax.swing.JRadioButton" name="jRadioPKCS6">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="PKCS5"/>
                   </Properties>
@@ -1273,7 +1300,7 @@
                 <Component class="javax.swing.JRadioButton" name="jRadioLZero1">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup1"/>
+                      <ComponentRef name="paddingButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Leading zeroes"/>
                   </Properties>
@@ -1501,7 +1528,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane6" alignment="0" pref="143" max="32767" attributes="0"/>
+                      <Component id="jScrollPane6" alignment="0" pref="149" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
