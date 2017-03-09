@@ -14,14 +14,15 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
@@ -155,7 +156,19 @@ public class CryptographyModel {
             System.out.println(ex);
             return "";
         }
-    }    
+    }
+    
+    public static String genBlowfishKey() {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance("Blowfish");
+            keyGen.init(new SecureRandom());
+            SecretKey key = keyGen.generateKey();
+            return convertByteArray2HexString(key.getEncoded());
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println(ex);
+            return "";
+        }
+    }
 
     public static String cryptoDESFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
             String keyHexString, String ivHexString, String filepathSource, JTextArea _Logger) {
@@ -211,7 +224,7 @@ public class CryptographyModel {
                                 _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n");
+                        _Logger.append("100%\n\n");
                     }
                     break;
                 case DECRYPT:
@@ -234,7 +247,97 @@ public class CryptographyModel {
                                 _Logger.append(String.format("%.2f %% ", cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n");
+                        _Logger.append("100%\n\n");
+                    }
+                    break;
+            }
+
+            return filepathDes;
+
+        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException |
+                NoSuchPaddingException | InvalidAlgorithmParameterException ex) {
+            System.out.println(ex);
+            return "";
+        }
+    }
+    public static String cryptoBlowfishFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
+            String keyHexString, String ivHexString, String filepathSource, JTextArea _Logger) {
+
+        try {
+            SecretKey myDesKey = new SecretKeySpec(convertHexString2ByteArray(keyHexString), "Blowfish");
+            Cipher blowfishCipher;
+            String instanceString = "Blowfish";
+            AlgorithmParameterSpec IVspec = null;
+            switch (modeBlockCipher) {
+                case CBC:
+                    instanceString += "/CBC";
+                    IVspec = new IvParameterSpec(convertHexString2ByteArray(ivHexString));
+                    break;
+                case ECB:
+                    instanceString += "/ECB";
+                    break;
+            }
+
+            switch (modePadding) {
+                case PKCS5:
+                    instanceString += "/PKCS5Padding";
+                    break;
+                case ISO10126:
+                    instanceString += "/ISO10126Padding";
+                    break;
+            }
+
+            blowfishCipher = Cipher.getInstance(instanceString);
+            String filepathDes = filepathSource;
+            FileInputStream fis = new FileInputStream(filepathSource);
+            FileOutputStream fos;
+            long size = fis.getChannel().size();
+            long cnt = 0;
+            switch (modeCrypto) {
+                case ENCRYPT:
+                    if (modeBlockCipher == ModeBlockCipher.ECB) {
+                        blowfishCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
+                    } else {
+                        blowfishCipher.init(Cipher.ENCRYPT_MODE, myDesKey, IVspec);
+                    }
+                    filepathDes += ".encrypted";
+                    fos = new FileOutputStream(filepathDes);
+
+                    try (CipherOutputStream cos = new CipherOutputStream(fos, blowfishCipher)) {
+                        byte[] block = new byte[8];
+                        int i;
+                        _Logger.append("Percentage completed: 0% ");
+                        while ((i = fis.read(block)) != -1) {
+                            cos.write(block, 0, i);
+                            cnt += 8;
+                            if (cnt % 1000000 == 0) {
+                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
+                            }
+                        }
+                        _Logger.append("100%\n\n");
+                    }
+                    break;
+                case DECRYPT:
+                    if (modeBlockCipher == ModeBlockCipher.ECB) {
+                        blowfishCipher.init(Cipher.DECRYPT_MODE, myDesKey);
+                    } else {
+                        blowfishCipher.init(Cipher.DECRYPT_MODE, myDesKey, IVspec);
+                    }
+                    filepathDes += ".decrypted";
+                    fos = new FileOutputStream(filepathDes);
+
+                    try (CipherInputStream cis = new CipherInputStream(fis, blowfishCipher)) {
+                        byte[] block = new byte[8];
+                        int i;
+                        _Logger.append("Percentage completed: 0% ");
+                        while ((i = cis.read(block)) != -1) {
+                            fos.write(block, 0, i);
+                            cnt += 8;
+                            if (cnt % 1000000 == 0) {
+                                _Logger.append(String.format("%.2f %% ", cnt * 100.0 / size));
+                            }
+                        }
+                        _Logger.append("100%\n\n");
                     }
                     break;
             }
@@ -279,7 +382,7 @@ public class CryptographyModel {
     }
 
     public static String cryptoRSAFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
-            BigInteger modulus, BigInteger publicExponent, BigInteger privateExponent, String filepathSource) {
+            BigInteger modulus, BigInteger publicExponent, BigInteger privateExponent, String filepathSource, JTextArea _Logger) {
 
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -322,17 +425,17 @@ public class CryptographyModel {
                     try (CipherOutputStream cos = new CipherOutputStream(fos, rsaCipher)) {
                         byte[] block = new byte[key_buffer_encrypt];
                         int i;
-                        System.out.print("Percentage completed: 0% ");
+                        _Logger.append("Percentage completed: 0% ");
                         while ((i = fis.read(block)) != -1) {
                             //cos.write(block, 0, i);
                             byte[] cipherBlock = rsaCipher.doFinal(block, 0, i);
                             fos.write(cipherBlock);
                             cnt += key_buffer_encrypt;
                             if (cnt % 100 == 0) {
-                                System.out.print(String.format("%.2f%% ", cnt * 100.0 / size));
+                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
                             }
                         }
-                        System.out.println("100%");
+                        _Logger.append("100%\n");
                     }
                     break;
                 case DECRYPT:
@@ -347,22 +450,24 @@ public class CryptographyModel {
                     try (CipherInputStream cis = new CipherInputStream(fis, rsaCipher)) {
                         byte[] block = new byte[key_buffer_decrypt];
                         int i;
-                        System.out.print("Percentage completed: 0% ");
+                        _Logger.append("Percentage completed: 0% ");
                         while ((i = fis.read(block)) != -1) {
                             byte[] cipherBlock = rsaCipher.doFinal(block);
                             fos.write(cipherBlock);
                             cnt += key_buffer_decrypt;
                             if (cnt % 100 == 0) {
-                                System.out.print(String.format("%.2f%% ", cnt * 100.0 / size));
+                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
                             }
                         }
-                        System.out.println("100%");
+                        _Logger.append("100%\n");
                     }
                     break;
             }
 
             return filepathDes;
-        } catch (Exception ex) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IOException | 
+                InvalidKeySpecException | InvalidKeyException | IllegalBlockSizeException | 
+                BadPaddingException ex) {
             System.out.println(ex);
             return "";
         }

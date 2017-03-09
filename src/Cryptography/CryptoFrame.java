@@ -9,12 +9,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.math.BigInteger;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -32,6 +36,44 @@ public class CryptoFrame extends javax.swing.JFrame {
         initComponents();
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+        jTextRSAq.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+
+        });
+
+        jTextRSAp.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                calculateRSANeeded();
+            }
+        });
+
     }
 
     /**
@@ -45,6 +87,10 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         modeButtonGroup = new javax.swing.ButtonGroup();
         paddingButtonGroup = new javax.swing.ButtonGroup();
+        modeBlowfishButtonGroup1 = new javax.swing.ButtonGroup();
+        paddingBlowfishButtonGroup1 = new javax.swing.ButtonGroup();
+        modeRSAbuttonGroup1 = new javax.swing.ButtonGroup();
+        paddingRSAButtonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -81,82 +127,82 @@ public class CryptoFrame extends javax.swing.JFrame {
         _LoggerDES = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jRadioECB2 = new javax.swing.JRadioButton();
+        jRadioECBRSA = new javax.swing.JRadioButton();
         jRadioCBC2 = new javax.swing.JRadioButton();
         jPanel12 = new javax.swing.JPanel();
-        jRadioPKCS8 = new javax.swing.JRadioButton();
+        jRadioPKCS1RSA = new javax.swing.JRadioButton();
         jRadioLZero3 = new javax.swing.JRadioButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
-        jTextKey2 = new javax.swing.JTextField();
-        jButtonBrowseKey2 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jButtonBrowseKey3 = new javax.swing.JButton();
-        jTextKey3 = new javax.swing.JTextField();
+        jTextRSAq = new javax.swing.JTextField();
+        jButtonGenPrimeQ = new javax.swing.JButton();
+        jButtonGenPrimeP = new javax.swing.JButton();
+        jTextRSAp = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextKey4 = new javax.swing.JTextField();
+        jTextRSAN = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextKey5 = new javax.swing.JTextField();
-        jTextKey6 = new javax.swing.JTextField();
+        jTextRSAPhiN = new javax.swing.JTextField();
+        jTextRSAE = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jButtonBrowseKey4 = new javax.swing.JButton();
-        jTextKey7 = new javax.swing.JTextField();
+        jButtonGenRSAE = new javax.swing.JButton();
+        jTextRSAD = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        jButtonBrowseKey5 = new javax.swing.JButton();
-        jButtonGenKey2 = new javax.swing.JButton();
-        jButtonGenIV2 = new javax.swing.JButton();
-        jButtonGenIV3 = new javax.swing.JButton();
-        jButtonGenKey3 = new javax.swing.JButton();
-        jButtonBrowseKey6 = new javax.swing.JButton();
-        jTextKey8 = new javax.swing.JTextField();
+        jButtonComputeRSAD = new javax.swing.JButton();
+        jButtonSavePublicRSA = new javax.swing.JButton();
+        jButtonSavePrivateRSA = new javax.swing.JButton();
+        jButtonLoadPrivateRSA = new javax.swing.JButton();
+        jButtonLoadPublicRSA = new javax.swing.JButton();
+        jButtonBrowseRSA = new javax.swing.JButton();
+        jTextFilePathRSA = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTextAreaFileContent2 = new javax.swing.JTextArea();
+        jTextAreaFileContentRSA = new javax.swing.JTextArea();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jTextKey9 = new javax.swing.JTextField();
-        jButtonGenKey4 = new javax.swing.JButton();
-        jButtonGenIV4 = new javax.swing.JButton();
+        jTextMD5RSA = new javax.swing.JTextField();
+        jButtonEncryptRSA = new javax.swing.JButton();
+        jButtonDecryptRSA = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jTextArea6 = new javax.swing.JTextArea();
+        _LoggerRSA = new javax.swing.JTextArea();
+        jComboBoxBitQ = new javax.swing.JComboBox();
+        jComboBoxBitP = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jRadioPKCS6 = new javax.swing.JRadioButton();
-        jRadioLZero1 = new javax.swing.JRadioButton();
+        jRadioPKCS5Blowfish = new javax.swing.JRadioButton();
+        jRadioISOBlowfish = new javax.swing.JRadioButton();
         jPanel8 = new javax.swing.JPanel();
-        jRadioECB1 = new javax.swing.JRadioButton();
-        jRadioCBC1 = new javax.swing.JRadioButton();
+        jRadioECBBlowfish = new javax.swing.JRadioButton();
+        jRadioCBCBlowfish = new javax.swing.JRadioButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
-        jTextKey1 = new javax.swing.JTextField();
+        jTextKeyBlowfish = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextIV1 = new javax.swing.JTextField();
-        jButtonBrowseKey1 = new javax.swing.JButton();
-        jButtonBrowseIV1 = new javax.swing.JButton();
-        jButtonSaveIV1 = new javax.swing.JButton();
-        jButtonSaveKey1 = new javax.swing.JButton();
-        jButtonGenKey1 = new javax.swing.JButton();
-        jButtonGenIV1 = new javax.swing.JButton();
-        jTextFilePath1 = new javax.swing.JTextField();
-        jButtonBrowseFile1 = new javax.swing.JButton();
+        jTextIVBlowfish = new javax.swing.JTextField();
+        jButtonBrowseKeyBlowfish = new javax.swing.JButton();
+        jButtonBrowseIVBlowfish = new javax.swing.JButton();
+        jButtonSaveIVBlowfish = new javax.swing.JButton();
+        jButtonSaveKeyBlowfish = new javax.swing.JButton();
+        jButtonGenKeyBlowfish = new javax.swing.JButton();
+        jButtonGenIVBlowfish = new javax.swing.JButton();
+        jTextFilePathBlowfish = new javax.swing.JTextField();
+        jButtonBrowseFileBlowfish = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextAreaFileContent1 = new javax.swing.JTextArea();
+        jTextAreaFileContentBlowfish = new javax.swing.JTextArea();
         jLabel12 = new javax.swing.JLabel();
-        jTextMD6 = new javax.swing.JTextField();
-        jButtonEncrypt1 = new javax.swing.JButton();
-        jButtonDecrypt1 = new javax.swing.JButton();
+        jTextMD5Blowfish = new javax.swing.JTextField();
+        jButtonEncryptBlowfish = new javax.swing.JButton();
+        jButtonDecryptBlowfish = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        _LoggerBlowfish = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cryptography algorythm");
@@ -382,7 +428,7 @@ public class CryptoFrame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextKeyDES)
@@ -472,8 +518,9 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Mode"));
 
-        modeButtonGroup.add(jRadioECB2);
-        jRadioECB2.setText("ECB");
+        modeRSAbuttonGroup1.add(jRadioECBRSA);
+        jRadioECBRSA.setSelected(true);
+        jRadioECBRSA.setText("ECB");
 
         modeButtonGroup.add(jRadioCBC2);
         jRadioCBC2.setText("CBC");
@@ -486,14 +533,14 @@ public class CryptoFrame extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioCBC2)
-                    .addComponent(jRadioECB2))
+                    .addComponent(jRadioECBRSA))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jRadioECB2)
+                .addComponent(jRadioECBRSA)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioCBC2)
                 .addContainerGap())
@@ -502,30 +549,26 @@ public class CryptoFrame extends javax.swing.JFrame {
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Padding"));
         jPanel12.setPreferredSize(new java.awt.Dimension(81, 74));
 
-        paddingButtonGroup.add(jRadioPKCS8);
-        jRadioPKCS8.setText("PKCS1");
-        jRadioPKCS8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioPKCS8ActionPerformed(evt);
-            }
-        });
+        paddingRSAButtonGroup1.add(jRadioPKCS1RSA);
+        jRadioPKCS1RSA.setSelected(true);
+        jRadioPKCS1RSA.setText("PKCS1");
 
         paddingButtonGroup.add(jRadioLZero3);
-        jRadioLZero3.setText("Leading zeroes");
+        jRadioLZero3.setText("ISO10126");
         jRadioLZero3.setEnabled(false);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioPKCS8)
+            .addComponent(jRadioPKCS1RSA)
             .addComponent(jRadioLZero3)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioPKCS8)
+                .addComponent(jRadioPKCS1RSA)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jRadioLZero3)
                 .addContainerGap())
@@ -546,83 +589,136 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         jLabel13.setText("Prime q:");
 
-        jTextKey2.setToolTipText("64 bit (8 byte) key");
+        jTextRSAq.setToolTipText("64 bit (8 byte) key");
 
-        jButtonBrowseKey2.setText("Generate Random");
+        jButtonGenPrimeQ.setText("Generate Random");
+        jButtonGenPrimeQ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenPrimeQActionPerformed(evt);
+            }
+        });
 
-        jSpinner1.setBorder(null);
+        jButtonGenPrimeP.setText("Generate Random");
+        jButtonGenPrimeP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenPrimePActionPerformed(evt);
+            }
+        });
 
-        jSpinner2.setBorder(null);
-
-        jButtonBrowseKey3.setText("Generate Random");
-
-        jTextKey3.setToolTipText("64 bit (8 byte) key");
+        jTextRSAp.setToolTipText("64 bit (8 byte) key");
 
         jLabel14.setText("Prime p:");
 
         jLabel15.setText("n = p * q:");
 
-        jTextKey4.setToolTipText("64 bit (8 byte) key");
+        jTextRSAN.setEditable(false);
+        jTextRSAN.setToolTipText("64 bit (8 byte) key");
 
         jLabel16.setText("phi(n):");
 
-        jTextKey5.setEditable(false);
-        jTextKey5.setToolTipText("64 bit (8 byte) key");
+        jTextRSAPhiN.setEditable(false);
+        jTextRSAPhiN.setToolTipText("64 bit (8 byte) key");
 
-        jTextKey6.setToolTipText("64 bit (8 byte) key");
+        jTextRSAE.setToolTipText("64 bit (8 byte) key");
 
         jLabel17.setText("Private e:");
 
-        jButtonBrowseKey4.setText("Generate Random");
+        jButtonGenRSAE.setText("Generate Random");
+        jButtonGenRSAE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenRSAEActionPerformed(evt);
+            }
+        });
 
-        jTextKey7.setEditable(false);
-        jTextKey7.setToolTipText("64 bit (8 byte) key");
+        jTextRSAD.setEditable(false);
+        jTextRSAD.setToolTipText("64 bit (8 byte) key");
 
         jLabel18.setText("Public d:");
 
-        jButtonBrowseKey5.setText("Compute");
+        jButtonComputeRSAD.setText("Compute");
+        jButtonComputeRSAD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComputeRSADActionPerformed(evt);
+            }
+        });
 
-        jButtonGenKey2.setText("Save Public key");
+        jButtonSavePublicRSA.setText("Save Public key");
+        jButtonSavePublicRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSavePublicRSAActionPerformed(evt);
+            }
+        });
 
-        jButtonGenIV2.setText("Save Private key");
+        jButtonSavePrivateRSA.setText("Save Private key");
+        jButtonSavePrivateRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSavePrivateRSAActionPerformed(evt);
+            }
+        });
 
-        jButtonGenIV3.setText("Load Private key");
+        jButtonLoadPrivateRSA.setText("Load Private key");
+        jButtonLoadPrivateRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadPrivateRSAActionPerformed(evt);
+            }
+        });
 
-        jButtonGenKey3.setText("Load Public key");
+        jButtonLoadPublicRSA.setText("Load Public key");
+        jButtonLoadPublicRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadPublicRSAActionPerformed(evt);
+            }
+        });
 
-        jButtonBrowseKey6.setText("Browse");
+        jButtonBrowseRSA.setText("Browse");
+        jButtonBrowseRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBrowseRSAActionPerformed(evt);
+            }
+        });
 
-        jTextKey8.setEditable(false);
-        jTextKey8.setToolTipText("64 bit (8 byte) key");
+        jTextFilePathRSA.setEditable(false);
+        jTextFilePathRSA.setToolTipText("64 bit (8 byte) key");
 
         jLabel19.setText("File");
 
         jLabel20.setText("File content");
 
-        jTextAreaFileContent2.setEditable(false);
-        jTextAreaFileContent2.setColumns(20);
-        jTextAreaFileContent2.setLineWrap(true);
-        jTextAreaFileContent2.setRows(5);
-        jTextAreaFileContent2.setWrapStyleWord(true);
-        jScrollPane8.setViewportView(jTextAreaFileContent2);
+        jTextAreaFileContentRSA.setEditable(false);
+        jTextAreaFileContentRSA.setColumns(20);
+        jTextAreaFileContentRSA.setLineWrap(true);
+        jTextAreaFileContentRSA.setRows(5);
+        jTextAreaFileContentRSA.setWrapStyleWord(true);
+        jScrollPane8.setViewportView(jTextAreaFileContentRSA);
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel21.setText("(hex):");
 
         jLabel22.setText("MD5");
 
-        jTextKey9.setEditable(false);
-        jTextKey9.setToolTipText("64 bit (8 byte) key");
+        jTextMD5RSA.setEditable(false);
+        jTextMD5RSA.setToolTipText("64 bit (8 byte) key");
 
-        jButtonGenKey4.setText("Encrypt");
+        jButtonEncryptRSA.setText("Encrypt");
+        jButtonEncryptRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEncryptRSAActionPerformed(evt);
+            }
+        });
 
-        jButtonGenIV4.setText("Decrypt");
+        jButtonDecryptRSA.setText("Decrypt");
+        jButtonDecryptRSA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDecryptRSAActionPerformed(evt);
+            }
+        });
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Log"));
 
-        jTextArea6.setColumns(20);
-        jTextArea6.setRows(5);
-        jScrollPane9.setViewportView(jTextArea6);
+        _LoggerRSA.setColumns(20);
+        _LoggerRSA.setLineWrap(true);
+        _LoggerRSA.setRows(5);
+        jScrollPane9.setViewportView(_LoggerRSA);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -637,6 +733,10 @@ public class CryptoFrame extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
         );
+
+        jComboBoxBitQ.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "512 bit", "1024 bit" }));
+
+        jComboBoxBitP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "512 bit", "1024 bit" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -660,64 +760,67 @@ public class CryptoFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonGenKey4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonEncryptRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonGenIV4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonDecryptRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jButtonGenKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextRSAE, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonGenIV2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonGenKey3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonGenIV3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextKey6, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonBrowseKey4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jButtonGenRSAE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jScrollPane7))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButtonBrowseKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextRSAD, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSpinner1))
+                                        .addComponent(jButtonComputeRSAD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane8)
+                                    .addComponent(jTextMD5RSA)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jTextKey4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(jTextKey3, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jButtonSavePublicRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonSavePrivateRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonLoadPublicRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonLoadPrivateRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jButtonBrowseKey3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(6, 6, 6)
-                                                .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jTextKey5)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextKey7, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonBrowseKey5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextKey8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonBrowseKey6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane8)
-                                    .addComponent(jTextKey9))
-                                .addGap(18, 18, 18))))
+                                                .addComponent(jTextRSAq, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButtonGenPrimeQ, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jComboBoxBitQ, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(jTextRSAN, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addComponent(jTextRSAp, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jTextRSAPhiN)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(jButtonGenPrimeP, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jComboBoxBitP, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jTextFilePathRSA)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jButtonBrowseRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(1, 1, 1)))
+                                .addGap(17, 17, 17))))
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonGenIV2, jButtonGenKey2});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonSavePrivateRSA, jButtonSavePublicRSA});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -729,43 +832,43 @@ public class CryptoFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane7))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jButtonBrowseKey2)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonGenPrimeQ)
+                    .addComponent(jComboBoxBitQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jButtonBrowseKey3)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonGenPrimeP)
+                    .addComponent(jComboBoxBitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(jTextKey5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAPhiN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(jButtonBrowseKey4))
+                    .addComponent(jButtonGenRSAE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextRSAD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addComponent(jButtonBrowseKey5))
+                    .addComponent(jButtonComputeRSAD))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonGenKey3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonGenIV3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonGenIV2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonGenKey2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButtonLoadPublicRSA, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLoadPrivateRSA, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSavePrivateRSA, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSavePublicRSA, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFilePathRSA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
-                    .addComponent(jButtonBrowseKey6))
+                    .addComponent(jButtonBrowseRSA))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -773,14 +876,14 @@ public class CryptoFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel21))
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextKey9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextMD5RSA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonGenIV4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonGenKey4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jButtonDecryptRSA, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonEncryptRSA, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -790,41 +893,43 @@ public class CryptoFrame extends javax.swing.JFrame {
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Padding"));
         jPanel7.setPreferredSize(new java.awt.Dimension(81, 74));
 
-        paddingButtonGroup.add(jRadioPKCS6);
-        jRadioPKCS6.setText("PKCS5");
-        jRadioPKCS6.addActionListener(new java.awt.event.ActionListener() {
+        paddingBlowfishButtonGroup1.add(jRadioPKCS5Blowfish);
+        jRadioPKCS5Blowfish.setSelected(true);
+        jRadioPKCS5Blowfish.setText("PKCS5");
+        jRadioPKCS5Blowfish.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioPKCS6ActionPerformed(evt);
+                jRadioPKCS5BlowfishActionPerformed(evt);
             }
         });
 
-        paddingButtonGroup.add(jRadioLZero1);
-        jRadioLZero1.setText("Leading zeroes");
+        paddingBlowfishButtonGroup1.add(jRadioISOBlowfish);
+        jRadioISOBlowfish.setText("ISO10126");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioPKCS6)
-            .addComponent(jRadioLZero1)
+            .addComponent(jRadioPKCS5Blowfish)
+            .addComponent(jRadioISOBlowfish)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioPKCS6)
+                .addComponent(jRadioPKCS5Blowfish)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioLZero1)
+                .addComponent(jRadioISOBlowfish)
                 .addContainerGap())
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Mode"));
 
-        modeButtonGroup.add(jRadioECB1);
-        jRadioECB1.setText("ECB");
+        modeBlowfishButtonGroup1.add(jRadioECBBlowfish);
+        jRadioECBBlowfish.setSelected(true);
+        jRadioECBBlowfish.setText("ECB");
 
-        modeButtonGroup.add(jRadioCBC1);
-        jRadioCBC1.setText("CBC");
+        modeBlowfishButtonGroup1.add(jRadioCBCBlowfish);
+        jRadioCBCBlowfish.setText("CBC");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -832,17 +937,17 @@ public class CryptoFrame extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioCBC1)
-                    .addComponent(jRadioECB1))
+                    .addComponent(jRadioCBCBlowfish)
+                    .addComponent(jRadioECBBlowfish))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jRadioECB1)
+                .addComponent(jRadioECBBlowfish)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioCBC1)
+                .addComponent(jRadioCBCBlowfish)
                 .addContainerGap())
         );
 
@@ -859,30 +964,65 @@ public class CryptoFrame extends javax.swing.JFrame {
         jTextArea3.setPreferredSize(new java.awt.Dimension(260, 90));
         jScrollPane3.setViewportView(jTextArea3);
 
-        jTextKey1.setToolTipText("64 bit (8 byte) key");
+        jTextKeyBlowfish.setToolTipText("64 bit (8 byte) key");
 
         jLabel7.setText("Key (hex): ");
 
         jLabel8.setText("IV (hex):");
 
-        jTextIV1.setToolTipText("64 bit (8 byte) Initialize Vector");
+        jTextIVBlowfish.setToolTipText("64 bit (8 byte) Initialize Vector");
 
-        jButtonBrowseKey1.setText("Browse");
+        jButtonBrowseKeyBlowfish.setText("Browse");
+        jButtonBrowseKeyBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBrowseKeyBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonBrowseIV1.setText("Browse");
+        jButtonBrowseIVBlowfish.setText("Browse");
+        jButtonBrowseIVBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBrowseIVBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonSaveIV1.setText("Save");
+        jButtonSaveIVBlowfish.setText("Save");
+        jButtonSaveIVBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveIVBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonSaveKey1.setText("Save");
+        jButtonSaveKeyBlowfish.setText("Save");
+        jButtonSaveKeyBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveKeyBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonGenKey1.setText("Generate Random Key");
+        jButtonGenKeyBlowfish.setText("Generate Random Key");
+        jButtonGenKeyBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenKeyBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonGenIV1.setText("Geneate Random IV");
+        jButtonGenIVBlowfish.setText("Geneate Random IV");
+        jButtonGenIVBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenIVBlowfishActionPerformed(evt);
+            }
+        });
 
-        jTextFilePath1.setEditable(false);
-        jTextFilePath1.setToolTipText("64 bit (8 byte) Initialize Vector");
+        jTextFilePathBlowfish.setEditable(false);
+        jTextFilePathBlowfish.setToolTipText("64 bit (8 byte) Initialize Vector");
 
-        jButtonBrowseFile1.setText("Browse");
+        jButtonBrowseFileBlowfish.setText("Browse");
+        jButtonBrowseFileBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBrowseFileBlowfishActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("File (Folder):");
 
@@ -891,27 +1031,38 @@ public class CryptoFrame extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("(hex):");
 
-        jTextAreaFileContent1.setEditable(false);
-        jTextAreaFileContent1.setColumns(20);
-        jTextAreaFileContent1.setLineWrap(true);
-        jTextAreaFileContent1.setRows(5);
-        jTextAreaFileContent1.setWrapStyleWord(true);
-        jScrollPane5.setViewportView(jTextAreaFileContent1);
+        jTextAreaFileContentBlowfish.setEditable(false);
+        jTextAreaFileContentBlowfish.setColumns(20);
+        jTextAreaFileContentBlowfish.setLineWrap(true);
+        jTextAreaFileContentBlowfish.setRows(5);
+        jTextAreaFileContentBlowfish.setWrapStyleWord(true);
+        jScrollPane5.setViewportView(jTextAreaFileContentBlowfish);
 
         jLabel12.setText("MD5:");
 
-        jTextMD6.setEditable(false);
-        jTextMD6.setToolTipText("64 bit (8 byte) Initialize Vector");
+        jTextMD5Blowfish.setEditable(false);
+        jTextMD5Blowfish.setToolTipText("64 bit (8 byte) Initialize Vector");
 
-        jButtonEncrypt1.setText("Encrypt");
+        jButtonEncryptBlowfish.setText("Encrypt");
+        jButtonEncryptBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEncryptBlowfishActionPerformed(evt);
+            }
+        });
 
-        jButtonDecrypt1.setText("Decrypt");
+        jButtonDecryptBlowfish.setText("Decrypt");
+        jButtonDecryptBlowfish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDecryptBlowfishActionPerformed(evt);
+            }
+        });
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Log"));
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane6.setViewportView(jTextArea4);
+        _LoggerBlowfish.setColumns(20);
+        _LoggerBlowfish.setLineWrap(true);
+        _LoggerBlowfish.setRows(5);
+        jScrollPane6.setViewportView(_LoggerBlowfish);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -947,38 +1098,38 @@ public class CryptoFrame extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextMD6)
+                            .addComponent(jTextMD5Blowfish)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jTextFilePath1)
+                                .addComponent(jTextFilePathBlowfish)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonBrowseFile1))
+                                .addComponent(jButtonBrowseFileBlowfish))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextKey1)
-                                    .addComponent(jTextIV1))
+                                    .addComponent(jTextKeyBlowfish)
+                                    .addComponent(jTextIVBlowfish))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonBrowseIV1)
-                                    .addComponent(jButtonBrowseKey1))
+                                    .addComponent(jButtonBrowseIVBlowfish)
+                                    .addComponent(jButtonBrowseKeyBlowfish))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButtonSaveIV1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonSaveKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jButtonSaveIVBlowfish, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonSaveKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane5)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButtonEncrypt1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButtonEncryptBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButtonDecrypt1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jButtonDecryptBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButtonGenKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButtonGenKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButtonGenIV1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jButtonGenIVBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -994,30 +1145,30 @@ public class CryptoFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addGap(13, 13, 13)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextIV1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextIVBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonBrowseKey1)
+                                .addComponent(jButtonBrowseKeyBlowfish)
                                 .addGap(12, 12, 12)
-                                .addComponent(jButtonBrowseIV1))
+                                .addComponent(jButtonBrowseIVBlowfish))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonSaveKey1)
+                                .addComponent(jButtonSaveKeyBlowfish)
                                 .addGap(12, 12, 12)
-                                .addComponent(jButtonSaveIV1)))
+                                .addComponent(jButtonSaveIVBlowfish)))
                         .addGap(1, 1, 1)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGenKey1)
-                    .addComponent(jButtonGenIV1))
+                    .addComponent(jButtonGenKeyBlowfish)
+                    .addComponent(jButtonGenIVBlowfish))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonBrowseFile1)
-                    .addComponent(jTextFilePath1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBrowseFileBlowfish)
+                    .addComponent(jTextFilePathBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1028,12 +1179,12 @@ public class CryptoFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextMD6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextMD5Blowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEncrypt1)
-                    .addComponent(jButtonDecrypt1))
+                    .addComponent(jButtonEncryptBlowfish)
+                    .addComponent(jButtonDecryptBlowfish))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(5, 5, 5))
@@ -1047,7 +1198,7 @@ public class CryptoFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
@@ -1062,13 +1213,9 @@ public class CryptoFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioPKCS5ActionPerformed
 
-    private void jRadioPKCS6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioPKCS6ActionPerformed
+    private void jRadioPKCS5BlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioPKCS5BlowfishActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioPKCS6ActionPerformed
-
-    private void jRadioPKCS8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioPKCS8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioPKCS8ActionPerformed
+    }//GEN-LAST:event_jRadioPKCS5BlowfishActionPerformed
 
     private void jButtonBrowseKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseKeyActionPerformed
         // TODO add your handling code here:
@@ -1097,7 +1244,7 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         if (file != null) {
             filepath = file.getPath();
-            saveContentFile(filepath, jTextKeyDES.getText());
+            saveContentFile(filepath, jTextKeyDES.getText(), _LoggerDES);
         }
     }//GEN-LAST:event_jButtonSaveKeyActionPerformed
 
@@ -1107,7 +1254,7 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         if (file != null) {
             filepath = file.getPath();
-            saveContentFile(filepath, jTextIVDES.getText());
+            saveContentFile(filepath, jTextIVDES.getText(), _LoggerDES);
         }
     }//GEN-LAST:event_jButtonSaveIVActionPerformed
 
@@ -1230,6 +1377,376 @@ public class CryptoFrame extends javax.swing.JFrame {
         cryptoThread.start();
     }//GEN-LAST:event_jButtonDecryptActionPerformed
 
+    private void jButtonBrowseKeyBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseKeyBlowfishActionPerformed
+        fileChooser.showDialog(this, "Select key file for Blowfish");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            jTextKeyBlowfish.setText(readContentFile(filepath));
+        }
+    }//GEN-LAST:event_jButtonBrowseKeyBlowfishActionPerformed
+
+    private void jButtonBrowseIVBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseIVBlowfishActionPerformed
+        fileChooser.showDialog(this, "Select initialize vector file for Blowfish");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            jTextIVBlowfish.setText(readContentFile(filepath));
+        }
+    }//GEN-LAST:event_jButtonBrowseIVBlowfishActionPerformed
+
+    private void jButtonSaveKeyBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveKeyBlowfishActionPerformed
+        fileChooser.showDialog(this, "Save");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            saveContentFile(filepath, jTextKeyBlowfish.getText(), _LoggerBlowfish);
+        }
+    }//GEN-LAST:event_jButtonSaveKeyBlowfishActionPerformed
+
+    private void jButtonSaveIVBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveIVBlowfishActionPerformed
+        fileChooser.showDialog(this, "Save");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            saveContentFile(filepath, jTextIVBlowfish.getText(), _LoggerBlowfish);
+        }
+    }//GEN-LAST:event_jButtonSaveIVBlowfishActionPerformed
+
+    private void jButtonGenKeyBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenKeyBlowfishActionPerformed
+        String keyBlowfish = CryptographyModel.genBlowfishKey();
+        jTextKeyBlowfish.setText(keyBlowfish);
+    }//GEN-LAST:event_jButtonGenKeyBlowfishActionPerformed
+
+    private void jButtonGenIVBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenIVBlowfishActionPerformed
+        String keyDES = CryptographyModel.genDESKey();
+        jTextIVBlowfish.setText(keyDES);
+    }//GEN-LAST:event_jButtonGenIVBlowfishActionPerformed
+
+    private void jButtonBrowseFileBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseFileBlowfishActionPerformed
+        fileChooser.showDialog(this, "Choose file to encrypt/decrypt");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            jTextFilePathBlowfish.setText(filepath);
+            jTextAreaFileContentBlowfish.setText(CryptographyModel.fileContentHex(filepath));
+            jTextMD5Blowfish.setText(CryptographyModel.getMD5Checksum(filepath));
+        }
+    }//GEN-LAST:event_jButtonBrowseFileBlowfishActionPerformed
+
+    private void jButtonEncryptBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncryptBlowfishActionPerformed
+        Thread cryptoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CryptographyModel.ModeBlockCipher modeBlock = jRadioCBCBlowfish.isSelected()
+                        ? CryptographyModel.ModeBlockCipher.CBC : CryptographyModel.ModeBlockCipher.ECB;
+                CryptographyModel.ModePadding modePadding = jRadioPKCS5Blowfish.isSelected()
+                        ? CryptographyModel.ModePadding.PKCS5 : CryptographyModel.ModePadding.ISO10126;
+                String key = jTextKeyBlowfish.getText();
+                String iv = jTextIVBlowfish.getText();
+                String file = jTextFilePathBlowfish.getText();
+                if (modeBlock == null || modePadding == null || key.isEmpty() || file.isEmpty()) {
+                    _LoggerBlowfish.append("Missing infomation. Please check again.\n");
+                    return;
+                }
+                if (modeBlock == CryptographyModel.ModeBlockCipher.CBC && iv.isEmpty()) {
+                    _LoggerBlowfish.append("Missing Initialize Vector. Please check again.\n");
+                    return;
+                }
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        _LoggerBlowfish.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
+                        String cryptoBlowfishFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerBlowfish);
+                        if (!cryptoBlowfishFilepath.isEmpty()) {
+                            if (!cryptoBlowfishFilepath.isEmpty()) {
+                                _LoggerBlowfish.append("Encrypt successfully at:" + cryptoBlowfishFilepath + "\n");
+                            } else {
+                                _LoggerBlowfish.append("Encrypt unsuccessfully!\n");
+                            }
+                        }
+                    }
+                } else {
+                    _LoggerBlowfish.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
+                    String cryptoBlowfishFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                            modeBlock, modePadding, key, iv, file, _LoggerBlowfish);
+                    if (!cryptoBlowfishFilepath.isEmpty()) {
+                        _LoggerBlowfish.append("Encrypt successfully at:" + cryptoBlowfishFilepath + "\n");
+                    } else {
+                        _LoggerBlowfish.append("Encrypt unsuccessfully!\n");
+                    }
+                }
+
+            }
+        }
+        );
+        cryptoThread.start();
+    }//GEN-LAST:event_jButtonEncryptBlowfishActionPerformed
+
+    private void jButtonDecryptBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDecryptBlowfishActionPerformed
+        Thread cryptoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CryptographyModel.ModeBlockCipher modeBlock = jRadioCBCBlowfish.isSelected()
+                        ? CryptographyModel.ModeBlockCipher.CBC : CryptographyModel.ModeBlockCipher.ECB;
+                CryptographyModel.ModePadding modePadding = jRadioPKCS5Blowfish.isSelected()
+                        ? CryptographyModel.ModePadding.PKCS5 : CryptographyModel.ModePadding.ISO10126;
+                String key = jTextKeyBlowfish.getText();
+                String iv = jTextIVBlowfish.getText();
+                String file = jTextFilePathBlowfish.getText();
+                if (modeBlock == null || modePadding == null || key.isEmpty() || file.isEmpty()) {
+                    _LoggerBlowfish.append("Missing infomation. Please check again.\n");
+                    return;
+                }
+                if (modeBlock == CryptographyModel.ModeBlockCipher.CBC && iv.isEmpty()) {
+                    _LoggerBlowfish.append("Missing Initialize Vector. Please check again.\n");
+                    return;
+                }
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        String cryptoDESFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.DECRYPT,
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerBlowfish);
+                        if (!cryptoDESFilepath.isEmpty()) {
+                            _LoggerBlowfish.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
+                                    + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
+                        } else {
+                            _LoggerBlowfish.append("Decrypt unsuccessfully!\n");
+                        }
+                    }
+                } else {
+                    String cryptoDESFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.DECRYPT,
+                            modeBlock, modePadding, key, iv, file, _LoggerBlowfish);
+                    if (!cryptoDESFilepath.isEmpty()) {
+                        _LoggerBlowfish.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
+                                + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
+                    } else {
+                        _LoggerBlowfish.append("Decrypt unsuccessfully!\n");
+                    }
+                }
+            }
+        }
+        );
+        cryptoThread.start();
+    }//GEN-LAST:event_jButtonDecryptBlowfishActionPerformed
+
+    private void jButtonGenPrimeQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenPrimeQActionPerformed
+        int bit = jComboBoxBitQ.getSelectedIndex() == 0 ? 512 : 1024;
+        BigInteger keyRSA = CryptographyModel.genPrime(bit);
+        jTextRSAq.setText(keyRSA.toString());
+    }//GEN-LAST:event_jButtonGenPrimeQActionPerformed
+
+    private void jButtonGenPrimePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenPrimePActionPerformed
+        int bit = jComboBoxBitQ.getSelectedIndex() == 0 ? 512 : 1024;
+        BigInteger keyRSA = CryptographyModel.genPrime(bit);
+        jTextRSAp.setText(keyRSA.toString());
+    }//GEN-LAST:event_jButtonGenPrimePActionPerformed
+
+    private void jButtonGenRSAEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenRSAEActionPerformed
+        if (!jTextRSAPhiN.getText().isEmpty()) {
+            BigInteger phiN = new BigInteger(jTextRSAPhiN.getText());
+            BigInteger e = CryptographyModel.genPublicExponent(phiN);
+            jTextRSAE.setText(e.toString());
+        }
+    }//GEN-LAST:event_jButtonGenRSAEActionPerformed
+
+    private void jButtonComputeRSADActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComputeRSADActionPerformed
+        if (!jTextRSAPhiN.getText().isEmpty() && !jTextRSAE.getText().isEmpty()) {
+            BigInteger phiN = new BigInteger(jTextRSAPhiN.getText());
+            BigInteger e = new BigInteger(jTextRSAE.getText());
+            BigInteger d = CryptographyModel.genPrivateExponent(e, phiN);
+            jTextRSAD.setText(d.toString());
+        }
+    }//GEN-LAST:event_jButtonComputeRSADActionPerformed
+
+    private void jButtonSavePublicRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSavePublicRSAActionPerformed
+        if (!jTextRSAN.getText().isEmpty() && !jTextRSAE.getText().isEmpty()) {
+            fileChooser.showDialog(this, "Save");
+            File file = fileChooser.getSelectedFile();
+
+            if (file != null) {
+                filepath = file.getPath();
+                BigInteger n = new BigInteger(jTextRSAN.getText());
+                BigInteger e = new BigInteger(jTextRSAE.getText());
+                String content = n.toString() + "\n" + e.toString();
+                saveContentFile(filepath, content, _LoggerRSA);
+            }
+        }
+    }//GEN-LAST:event_jButtonSavePublicRSAActionPerformed
+
+    private void jButtonSavePrivateRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSavePrivateRSAActionPerformed
+        if (!jTextRSAN.getText().isEmpty() && !jTextRSAD.getText().isEmpty()) {
+            fileChooser.showDialog(this, "Save");
+            File file = fileChooser.getSelectedFile();
+
+            if (file != null) {
+                filepath = file.getPath();
+                BigInteger n = new BigInteger(jTextRSAN.getText());
+                BigInteger d = new BigInteger(jTextRSAD.getText());
+                String content = n.toString() + "\n" + d.toString();
+                saveContentFile(filepath, content, _LoggerRSA);
+            }
+        }
+    }//GEN-LAST:event_jButtonSavePrivateRSAActionPerformed
+
+    private void jButtonLoadPublicRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadPublicRSAActionPerformed
+        fileChooser.showDialog(this, "Select public key file for RSA");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            String readContentFile = readContentFile(filepath);
+            try {
+                String n = readContentFile.split("\n")[0];
+                String e = readContentFile.split("\n")[1];
+                jTextRSAN.setText(n);
+                jTextRSAE.setText(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_jButtonLoadPublicRSAActionPerformed
+
+    private void jButtonLoadPrivateRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadPrivateRSAActionPerformed
+        fileChooser.showDialog(this, "Select private key file for RSA");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            String readContentFile = readContentFile(filepath);
+            try {
+                String n = readContentFile.split("\n")[0];
+                String d = readContentFile.split("\n")[1];
+                jTextRSAN.setText(n);
+                jTextRSAD.setText(d);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_jButtonLoadPrivateRSAActionPerformed
+
+    private void jButtonBrowseRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseRSAActionPerformed
+        fileChooser.showDialog(this, "Choose file to encrypt/decrypt");
+        File file = fileChooser.getSelectedFile();
+
+        if (file != null) {
+            filepath = file.getPath();
+            jTextFilePathRSA.setText(filepath);
+            jTextAreaFileContentRSA.setText(CryptographyModel.fileContentHex(filepath));
+            jTextMD5RSA.setText(CryptographyModel.getMD5Checksum(filepath));
+        }
+    }//GEN-LAST:event_jButtonBrowseRSAActionPerformed
+
+    private void jButtonEncryptRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncryptRSAActionPerformed
+        Thread cryptoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CryptographyModel.ModeBlockCipher modeBlock = CryptographyModel.ModeBlockCipher.ECB;
+                CryptographyModel.ModePadding modePadding = CryptographyModel.ModePadding.PKCS5;
+                String n = jTextRSAN.getText();
+                String e = jTextRSAE.getText();
+                String file = jTextFilePathRSA.getText();
+                if (modeBlock == null || modePadding == null || n.isEmpty() || e.isEmpty() || file.isEmpty()) {
+                    _LoggerRSA.append("Missing infomation. Please check again.\n");
+                    return;
+                }
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        _LoggerRSA.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
+                        String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                                modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), fi.getAbsolutePath(), _LoggerRSA);
+                        if (!cryptoRSAFilepath.isEmpty()) {
+                            if (!cryptoRSAFilepath.isEmpty()) {
+                                _LoggerRSA.append("Encrypt successfully at:" + cryptoRSAFilepath + "\n");
+                            } else {
+                                _LoggerRSA.append("Encrypt unsuccessfully!\n");
+                            }
+                        }
+                    }
+                } else {
+                    _LoggerRSA.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
+                    String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.ENCRYPT,
+                            modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), file, _LoggerRSA);
+                    if (!cryptoRSAFilepath.isEmpty()) {
+                        _LoggerRSA.append("Encrypt successfully at:" + cryptoRSAFilepath + "\n");
+                    } else {
+                        _LoggerRSA.append("Encrypt unsuccessfully!\n");
+                    }
+                }
+
+            }
+        }
+        );
+        cryptoThread.start();
+    }//GEN-LAST:event_jButtonEncryptRSAActionPerformed
+
+    private void jButtonDecryptRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDecryptRSAActionPerformed
+        Thread cryptoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CryptographyModel.ModeBlockCipher modeBlock = CryptographyModel.ModeBlockCipher.ECB;
+                CryptographyModel.ModePadding modePadding = CryptographyModel.ModePadding.PKCS5;
+                String n = jTextRSAN.getText();
+                String d = jTextRSAD.getText();
+                String file = jTextFilePathRSA.getText();
+                if (modeBlock == null || modePadding == null || n.isEmpty() || d.isEmpty() || file.isEmpty()) {
+                    _LoggerRSA.append("Missing infomation. Please check again.\n");
+                    return;
+                }
+                File fileProcess = new File(file);
+                if (fileProcess.isDirectory()) {
+                    for (File fi : fileProcess.listFiles()) {
+                        String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT,
+                                modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), fi.getAbsolutePath(), _LoggerRSA);
+                        if (!cryptoRSAFilepath.isEmpty()) {
+                            if (!cryptoRSAFilepath.isEmpty()) {
+                                _LoggerRSA.append("Decrypt successfully at:" + cryptoRSAFilepath + " with MD5 checksum: "
+                                        + CryptographyModel.getMD5Checksum(cryptoRSAFilepath) + "\n");
+                            } else {
+                                _LoggerRSA.append("Decrypt unsuccessfully!\n");
+                            }
+                        }
+                    }
+                } else {
+                    String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT,
+                            modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), file, _LoggerRSA);
+                    if (!cryptoRSAFilepath.isEmpty()) {
+                        _LoggerRSA.append("Decrypt successfully at:" + cryptoRSAFilepath + " with MD5 checksum: "
+                                + CryptographyModel.getMD5Checksum(cryptoRSAFilepath) + "\n");
+                    } else {
+                        _LoggerRSA.append("Decrypt unsuccessfully!\n");
+                    }
+                }
+
+            }
+        }
+        );
+        cryptoThread.start();
+    }//GEN-LAST:event_jButtonDecryptRSAActionPerformed
+
+    public void calculateRSANeeded() {
+        if (!jTextRSAq.getText().isEmpty() && !jTextRSAp.getText().isEmpty()) {
+            BigInteger q = null;
+            BigInteger p = null;
+            try {
+                q = new BigInteger(jTextRSAq.getText());
+                p = new BigInteger(jTextRSAp.getText());
+            } catch (Exception e) {
+            }
+            if (p != null && q != null) {
+                jTextRSAN.setText(CryptographyModel.computeModulus(p, q).toString());
+                jTextRSAPhiN.setText(CryptographyModel.computePhiModulus(p, q).toString());
+            }
+        }
+    }
+
     private String readContentFile(String filepath) {
         try {
             File file = new File(filepath);
@@ -1240,7 +1757,7 @@ public class CryptoFrame extends javax.swing.JFrame {
             Scanner sc = new Scanner(file);
             String res = "";
             while (sc.hasNextLine()) {
-                res += sc.nextLine();
+                res += sc.nextLine() + "\n";
             }
             return res;
         } catch (FileNotFoundException ex) {
@@ -1252,15 +1769,15 @@ public class CryptoFrame extends javax.swing.JFrame {
         return "";
     }
 
-    private void saveContentFile(String filename, String content) {
+    private void saveContentFile(String filename, String content, JTextArea _Logger) {
         try {
             try (FileOutputStream fos = new FileOutputStream(new File(filename))) {
                 fos.write(content.getBytes());
             }
         } catch (FileNotFoundException ex) {
-            _LoggerDES.append("File not found: " + filepath + "\n");
+            _Logger.append("File not found: " + filepath + "\n");
         } catch (Exception ex) {
-            _LoggerDES.append("Can't save this file. Please choose another name.");
+            _Logger.append("Can't save this file. Please choose another name.");
         }
 
     }
@@ -1290,36 +1807,40 @@ public class CryptoFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea _LoggerBlowfish;
     private javax.swing.JTextArea _LoggerDES;
+    private javax.swing.JTextArea _LoggerRSA;
     private javax.swing.JButton jButtonBrowseFile;
-    private javax.swing.JButton jButtonBrowseFile1;
+    private javax.swing.JButton jButtonBrowseFileBlowfish;
     private javax.swing.JButton jButtonBrowseIV;
-    private javax.swing.JButton jButtonBrowseIV1;
+    private javax.swing.JButton jButtonBrowseIVBlowfish;
     private javax.swing.JButton jButtonBrowseKey;
-    private javax.swing.JButton jButtonBrowseKey1;
-    private javax.swing.JButton jButtonBrowseKey2;
-    private javax.swing.JButton jButtonBrowseKey3;
-    private javax.swing.JButton jButtonBrowseKey4;
-    private javax.swing.JButton jButtonBrowseKey5;
-    private javax.swing.JButton jButtonBrowseKey6;
+    private javax.swing.JButton jButtonBrowseKeyBlowfish;
+    private javax.swing.JButton jButtonBrowseRSA;
+    private javax.swing.JButton jButtonComputeRSAD;
     private javax.swing.JButton jButtonDecrypt;
-    private javax.swing.JButton jButtonDecrypt1;
+    private javax.swing.JButton jButtonDecryptBlowfish;
+    private javax.swing.JButton jButtonDecryptRSA;
     private javax.swing.JButton jButtonEncrypt;
-    private javax.swing.JButton jButtonEncrypt1;
+    private javax.swing.JButton jButtonEncryptBlowfish;
+    private javax.swing.JButton jButtonEncryptRSA;
     private javax.swing.JButton jButtonGenIV;
-    private javax.swing.JButton jButtonGenIV1;
-    private javax.swing.JButton jButtonGenIV2;
-    private javax.swing.JButton jButtonGenIV3;
-    private javax.swing.JButton jButtonGenIV4;
+    private javax.swing.JButton jButtonGenIVBlowfish;
     private javax.swing.JButton jButtonGenKey;
-    private javax.swing.JButton jButtonGenKey1;
-    private javax.swing.JButton jButtonGenKey2;
-    private javax.swing.JButton jButtonGenKey3;
-    private javax.swing.JButton jButtonGenKey4;
+    private javax.swing.JButton jButtonGenKeyBlowfish;
+    private javax.swing.JButton jButtonGenPrimeP;
+    private javax.swing.JButton jButtonGenPrimeQ;
+    private javax.swing.JButton jButtonGenRSAE;
+    private javax.swing.JButton jButtonLoadPrivateRSA;
+    private javax.swing.JButton jButtonLoadPublicRSA;
     private javax.swing.JButton jButtonSaveIV;
-    private javax.swing.JButton jButtonSaveIV1;
+    private javax.swing.JButton jButtonSaveIVBlowfish;
     private javax.swing.JButton jButtonSaveKey;
-    private javax.swing.JButton jButtonSaveKey1;
+    private javax.swing.JButton jButtonSaveKeyBlowfish;
+    private javax.swing.JButton jButtonSavePrivateRSA;
+    private javax.swing.JButton jButtonSavePublicRSA;
+    private javax.swing.JComboBox jComboBoxBitP;
+    private javax.swing.JComboBox jComboBoxBitQ;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1355,17 +1876,17 @@ public class CryptoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioCBC;
-    private javax.swing.JRadioButton jRadioCBC1;
     private javax.swing.JRadioButton jRadioCBC2;
+    private javax.swing.JRadioButton jRadioCBCBlowfish;
     private javax.swing.JRadioButton jRadioECB;
-    private javax.swing.JRadioButton jRadioECB1;
-    private javax.swing.JRadioButton jRadioECB2;
+    private javax.swing.JRadioButton jRadioECBBlowfish;
+    private javax.swing.JRadioButton jRadioECBRSA;
     private javax.swing.JRadioButton jRadioISO10126;
-    private javax.swing.JRadioButton jRadioLZero1;
+    private javax.swing.JRadioButton jRadioISOBlowfish;
     private javax.swing.JRadioButton jRadioLZero3;
+    private javax.swing.JRadioButton jRadioPKCS1RSA;
     private javax.swing.JRadioButton jRadioPKCS5;
-    private javax.swing.JRadioButton jRadioPKCS6;
-    private javax.swing.JRadioButton jRadioPKCS8;
+    private javax.swing.JRadioButton jRadioPKCS5Blowfish;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1375,34 +1896,34 @@ public class CryptoFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
-    private javax.swing.JTextArea jTextArea6;
-    private javax.swing.JTextArea jTextAreaFileContent1;
-    private javax.swing.JTextArea jTextAreaFileContent2;
+    private javax.swing.JTextArea jTextAreaFileContentBlowfish;
     private javax.swing.JTextArea jTextAreaFileContentDES;
-    private javax.swing.JTextField jTextFilePath1;
+    private javax.swing.JTextArea jTextAreaFileContentRSA;
+    private javax.swing.JTextField jTextFilePathBlowfish;
     private javax.swing.JTextField jTextFilePathDES;
-    private javax.swing.JTextField jTextIV1;
+    private javax.swing.JTextField jTextFilePathRSA;
+    private javax.swing.JTextField jTextIVBlowfish;
     private javax.swing.JTextField jTextIVDES;
-    private javax.swing.JTextField jTextKey1;
-    private javax.swing.JTextField jTextKey2;
-    private javax.swing.JTextField jTextKey3;
-    private javax.swing.JTextField jTextKey4;
-    private javax.swing.JTextField jTextKey5;
-    private javax.swing.JTextField jTextKey6;
-    private javax.swing.JTextField jTextKey7;
-    private javax.swing.JTextField jTextKey8;
-    private javax.swing.JTextField jTextKey9;
+    private javax.swing.JTextField jTextKeyBlowfish;
     private javax.swing.JTextField jTextKeyDES;
+    private javax.swing.JTextField jTextMD5Blowfish;
     private javax.swing.JTextField jTextMD5DES;
-    private javax.swing.JTextField jTextMD6;
+    private javax.swing.JTextField jTextMD5RSA;
+    private javax.swing.JTextField jTextRSAD;
+    private javax.swing.JTextField jTextRSAE;
+    private javax.swing.JTextField jTextRSAN;
+    private javax.swing.JTextField jTextRSAPhiN;
+    private javax.swing.JTextField jTextRSAp;
+    private javax.swing.JTextField jTextRSAq;
+    private javax.swing.ButtonGroup modeBlowfishButtonGroup1;
     private javax.swing.ButtonGroup modeButtonGroup;
+    private javax.swing.ButtonGroup modeRSAbuttonGroup1;
+    private javax.swing.ButtonGroup paddingBlowfishButtonGroup1;
     private javax.swing.ButtonGroup paddingButtonGroup;
+    private javax.swing.ButtonGroup paddingRSAButtonGroup1;
     // End of variables declaration//GEN-END:variables
 }

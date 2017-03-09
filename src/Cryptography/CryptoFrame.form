@@ -6,6 +6,14 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="paddingButtonGroup">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="modeBlowfishButtonGroup1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="paddingBlowfishButtonGroup1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="modeRSAbuttonGroup1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="paddingRSAButtonGroup1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -36,7 +44,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="701" max="32767" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -96,7 +104,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="jPanel5" min="-2" pref="141" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane1" pref="401" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane1" pref="412" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -577,27 +585,17 @@
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jButtonGenKey4" min="-2" pref="122" max="-2" attributes="0"/>
+                                      <Component id="jButtonEncryptRSA" min="-2" pref="122" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButtonGenIV4" min="-2" pref="128" max="-2" attributes="0"/>
+                                      <Component id="jButtonDecryptRSA" min="-2" pref="128" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jButtonGenKey2" linkSize="1" min="-2" pref="122" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                                              <Component id="jButtonGenIV2" linkSize="1" min="-2" pref="128" max="-2" attributes="0"/>
+                                              <Component id="jTextRSAE" min="-2" pref="389" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonGenKey3" min="-2" pref="122" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonGenIV3" min="-2" pref="128" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jTextKey6" min="-2" pref="389" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonBrowseKey4" max="32767" attributes="0"/>
+                                              <Component id="jButtonGenRSAE" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <Component id="jPanel12" min="-2" pref="141" max="-2" attributes="0"/>
@@ -605,45 +603,60 @@
                                               <Component id="jScrollPane7" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
-                                              <Component id="jTextKey2" min="-2" pref="302" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jButtonBrowseKey2" min="-2" pref="144" max="-2" attributes="0"/>
+                                              <Component id="jTextRSAD" min="-2" pref="389" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jSpinner1" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="jTextKey4" min="-2" pref="235" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jLabel16" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jTextKey3" min="-2" pref="302" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="1" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="jButtonBrowseKey3" min="-2" pref="144" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                                      <Component id="jSpinner2" min="-2" pref="81" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jTextKey5" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="jTextKey7" min="-2" pref="389" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonBrowseKey5" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jTextKey8" max="32767" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButtonBrowseKey6" min="-2" pref="102" max="-2" attributes="0"/>
+                                              <Component id="jButtonComputeRSAD" max="32767" attributes="0"/>
                                           </Group>
                                           <Component id="jScrollPane8" max="32767" attributes="0"/>
-                                          <Component id="jTextKey9" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jTextMD5RSA" alignment="0" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jButtonSavePublicRSA" linkSize="1" min="-2" pref="122" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                                              <Component id="jButtonSavePrivateRSA" linkSize="1" min="-2" pref="128" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jButtonLoadPublicRSA" min="-2" pref="122" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jButtonLoadPrivateRSA" min="-2" pref="128" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="jTextRSAq" min="-2" pref="302" max="-2" attributes="0"/>
+                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <Component id="jButtonGenPrimeQ" min="-2" pref="144" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jComboBoxBitQ" max="32767" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                          <Group type="102" attributes="0">
+                                                              <Component id="jTextRSAN" min="-2" pref="235" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jLabel16" max="32767" attributes="0"/>
+                                                          </Group>
+                                                          <Component id="jTextRSAp" min="-2" pref="302" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Group type="103" groupAlignment="1" attributes="0">
+                                                          <Component id="jTextRSAPhiN" max="32767" attributes="0"/>
+                                                          <Group type="102" alignment="1" attributes="0">
+                                                              <Component id="jButtonGenPrimeP" min="-2" pref="144" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="jComboBoxBitP" min="-2" pref="98" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
+                                                  </Group>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="jTextFilePathRSA" max="32767" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jButtonBrowseRSA" min="-2" pref="102" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -663,49 +676,49 @@
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAq" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonBrowseKey2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonGenPrimeQ" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxBitQ" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAp" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonBrowseKey3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSpinner2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonGenPrimeP" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxBitP" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAN" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextKey5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAPhiN" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAE" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonBrowseKey4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonGenRSAE" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextRSAD" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonBrowseKey5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonComputeRSAD" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonGenKey3" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonGenIV3" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonGenIV2" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonGenKey2" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonLoadPublicRSA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonLoadPrivateRSA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonSavePrivateRSA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonSavePublicRSA" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFilePathRSA" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonBrowseKey6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonBrowseRSA" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -716,15 +729,15 @@
                           </Group>
                           <Component id="jScrollPane8" min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextKey9" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextMD5RSA" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButtonGenIV4" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonGenKey4" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonDecryptRSA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonEncryptRSA" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel10" max="32767" attributes="0"/>
@@ -748,7 +761,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jRadioCBC2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jRadioECB2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioECBRSA" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -758,7 +771,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace pref="15" max="32767" attributes="0"/>
-                          <Component id="jRadioECB2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioECBRSA" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jRadioCBC2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -767,11 +780,12 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="jRadioECB2">
+                <Component class="javax.swing.JRadioButton" name="jRadioECBRSA">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="modeButtonGroup"/>
+                      <ComponentRef name="modeRSAbuttonGroup1"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="ECB"/>
                   </Properties>
                 </Component>
@@ -801,7 +815,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jRadioPKCS8" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRadioPKCS1RSA" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jRadioLZero3" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                 </DimensionLayout>
@@ -809,7 +823,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jRadioPKCS8" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioPKCS1RSA" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jRadioLZero3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -818,23 +832,21 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="jRadioPKCS8">
+                <Component class="javax.swing.JRadioButton" name="jRadioPKCS1RSA">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup"/>
+                      <ComponentRef name="paddingRSAButtonGroup1"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="PKCS1"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioPKCS8ActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="jRadioLZero3">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="paddingButtonGroup"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Leading zeroes"/>
+                    <Property name="text" type="java.lang.String" value="ISO10126"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
@@ -877,36 +889,28 @@
                 <Property name="text" type="java.lang.String" value="Prime q:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey2">
+            <Component class="javax.swing.JTextField" name="jTextRSAq">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey2">
+            <Component class="javax.swing.JButton" name="jButtonGenPrimeQ">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Random"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenPrimeQActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JSpinner" name="jSpinner1">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JSpinner" name="jSpinner2">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey3">
+            <Component class="javax.swing.JButton" name="jButtonGenPrimeP">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Random"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenPrimePActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey3">
+            <Component class="javax.swing.JTextField" name="jTextRSAp">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
@@ -921,8 +925,9 @@
                 <Property name="text" type="java.lang.String" value="n = p * q:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey4">
+            <Component class="javax.swing.JTextField" name="jTextRSAN">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
             </Component>
@@ -931,13 +936,13 @@
                 <Property name="text" type="java.lang.String" value="phi(n):"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey5">
+            <Component class="javax.swing.JTextField" name="jTextRSAPhiN">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey6">
+            <Component class="javax.swing.JTextField" name="jTextRSAE">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
@@ -947,12 +952,15 @@
                 <Property name="text" type="java.lang.String" value="Private e:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey4">
+            <Component class="javax.swing.JButton" name="jButtonGenRSAE">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Random"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenRSAEActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey7">
+            <Component class="javax.swing.JTextField" name="jTextRSAD">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
@@ -963,37 +971,55 @@
                 <Property name="text" type="java.lang.String" value="Public d:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey5">
+            <Component class="javax.swing.JButton" name="jButtonComputeRSAD">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Compute"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComputeRSADActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenKey2">
+            <Component class="javax.swing.JButton" name="jButtonSavePublicRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save Public key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSavePublicRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenIV2">
+            <Component class="javax.swing.JButton" name="jButtonSavePrivateRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save Private key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSavePrivateRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenIV3">
+            <Component class="javax.swing.JButton" name="jButtonLoadPrivateRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Load Private key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLoadPrivateRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenKey3">
+            <Component class="javax.swing.JButton" name="jButtonLoadPublicRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Load Public key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLoadPublicRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey6">
+            <Component class="javax.swing.JButton" name="jButtonBrowseRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey8">
+            <Component class="javax.swing.JTextField" name="jTextFilePathRSA">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
@@ -1016,7 +1042,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextAreaFileContent2">
+                <Component class="javax.swing.JTextArea" name="jTextAreaFileContentRSA">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
@@ -1038,21 +1064,27 @@
                 <Property name="text" type="java.lang.String" value="MD5"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextKey9">
+            <Component class="javax.swing.JTextField" name="jTextMD5RSA">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenKey4">
+            <Component class="javax.swing.JButton" name="jButtonEncryptRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Encrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEncryptRSAActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenIV4">
+            <Component class="javax.swing.JButton" name="jButtonDecryptRSA">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Decrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDecryptRSAActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel10">
               <Properties>
@@ -1087,9 +1119,10 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea6">
+                    <Component class="javax.swing.JTextArea" name="_LoggerRSA">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
@@ -1097,6 +1130,26 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JComboBox" name="jComboBoxBitQ">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="512 bit"/>
+                    <StringItem index="1" value="1024 bit"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBoxBitP">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="512 bit"/>
+                    <StringItem index="1" value="1024 bit"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -1129,45 +1182,45 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextMD6" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextMD5Blowfish" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jTextFilePath1" max="32767" attributes="0"/>
+                                      <Component id="jTextFilePathBlowfish" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButtonBrowseFile1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonBrowseFileBlowfish" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jPanel7" min="-2" pref="141" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jScrollPane3" pref="401" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane3" pref="412" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTextKey1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jTextIV1" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jTextKeyBlowfish" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jTextIVBlowfish" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jButtonBrowseIV1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonBrowseKey1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButtonBrowseIVBlowfish" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jButtonBrowseKeyBlowfish" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jButtonSaveIV1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jButtonSaveKey1" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
+                                          <Component id="jButtonSaveIVBlowfish" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonSaveKeyBlowfish" alignment="0" min="-2" pref="68" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jScrollPane5" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jButtonEncrypt1" min="-2" pref="170" max="-2" attributes="0"/>
+                                              <Component id="jButtonEncryptBlowfish" min="-2" pref="170" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jButtonDecrypt1" min="-2" pref="170" max="-2" attributes="0"/>
+                                              <Component id="jButtonDecryptBlowfish" min="-2" pref="170" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jButtonGenKey1" min="-2" pref="170" max="-2" attributes="0"/>
+                                              <Component id="jButtonGenKeyBlowfish" min="-2" pref="170" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jButtonGenIV1" min="-2" pref="170" max="-2" attributes="0"/>
+                                              <Component id="jButtonGenIVBlowfish" min="-2" pref="170" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -1192,39 +1245,39 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextKey1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextKeyBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jTextIV1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextIVBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButtonBrowseKey1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonBrowseKeyBlowfish" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="jButtonBrowseIV1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonBrowseIVBlowfish" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButtonSaveKey1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonSaveKeyBlowfish" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="jButtonSaveIV1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonSaveIVBlowfish" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButtonGenKey1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonGenIV1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonGenKeyBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonGenIVBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButtonBrowseFile1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFilePath1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonBrowseFileBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFilePathBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1238,13 +1291,13 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextMD6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextMD5Blowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButtonEncrypt1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonDecrypt1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonEncryptBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonDecryptBlowfish" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel9" max="32767" attributes="0"/>
@@ -1269,40 +1322,41 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jRadioPKCS6" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jRadioLZero1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRadioPKCS5Blowfish" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jRadioISOBlowfish" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jRadioPKCS6" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioPKCS5Blowfish" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jRadioLZero1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioISOBlowfish" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="jRadioPKCS6">
+                <Component class="javax.swing.JRadioButton" name="jRadioPKCS5Blowfish">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup"/>
+                      <ComponentRef name="paddingBlowfishButtonGroup1"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="PKCS5"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioPKCS6ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioPKCS5BlowfishActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="jRadioLZero1">
+                <Component class="javax.swing.JRadioButton" name="jRadioISOBlowfish">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="paddingButtonGroup"/>
+                      <ComponentRef name="paddingBlowfishButtonGroup1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Leading zeroes"/>
+                    <Property name="text" type="java.lang.String" value="ISO10126"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1321,8 +1375,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jRadioCBC1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jRadioECB1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioCBCBlowfish" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioECBBlowfish" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -1332,27 +1386,28 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace pref="15" max="32767" attributes="0"/>
-                          <Component id="jRadioECB1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioECBBlowfish" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jRadioCBC1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jRadioCBCBlowfish" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="jRadioECB1">
+                <Component class="javax.swing.JRadioButton" name="jRadioECBBlowfish">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="modeButtonGroup"/>
+                      <ComponentRef name="modeBlowfishButtonGroup1"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="ECB"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="jRadioCBC1">
+                <Component class="javax.swing.JRadioButton" name="jRadioCBCBlowfish">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="modeButtonGroup"/>
+                      <ComponentRef name="modeBlowfishButtonGroup1"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="CBC"/>
                   </Properties>
@@ -1391,7 +1446,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="jTextKey1">
+            <Component class="javax.swing.JTextField" name="jTextKeyBlowfish">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
               </Properties>
@@ -1406,51 +1461,72 @@
                 <Property name="text" type="java.lang.String" value="IV (hex):"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextIV1">
+            <Component class="javax.swing.JTextField" name="jTextIVBlowfish">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseKey1">
+            <Component class="javax.swing.JButton" name="jButtonBrowseKeyBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseKeyBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseIV1">
+            <Component class="javax.swing.JButton" name="jButtonBrowseIVBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseIVBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonSaveIV1">
+            <Component class="javax.swing.JButton" name="jButtonSaveIVBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveIVBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonSaveKey1">
+            <Component class="javax.swing.JButton" name="jButtonSaveKeyBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveKeyBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenKey1">
+            <Component class="javax.swing.JButton" name="jButtonGenKeyBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate Random Key"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenKeyBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonGenIV1">
+            <Component class="javax.swing.JButton" name="jButtonGenIVBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Geneate Random IV"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenIVBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFilePath1">
+            <Component class="javax.swing.JTextField" name="jTextFilePathBlowfish">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonBrowseFile1">
+            <Component class="javax.swing.JButton" name="jButtonBrowseFileBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Browse"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBrowseFileBlowfishActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
@@ -1475,7 +1551,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextAreaFileContent1">
+                <Component class="javax.swing.JTextArea" name="jTextAreaFileContentBlowfish">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="columns" type="int" value="20"/>
@@ -1491,21 +1567,27 @@
                 <Property name="text" type="java.lang.String" value="MD5:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextMD6">
+            <Component class="javax.swing.JTextField" name="jTextMD5Blowfish">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
                 <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) Initialize Vector"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonEncrypt1">
+            <Component class="javax.swing.JButton" name="jButtonEncryptBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Encrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEncryptBlowfishActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButtonDecrypt1">
+            <Component class="javax.swing.JButton" name="jButtonDecryptBlowfish">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Decrypt"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDecryptBlowfishActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel9">
               <Properties>
@@ -1540,9 +1622,10 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea4">
+                    <Component class="javax.swing.JTextArea" name="_LoggerBlowfish">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
