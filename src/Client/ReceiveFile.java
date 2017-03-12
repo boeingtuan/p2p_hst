@@ -6,8 +6,11 @@
 package Client;
 
 import CentralPoint.XML;
+import Cryptography.CryptographyModel;
+import Cryptography.PeerKey;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,14 +33,16 @@ public class ReceiveFile implements Runnable{
     private int fileSize = 0;
     //private BufferedOutputStream Bout;
     private ClientFrame peerChat;
+    private PeerKey.Private pKey;
     
-    public ReceiveFile(ClientFrame peerChat, DataInputStream In, String saveLocation, int fileSize) {
+    public ReceiveFile(ClientFrame peerChat, DataInputStream In, String saveLocation, int fileSize, PeerKey.Private pKey) {
         try {
             this.In = In;
             this.saveLocation = saveLocation;
             this.peerChat = peerChat;
-            this.Out = new FileOutputStream(saveLocation);
+            this.Out = new FileOutputStream(saveLocation + ".encrypt");
             this.fileSize = fileSize;
+            this.pKey = pKey;
             //this.Bout = new BufferedOutputStream(Out);
         } catch (IOException ex) {
             Logger.getLogger(ReceiveFile.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,6 +82,14 @@ public class ReceiveFile implements Runnable{
             Out.flush();
             //Bout.close();
             Out.close();
+            
+            String cryptoRSAFile = Cryptography.CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT, 
+                    CryptographyModel.ModeBlockCipher.ECB, CryptographyModel.ModePadding.PKCS5, 
+                    pKey.getN(), pKey.getD(), pKey.getD(), saveLocation + ".encrypt", new JTextArea());
+            File file = new File(cryptoRSAFile);
+            File file2 = new File(saveLocation);
+            file.renameTo(file2);
+            
             JOptionPane.showMessageDialog(peerChat, "File downloading done!");
             //In.close();
         } 

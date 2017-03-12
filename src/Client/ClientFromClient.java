@@ -35,7 +35,7 @@ public class ClientFromClient implements Runnable {
     private ClientFrame peerChat;
     private JTabbedPane tabPanel;
     private File fileToSave;
-    
+
     public ClientFromClient(ClientFrame peerChat, DataInputStream in, String peerName, ArrayList<Entry> lstTabChat, JTabbedPane tabPanel) {
         this.in = in;
         this.peerName = peerName;
@@ -43,11 +43,11 @@ public class ClientFromClient implements Runnable {
         this.peerChat = peerChat;
         this.tabPanel = tabPanel;
     }
-    
+
     @Override
     public void run() {
         try {
-        String msg = "";
+            String msg = "";
             XML xml;
             while (true) {
                 while (peerChat.isReceivingFile);
@@ -55,7 +55,7 @@ public class ClientFromClient implements Runnable {
                 xml = new XML(msg);
                 switch (xml.firstTag()) {
                     case ConstantTags.TEXT_TAG: {
-                        retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(xml.getText());                        
+                        retrieveTxt(lstTabChat.get(tabPanel.getSelectedIndex()).jp).append(xml.getText());
                         break;
                     }
                     case ConstantTags.CHAT_MSG_TAG: {
@@ -114,7 +114,9 @@ public class ClientFromClient implements Runnable {
                                 JOptionPane.showMessageDialog(peerChat, "Accepting tranferring file\n");
                                 try {
                                     peerChat.isReceivingFile = true;
-                                    Thread t = new Thread(new ReceiveFile(peerChat, findEntry(peerName).in, fileToSave.getPath(), Integer.parseInt(info.getFileSize())));
+                                    Thread t = new Thread(new ReceiveFile(peerChat, findEntry(peerName).
+                                            in, fileToSave.getPath(), Integer.parseInt(info.getFileSize()), 
+                                            peerChat.privateKey));
                                     t.start();
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
@@ -137,30 +139,30 @@ public class ClientFromClient implements Runnable {
                         break;
                     case ConstantTags.FILE_REQ_ACK_TAG:
                         try {
-                            Thread t = new Thread(new SendFile(peerChat, findEntry(peerName).out, peerChat.filepath));
+                            Thread t = new Thread(new SendFile(peerChat, findEntry(peerName).out, findEntry(peerName).pKey, peerChat.filepath));
                             t.start();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                         break;
                 }
-        }
-            } catch (Exception ex) {
-                System.out.println("Exception ClientFromClient run()");
-                for (Entry tmp : lstTabChat) {
-                    if (tmp.username == peerName) {
-                        tmp.availableToChat = false;
-                        if (lstTabChat.get(tabPanel.getSelectedIndex()).username == peerName) {
-                            peerChat.btnSend.setEnabled(false);
-                            peerChat.btnTransfer.setEnabled(false);
-                        }
-                        JOptionPane.showMessageDialog(peerChat, peerName + " has just closed chat to you\n");                        
-                        break;
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception ClientFromClient run()");
+            for (Entry tmp : lstTabChat) {
+                if (tmp.username == peerName) {
+                    tmp.availableToChat = false;
+                    if (lstTabChat.get(tabPanel.getSelectedIndex()).username == peerName) {
+                        peerChat.btnSend.setEnabled(false);
+                        peerChat.btnTransfer.setEnabled(false);
                     }
+                    JOptionPane.showMessageDialog(peerChat, peerName + " has just closed chat to you\n");
+                    break;
                 }
-            }            
+            }
+        }
     }
-    
+
     private JPanel findTab(String peername) {
         for (Entry tmp : lstTabChat) {
             if (tmp.username.equals(peername)) {
@@ -169,14 +171,14 @@ public class ClientFromClient implements Runnable {
         }
         return null;
     }
-    
+
     private JTextArea retrieveTxt(JPanel jp) {
         JScrollPane j = (JScrollPane) jp.getComponent(0);
         JViewport vp = (JViewport) j.getComponent(0);
         JTextArea txtArea = (JTextArea) vp.getComponent(0);
         return txtArea;
     }
-    
+
     private Entry findEntry(String peername) {
         for (Entry tmp : lstTabChat) {
             if (tmp.username.equals(peername)) {

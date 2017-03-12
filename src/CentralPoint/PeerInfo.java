@@ -1,5 +1,7 @@
 package CentralPoint;
 
+import Cryptography.PeerKey;
+
 public class PeerInfo {
     public static int LOGIN = 1;
     public static int REGISTER = 2;
@@ -9,12 +11,21 @@ public class PeerInfo {
     private String IP;
     private int portNum;
     private int type;
+    private PeerKey.Public pKey;
     
     public PeerInfo(String username, String password, int portNum, int type) {
         this.username = username;
         this.password = password;
         this.portNum = portNum;
         this.type = type;
+    }
+    
+    public PeerInfo(String username, String password, int portNum, int type, PeerKey.Public pKey) {
+        this.username = username;
+        this.password = password;
+        this.portNum = portNum;
+        this.type = type;
+        this.pKey = pKey;
     }
 
     public PeerInfo(String username, String IP, int portNum) {
@@ -51,6 +62,10 @@ public class PeerInfo {
         this.type = type;
     }
     
+    public void setPKey(PeerKey.Public pKey) {
+        this.pKey = pKey;
+    }
+    
     public String getUsername() {
         return this.username;
     }
@@ -69,5 +84,9 @@ public class PeerInfo {
     
     public int getType() {
         return this.type;
+    }
+    
+    public PeerKey.Public getPKey() {
+        return this.pKey;
     }
 }

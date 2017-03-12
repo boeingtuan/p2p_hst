@@ -69,6 +69,7 @@ public class ListPeerManager {
             newElem.appendChild(createNode(ConstantTags.USERNAME_TAG, peer.getUsername(), doc));
             newElem.appendChild(createNode(ConstantTags.IP_TAG, peer.getIP(), doc));
             newElem.appendChild(createNode(ConstantTags.PORT_TAG, String.valueOf(peer.getPortNum()), doc));
+            newElem.appendChild(createNode(ConstantTags.KEY_TAG, peer.getPKey().toString(), doc));
             
             rootElement.appendChild(newElem);
         }

@@ -29,6 +29,7 @@ public class ConstantTags {
    public static final String FILE_NAME_TAG = "FILE_NAME";
    public static final String FILE_SIZE_TAG = "FILE_SIZE";
    
+   public static final String KEY_TAG = "KEY";
    
    public static final String CHAT_CLOSE_TAG = "CHAT_CLOSE";
    
