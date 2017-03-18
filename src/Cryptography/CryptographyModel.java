@@ -437,6 +437,9 @@ public class CryptographyModel {
                         }
                         _Logger.append("100%\n");
                     }
+                    finally {
+                    	fos.close();
+					}
                     break;
                 case DECRYPT:
                     RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(modulus, privateExponent);
@@ -461,9 +464,12 @@ public class CryptographyModel {
                         }
                         _Logger.append("100%\n");
                     }
+                    finally {
+                    	fos.close();
+					}
                     break;
             }
-
+            fis.close();
             return filepathDes;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IOException | 
                 InvalidKeySpecException | InvalidKeyException | IllegalBlockSizeException | 

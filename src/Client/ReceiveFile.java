@@ -63,7 +63,7 @@ public class ReceiveFile implements Runnable{
             System.out.println("Exception [Download : run(...)]");
         }*/
         int filesize = 5242880; 
-	int bytesRead;
+        int bytesRead;
         try {
             //byte [] bytearray  = new byte [filesize];
             //bytesRead = In.read(bytearray,0,bytearray.length);
@@ -78,7 +78,7 @@ public class ReceiveFile implements Runnable{
             }
             peerChat.isReceivingFile = false;
             /*Bout.write(bytearray, 0 , bytesRead);
-	    Bout.flush();*/
+	    	Bout.flush();*/
             Out.flush();
             //Bout.close();
             Out.close();
@@ -89,6 +89,10 @@ public class ReceiveFile implements Runnable{
             File file = new File(cryptoRSAFile);
             File file2 = new File(saveLocation);
             file.renameTo(file2);
+            /*if (file.renameTo(file2))
+            	JOptionPane.showMessageDialog(peerChat, "Rename ok");
+            else
+            	JOptionPane.showMessageDialog(peerChat, "Rename fail");*/
             
             JOptionPane.showMessageDialog(peerChat, "File downloading done!");
             //In.close();
