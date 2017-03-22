@@ -19,6 +19,16 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 
 /**
  *
@@ -28,6 +38,12 @@ public class CryptoFrame extends javax.swing.JFrame {
 
     private JFileChooser fileChooser;
     public String filepath = "";
+    private JProgressBar progressBarDES;
+    private JProgressBar progressBarRSA;
+    private JProgressBar progressBarBF;
+    Thread cryptoThreadDES;
+    Thread cryptoThreadRSA;
+    Thread cryptoThreadBF;
 
     /**
      * Creates new form CryptoFrame
@@ -118,6 +134,8 @@ public class CryptoFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaFileContentDES = new javax.swing.JTextArea();
+        jTextAreaFileContentDES.setWrapStyleWord(true);
+        jTextAreaFileContentDES.setLineWrap(true);
         jLabel6 = new javax.swing.JLabel();
         jTextMD5DES = new javax.swing.JTextField();
         jButtonEncrypt = new javax.swing.JButton();
@@ -355,9 +373,7 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         jTextAreaFileContentDES.setEditable(false);
         jTextAreaFileContentDES.setColumns(20);
-        jTextAreaFileContentDES.setLineWrap(true);
         jTextAreaFileContentDES.setRows(5);
-        jTextAreaFileContentDES.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextAreaFileContentDES);
 
         jLabel6.setText("MD5:");
@@ -399,118 +415,146 @@ public class CryptoFrame extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
         );
+        
+        progressBarDES = new JProgressBar();
+        progressBarDES.setStringPainted(true);
+        progressBarDES.setToolTipText("");
+        
+        btnStopDES = new JButton();
+        //btnStopDES.setEnabled(false);
+        btnStopDES.setText("Stop");
+        btnStopDES.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (cryptoThreadDES.isAlive()) {
+					cryptoThreadDES.stop();
+					//btnStopDES.setEnabled(false);
+				}
+					
+			}
+		});
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextMD5DES)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextFilePathDES)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonBrowseFile))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextKeyDES)
-                                    .addComponent(jTextIVDES))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonBrowseIV)
-                                    .addComponent(jButtonBrowseKey))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButtonSaveIV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonSaveKey, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane2)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButtonEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButtonDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButtonGenKey, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButtonGenIV, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+        	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(jPanel6, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING, false)
+        							.addComponent(jLabel1)
+        							.addComponent(jLabel2)
+        							.addComponent(jLabel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jLabel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jLabel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        						.addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jTextFilePathDES, 510, 510, 510)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jButtonBrowseFile))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jTextKeyDES, 432, 432, 432)
+        								.addComponent(jTextIVDES, 432, 432, 432))
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jButtonBrowseIV)
+        								.addComponent(jButtonBrowseKey))
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING, false)
+        								.addComponent(jButtonSaveIV, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        								.addComponent(jButtonSaveKey, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jButtonEncrypt, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        							.addGap(18)
+        							.addComponent(jButtonDecrypt, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jButtonGenKey, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        							.addGap(18)
+        							.addComponent(jButtonGenIV, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED, 235, Short.MAX_VALUE))
+        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
+        							.addComponent(jTextMD5DES, Alignment.LEADING)
+        							.addComponent(jScrollPane2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE))))
+        				.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        					.addComponent(progressBarDES, GroupLayout.PREFERRED_SIZE, 557, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnStopDES, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextKeyDES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextIVDES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonBrowseKey)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButtonBrowseIV))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonSaveKey)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButtonSaveIV)))
-                        .addGap(1, 1, 1)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGenKey)
-                    .addComponent(jButtonGenIV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonBrowseFile)
-                    .addComponent(jTextFilePathDES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextMD5DES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEncrypt)
-                    .addComponent(jButtonDecrypt))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(5, 5, 5))
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
+        				.addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+        				.addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jTextKeyDES, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel1))
+        					.addGap(13)
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jTextIVDES, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel2)))
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jButtonBrowseKey)
+        							.addGap(12)
+        							.addComponent(jButtonBrowseIV))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jButtonSaveKey)
+        							.addGap(12)
+        							.addComponent(jButtonSaveIV)))
+        					.addGap(1)))
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jButtonGenKey)
+        				.addComponent(jButtonGenIV))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jButtonBrowseFile)
+        				.addComponent(jTextFilePathDES, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel3))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addComponent(jLabel4)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jLabel5))
+        				.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextMD5DES, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel6))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jButtonEncrypt)
+        						.addComponent(jButtonDecrypt))
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(progressBarDES, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+        				.addComponent(btnStopDES, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+        			.addGap(5))
         );
+        jPanel1.setLayout(jPanel1Layout);
 
         jTabbedPane1.addTab("DES", jPanel1);
 
@@ -737,156 +781,183 @@ public class CryptoFrame extends javax.swing.JFrame {
         jComboBoxBitQ.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "512 bit", "1024 bit" }));
 
         jComboBoxBitP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "512 bit", "1024 bit" }));
+        
+        progressBarRSA = new JProgressBar();
+        progressBarRSA.setToolTipText("");
+        progressBarRSA.setStringPainted(true);
+        
+        btnStopRSA = new JButton();
+        //btnStopRSA.setEnabled(false);
+        btnStopRSA.setText("Stop");
+        btnStopRSA.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (cryptoThreadRSA.isAlive()) {
+					cryptoThreadRSA.stop();
+				}			
+			}
+		});
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonEncryptRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonDecryptRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextRSAE, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonGenRSAE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane7))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jTextRSAD, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonComputeRSAD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jScrollPane8)
-                                    .addComponent(jTextMD5RSA)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jButtonSavePublicRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonSavePrivateRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonLoadPublicRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonLoadPrivateRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jTextRSAq, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jButtonGenPrimeQ, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jComboBoxBitQ, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(jTextRSAN, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                    .addComponent(jTextRSAp, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jTextRSAPhiN)
-                                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(jButtonGenPrimeP, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jComboBoxBitP, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jTextFilePathRSA)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jButtonBrowseRSA, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(1, 1, 1)))
-                                .addGap(17, 17, 17))))
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        	jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel2Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jPanel10, GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jLabel20, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel19, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jPanel11, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel13, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel14, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel15, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel18, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel21, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+        						.addComponent(jLabel22, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel2Layout.createSequentialGroup()
+        							.addComponent(jButtonEncryptRSA, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jButtonDecryptRSA, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+        							.addContainerGap(342, Short.MAX_VALUE))
+        						.addGroup(jPanel2Layout.createSequentialGroup()
+        							.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING)
+        								.addGroup(jPanel2Layout.createSequentialGroup()
+        									.addComponent(jTextRSAE, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jButtonGenRSAE, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+        								.addGroup(jPanel2Layout.createSequentialGroup()
+        									.addComponent(jPanel12, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jScrollPane7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        								.addGroup(jPanel2Layout.createSequentialGroup()
+        									.addComponent(jTextRSAD, GroupLayout.PREFERRED_SIZE, 389, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jButtonComputeRSAD, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+        								.addComponent(jTextMD5RSA, 581, 581, Short.MAX_VALUE)
+        								.addGroup(jPanel2Layout.createSequentialGroup()
+        									.addComponent(jButtonSavePublicRSA, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jButtonSavePrivateRSA, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jButtonLoadPublicRSA, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(jButtonLoadPrivateRSA, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+        									.addGap(0, 57, Short.MAX_VALUE))
+        								.addGroup(jPanel2Layout.createSequentialGroup()
+        									.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        										.addGroup(jPanel2Layout.createSequentialGroup()
+        											.addComponent(jTextRSAq, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
+        											.addPreferredGap(ComponentPlacement.UNRELATED)
+        											.addComponent(jButtonGenPrimeQ, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+        											.addPreferredGap(ComponentPlacement.RELATED)
+        											.addComponent(jComboBoxBitQ, 0, 118, Short.MAX_VALUE))
+        										.addGroup(jPanel2Layout.createSequentialGroup()
+        											.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING, false)
+        												.addGroup(jPanel2Layout.createSequentialGroup()
+        													.addComponent(jTextRSAN, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+        													.addPreferredGap(ComponentPlacement.RELATED)
+        													.addComponent(jLabel16, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        												.addComponent(jTextRSAp, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE))
+        											.addPreferredGap(ComponentPlacement.RELATED)
+        											.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING)
+        												.addComponent(jTextRSAPhiN, 272, 272, 272)
+        												.addGroup(jPanel2Layout.createSequentialGroup()
+        													.addComponent(jButtonGenPrimeP, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+        													.addPreferredGap(ComponentPlacement.RELATED)
+        													.addComponent(jComboBoxBitP, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))))
+        										.addGroup(jPanel2Layout.createSequentialGroup()
+        											.addComponent(jTextFilePathRSA, 472, 472, 472)
+        											.addPreferredGap(ComponentPlacement.RELATED)
+        											.addComponent(jButtonBrowseRSA, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))
+        									.addGap(1))
+        								.addComponent(jScrollPane8, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE))
+        							.addGap(17))))
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addComponent(progressBarRSA, GroupLayout.PREFERRED_SIZE, 538, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(btnStopRSA, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+        					.addContainerGap())))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonSavePrivateRSA, jButtonSavePublicRSA});
-
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextRSAq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
-                    .addComponent(jButtonGenPrimeQ)
-                    .addComponent(jComboBoxBitQ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextRSAp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14)
-                    .addComponent(jButtonGenPrimeP)
-                    .addComponent(jComboBoxBitP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextRSAN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(jTextRSAPhiN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextRSAE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17)
-                    .addComponent(jButtonGenRSAE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextRSAD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18)
-                    .addComponent(jButtonComputeRSAD))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLoadPublicRSA, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonLoadPrivateRSA, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonSavePrivateRSA, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonSavePublicRSA, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFilePathRSA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19)
-                    .addComponent(jButtonBrowseRSA))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel21))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextMD5RSA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonDecryptRSA, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonEncryptRSA, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel2Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING, false)
+        				.addComponent(jPanel11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jPanel12, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+        				.addComponent(jScrollPane7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addGap(6)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextRSAq, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel13)
+        				.addComponent(jButtonGenPrimeQ)
+        				.addComponent(jComboBoxBitQ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextRSAp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel14)
+        				.addComponent(jButtonGenPrimeP)
+        				.addComponent(jComboBoxBitP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextRSAN, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel15)
+        				.addComponent(jTextRSAPhiN, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel16))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextRSAE, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel17)
+        				.addComponent(jButtonGenRSAE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextRSAD, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel18)
+        				.addComponent(jButtonComputeRSAD))
+        			.addGap(6)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jButtonLoadPublicRSA, Alignment.TRAILING)
+        				.addComponent(jButtonLoadPrivateRSA, Alignment.TRAILING)
+        				.addComponent(jButtonSavePrivateRSA, Alignment.TRAILING)
+        				.addComponent(jButtonSavePublicRSA, Alignment.TRAILING))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextFilePathRSA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel19)
+        				.addComponent(jButtonBrowseRSA))
+        			.addGap(6)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addComponent(jLabel20)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jLabel21))
+        				.addComponent(jScrollPane8, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextMD5RSA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel22))
+        			.addGap(6)
+        			.addGroup(jPanel2Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel2Layout.createSequentialGroup()
+        					.addGroup(jPanel2Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jButtonDecryptRSA, Alignment.TRAILING)
+        						.addComponent(jButtonEncryptRSA, Alignment.TRAILING))
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(progressBarRSA, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btnStopRSA, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jPanel10, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap())
         );
+        jPanel2Layout.linkSize(SwingConstants.HORIZONTAL, new Component[] {jButtonSavePublicRSA, jButtonSavePrivateRSA});
+        jPanel2.setLayout(jPanel2Layout);
 
         jTabbedPane1.addTab("RSA", jPanel2);
 
@@ -1077,118 +1148,146 @@ public class CryptoFrame extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
         );
+        
+        progressBarBF = new JProgressBar();
+        progressBarBF.setToolTipText("");
+        progressBarBF.setStringPainted(true);
+        
+        btnStopBF = new JButton();
+        //btnStopBF.setEnabled(false);
+        btnStopBF.setText("Stop");
+        btnStopBF.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (cryptoThreadBF.isAlive()) {
+					cryptoThreadBF.stop();
+					//btnStopBF.setEnabled(false);
+				}
+					
+			}
+		});
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextMD5Blowfish)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jTextFilePathBlowfish)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonBrowseFileBlowfish))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextKeyBlowfish)
-                                    .addComponent(jTextIVBlowfish))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonBrowseIVBlowfish)
-                                    .addComponent(jButtonBrowseKeyBlowfish))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButtonSaveIVBlowfish, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonSaveKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane5)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButtonEncryptBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButtonDecryptBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButtonGenKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButtonGenIVBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+        	jPanel3Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel3Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(jPanel9, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING, false)
+        							.addComponent(jLabel7)
+        							.addComponent(jLabel8)
+        							.addComponent(jLabel9, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jLabel10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        							.addComponent(jPanel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        						.addComponent(jLabel12, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jTextMD5Blowfish, 583, 583, Short.MAX_VALUE)
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addComponent(jTextFilePathBlowfish, 510, 510, 510)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jButtonBrowseFileBlowfish))
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addComponent(jPanel7, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jTextKeyBlowfish, 432, 432, 432)
+        								.addComponent(jTextIVBlowfish, 432, 432, 432))
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jButtonBrowseIVBlowfish)
+        								.addComponent(jButtonBrowseKeyBlowfish))
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING, false)
+        								.addComponent(jButtonSaveIVBlowfish, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        								.addComponent(jButtonSaveKeyBlowfish, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        								.addGroup(jPanel3Layout.createSequentialGroup()
+        									.addComponent(jButtonEncryptBlowfish, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        									.addGap(18)
+        									.addComponent(jButtonDecryptBlowfish, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
+        								.addGroup(jPanel3Layout.createSequentialGroup()
+        									.addComponent(jButtonGenKeyBlowfish, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+        									.addGap(18)
+        									.addComponent(jButtonGenIVBlowfish, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)))
+        							.addGap(0, 225, Short.MAX_VALUE))
+        						.addComponent(jScrollPane5, GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)))
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addComponent(progressBarBF, GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnStopBF, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextKeyBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextIVBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonBrowseKeyBlowfish)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButtonBrowseIVBlowfish))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButtonSaveKeyBlowfish)
-                                .addGap(12, 12, 12)
-                                .addComponent(jButtonSaveIVBlowfish)))
-                        .addGap(1, 1, 1)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGenKeyBlowfish)
-                    .addComponent(jButtonGenIVBlowfish))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonBrowseFileBlowfish)
-                    .addComponent(jTextFilePathBlowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextMD5Blowfish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonEncryptBlowfish)
-                    .addComponent(jButtonDecryptBlowfish))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(5, 5, 5))
+        	jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel3Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING, false)
+        				.addComponent(jPanel7, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+        				.addComponent(jPanel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jTextKeyBlowfish, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel7))
+        					.addGap(13)
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jTextIVBlowfish, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel8)))
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addComponent(jButtonBrowseKeyBlowfish)
+        							.addGap(12)
+        							.addComponent(jButtonBrowseIVBlowfish))
+        						.addGroup(jPanel3Layout.createSequentialGroup()
+        							.addComponent(jButtonSaveKeyBlowfish)
+        							.addGap(12)
+        							.addComponent(jButtonSaveIVBlowfish)))
+        					.addGap(1)))
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jButtonGenKeyBlowfish)
+        				.addComponent(jButtonGenIVBlowfish))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jButtonBrowseFileBlowfish)
+        				.addComponent(jTextFilePathBlowfish, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel9))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel3Layout.createSequentialGroup()
+        					.addComponent(jLabel10)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(jLabel11))
+        				.addComponent(jScrollPane5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jTextMD5Blowfish, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(jLabel12))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jButtonEncryptBlowfish)
+        				.addComponent(jButtonDecryptBlowfish))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(jPanel3Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(progressBarBF, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnStopBF, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(jPanel9, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+        			.addGap(5))
         );
+        jPanel3.setLayout(jPanel3Layout);
 
         jTabbedPane1.addTab("Blowfish", jPanel3);
 
@@ -1281,7 +1380,7 @@ public class CryptoFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBrowseFileActionPerformed
 
     private void jButtonEncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncryptActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+        cryptoThreadDES = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = jRadioCBC.isSelected()
@@ -1304,7 +1403,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     for (File fi : fileProcess.listFiles()) {
                         _LoggerDES.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
                         String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerDES);
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), progressBarDES);
+                        //btnStopDES.setEnabled(true);
                         if (!cryptoDESFilepath.isEmpty()) {
                             if (!cryptoDESFilepath.isEmpty()) {
                                 _LoggerDES.append("Encrypt successfully at:" + cryptoDESFilepath + "\n");
@@ -1316,7 +1416,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 } else {
                     _LoggerDES.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
                     String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                            modeBlock, modePadding, key, iv, file, _LoggerDES);
+                            modeBlock, modePadding, key, iv, file, progressBarDES);
+                    //btnStopDES.setEnabled(true);
                     if (!cryptoDESFilepath.isEmpty()) {
                         _LoggerDES.append("Encrypt successfully at:" + cryptoDESFilepath + "\n");
                     } else {
@@ -1327,11 +1428,11 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+        cryptoThreadDES.start();
     }//GEN-LAST:event_jButtonEncryptActionPerformed
 
     private void jButtonDecryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDecryptActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+        cryptoThreadDES = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = jRadioCBC.isSelected()
@@ -1353,7 +1454,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 if (fileProcess.isDirectory()) {
                     for (File fi : fileProcess.listFiles()) {
                         String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.DECRYPT,
-                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerDES);
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), progressBarDES);
+                        //btnStopDES.setEnabled(true);
                         if (!cryptoDESFilepath.isEmpty()) {
                             _LoggerDES.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
                                     + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
@@ -1363,7 +1465,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     }
                 } else {
                     String cryptoDESFilepath = CryptographyModel.cryptoDESFile(CryptographyModel.ModeCrypto.DECRYPT,
-                            modeBlock, modePadding, key, iv, file, _LoggerDES);
+                            modeBlock, modePadding, key, iv, file, progressBarDES);
+                    //btnStopDES.setEnabled(true);
                     if (!cryptoDESFilepath.isEmpty()) {
                         _LoggerDES.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
                                 + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
@@ -1374,7 +1477,7 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+        cryptoThreadDES.start();
     }//GEN-LAST:event_jButtonDecryptActionPerformed
 
     private void jButtonBrowseKeyBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBrowseKeyBlowfishActionPerformed
@@ -1440,7 +1543,7 @@ public class CryptoFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBrowseFileBlowfishActionPerformed
 
     private void jButtonEncryptBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncryptBlowfishActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+        cryptoThreadBF = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = jRadioCBCBlowfish.isSelected()
@@ -1463,7 +1566,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     for (File fi : fileProcess.listFiles()) {
                         _LoggerBlowfish.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
                         String cryptoBlowfishFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerBlowfish);
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), progressBarBF);
+                        //btnStopBF.setEnabled(true);
                         if (!cryptoBlowfishFilepath.isEmpty()) {
                             if (!cryptoBlowfishFilepath.isEmpty()) {
                                 _LoggerBlowfish.append("Encrypt successfully at:" + cryptoBlowfishFilepath + "\n");
@@ -1475,7 +1579,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 } else {
                     _LoggerBlowfish.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
                     String cryptoBlowfishFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                            modeBlock, modePadding, key, iv, file, _LoggerBlowfish);
+                            modeBlock, modePadding, key, iv, file, progressBarBF);
+                    //btnStopBF.setEnabled(true);
                     if (!cryptoBlowfishFilepath.isEmpty()) {
                         _LoggerBlowfish.append("Encrypt successfully at:" + cryptoBlowfishFilepath + "\n");
                     } else {
@@ -1486,11 +1591,11 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+        cryptoThreadBF.start();
     }//GEN-LAST:event_jButtonEncryptBlowfishActionPerformed
 
     private void jButtonDecryptBlowfishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDecryptBlowfishActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+    	cryptoThreadBF = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = jRadioCBCBlowfish.isSelected()
@@ -1512,7 +1617,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 if (fileProcess.isDirectory()) {
                     for (File fi : fileProcess.listFiles()) {
                         String cryptoDESFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.DECRYPT,
-                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), _LoggerBlowfish);
+                                modeBlock, modePadding, key, iv, fi.getAbsolutePath(), progressBarBF);
+                        //btnStopBF.setEnabled(true);
                         if (!cryptoDESFilepath.isEmpty()) {
                             _LoggerBlowfish.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
                                     + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
@@ -1522,7 +1628,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     }
                 } else {
                     String cryptoDESFilepath = CryptographyModel.cryptoBlowfishFile(CryptographyModel.ModeCrypto.DECRYPT,
-                            modeBlock, modePadding, key, iv, file, _LoggerBlowfish);
+                            modeBlock, modePadding, key, iv, file, progressBarBF);
+                    //btnStopBF.setEnabled(true);
                     if (!cryptoDESFilepath.isEmpty()) {
                         _LoggerBlowfish.append("Decrypt successfully at:" + cryptoDESFilepath + " with MD5 checksum: "
                                 + CryptographyModel.getMD5Checksum(cryptoDESFilepath) + "\n");
@@ -1533,7 +1640,7 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+    	cryptoThreadBF.start();
     }//GEN-LAST:event_jButtonDecryptBlowfishActionPerformed
 
     private void jButtonGenPrimeQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenPrimeQActionPerformed
@@ -1644,7 +1751,7 @@ public class CryptoFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBrowseRSAActionPerformed
 
     private void jButtonEncryptRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncryptRSAActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+        cryptoThreadRSA = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = CryptographyModel.ModeBlockCipher.ECB;
@@ -1661,7 +1768,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     for (File fi : fileProcess.listFiles()) {
                         _LoggerRSA.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(fi.getAbsolutePath()) + "\n");
                         String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                                modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), fi.getAbsolutePath(), _LoggerRSA);
+                                modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), fi.getAbsolutePath(), progressBarRSA);
+                        //btnStopRSA.setEnabled(true);
                         if (!cryptoRSAFilepath.isEmpty()) {
                             if (!cryptoRSAFilepath.isEmpty()) {
                                 _LoggerRSA.append("Encrypt successfully at:" + cryptoRSAFilepath + "\n");
@@ -1673,7 +1781,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 } else {
                     _LoggerRSA.append("Original file MD5 checksum:" + CryptographyModel.getMD5Checksum(file) + "\n");
                     String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.ENCRYPT,
-                            modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), file, _LoggerRSA);
+                            modeBlock, modePadding, new BigInteger(n), new BigInteger(e), new BigInteger(e), file, progressBarRSA);
+                    //btnStopRSA.setEnabled(true);
                     if (!cryptoRSAFilepath.isEmpty()) {
                         _LoggerRSA.append("Encrypt successfully at:" + cryptoRSAFilepath + "\n");
                     } else {
@@ -1684,11 +1793,11 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+        cryptoThreadRSA.start();
     }//GEN-LAST:event_jButtonEncryptRSAActionPerformed
 
     private void jButtonDecryptRSAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDecryptRSAActionPerformed
-        Thread cryptoThread = new Thread(new Runnable() {
+    	cryptoThreadRSA = new Thread(new Runnable() {
             @Override
             public void run() {
                 CryptographyModel.ModeBlockCipher modeBlock = CryptographyModel.ModeBlockCipher.ECB;
@@ -1704,7 +1813,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                 if (fileProcess.isDirectory()) {
                     for (File fi : fileProcess.listFiles()) {
                         String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT,
-                                modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), fi.getAbsolutePath(), _LoggerRSA);
+                                modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), fi.getAbsolutePath(), progressBarRSA);
+                        //btnStopRSA.setEnabled(true);
                         if (!cryptoRSAFilepath.isEmpty()) {
                             if (!cryptoRSAFilepath.isEmpty()) {
                                 _LoggerRSA.append("Decrypt successfully at:" + cryptoRSAFilepath + " with MD5 checksum: "
@@ -1716,7 +1826,8 @@ public class CryptoFrame extends javax.swing.JFrame {
                     }
                 } else {
                     String cryptoRSAFilepath = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT,
-                            modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), file, _LoggerRSA);
+                            modeBlock, modePadding, new BigInteger(n), new BigInteger(d), new BigInteger(d), file, progressBarRSA);
+                    //btnStopRSA.setEnabled(true);
                     if (!cryptoRSAFilepath.isEmpty()) {
                         _LoggerRSA.append("Decrypt successfully at:" + cryptoRSAFilepath + " with MD5 checksum: "
                                 + CryptographyModel.getMD5Checksum(cryptoRSAFilepath) + "\n");
@@ -1728,7 +1839,7 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         }
         );
-        cryptoThread.start();
+    	cryptoThreadRSA.start();
     }//GEN-LAST:event_jButtonDecryptRSAActionPerformed
 
     public void calculateRSANeeded() {
@@ -1925,5 +2036,7 @@ public class CryptoFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup paddingBlowfishButtonGroup1;
     private javax.swing.ButtonGroup paddingButtonGroup;
     private javax.swing.ButtonGroup paddingRSAButtonGroup1;
-    // End of variables declaration//GEN-END:variables
+    private JButton btnStopDES;
+    private JButton btnStopRSA;
+    private JButton btnStopBF;
 }

@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 /**
@@ -85,7 +86,7 @@ public class ReceiveFile implements Runnable{
             
             String cryptoRSAFile = Cryptography.CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.DECRYPT, 
                     CryptographyModel.ModeBlockCipher.ECB, CryptographyModel.ModePadding.PKCS5, 
-                    pKey.getN(), pKey.getD(), pKey.getD(), saveLocation + ".encrypt", new JTextArea());
+                    pKey.getN(), pKey.getD(), pKey.getD(), saveLocation + ".encrypt", new JProgressBar());
             File file = new File(cryptoRSAFile);
             File file2 = new File(saveLocation);
             file.renameTo(file2);

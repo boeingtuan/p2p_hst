@@ -28,6 +28,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 /**
@@ -171,7 +172,7 @@ public class CryptographyModel {
     }
 
     public static String cryptoDESFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
-            String keyHexString, String ivHexString, String filepathSource, JTextArea _Logger) {
+            String keyHexString, String ivHexString, String filepathSource, JProgressBar progressBar) {
 
         try {
             SecretKey myDesKey = new SecretKeySpec(convertHexString2ByteArray(keyHexString), "DES");
@@ -216,15 +217,15 @@ public class CryptographyModel {
                     try (CipherOutputStream cos = new CipherOutputStream(fos, desCipher)) {
                         byte[] block = new byte[8];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = fis.read(block)) != -1) {
                             cos.write(block, 0, i);
                             cnt += 8;
                             if (cnt % 1000000 == 0) {
-                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n\n");
+                        progressBar.setValue(100);
                     }
                     break;
                 case DECRYPT:
@@ -239,15 +240,15 @@ public class CryptographyModel {
                     try (CipherInputStream cis = new CipherInputStream(fis, desCipher)) {
                         byte[] block = new byte[8];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = cis.read(block)) != -1) {
                             fos.write(block, 0, i);
                             cnt += 8;
                             if (cnt % 1000000 == 0) {
-                                _Logger.append(String.format("%.2f %% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n\n");
+                        progressBar.setValue(100);
                     }
                     break;
             }
@@ -261,7 +262,7 @@ public class CryptographyModel {
         }
     }
     public static String cryptoBlowfishFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
-            String keyHexString, String ivHexString, String filepathSource, JTextArea _Logger) {
+            String keyHexString, String ivHexString, String filepathSource, JProgressBar progressBar) {
 
         try {
             SecretKey myDesKey = new SecretKeySpec(convertHexString2ByteArray(keyHexString), "Blowfish");
@@ -306,15 +307,15 @@ public class CryptographyModel {
                     try (CipherOutputStream cos = new CipherOutputStream(fos, blowfishCipher)) {
                         byte[] block = new byte[8];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = fis.read(block)) != -1) {
                             cos.write(block, 0, i);
                             cnt += 8;
                             if (cnt % 1000000 == 0) {
-                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n\n");
+                        progressBar.setValue(100);
                     }
                     break;
                 case DECRYPT:
@@ -329,15 +330,15 @@ public class CryptographyModel {
                     try (CipherInputStream cis = new CipherInputStream(fis, blowfishCipher)) {
                         byte[] block = new byte[8];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = cis.read(block)) != -1) {
                             fos.write(block, 0, i);
                             cnt += 8;
                             if (cnt % 1000000 == 0) {
-                                _Logger.append(String.format("%.2f %% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n\n");
+                        progressBar.setValue(100);
                     }
                     break;
             }
@@ -382,7 +383,7 @@ public class CryptographyModel {
     }
 
     public static String cryptoRSAFile(ModeCrypto modeCrypto, ModeBlockCipher modeBlockCipher, ModePadding modePadding,
-            BigInteger modulus, BigInteger publicExponent, BigInteger privateExponent, String filepathSource, JTextArea _Logger) {
+            BigInteger modulus, BigInteger publicExponent, BigInteger privateExponent, String filepathSource, JProgressBar progressBar) {
 
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -425,17 +426,17 @@ public class CryptographyModel {
                     try (CipherOutputStream cos = new CipherOutputStream(fos, rsaCipher)) {
                         byte[] block = new byte[key_buffer_encrypt];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = fis.read(block)) != -1) {
                             //cos.write(block, 0, i);
                             byte[] cipherBlock = rsaCipher.doFinal(block, 0, i);
                             fos.write(cipherBlock);
                             cnt += key_buffer_encrypt;
                             if (cnt % 100 == 0) {
-                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n");
+                        progressBar.setValue(100);
                     }
                     finally {
                     	fos.close();
@@ -453,16 +454,16 @@ public class CryptographyModel {
                     try (CipherInputStream cis = new CipherInputStream(fis, rsaCipher)) {
                         byte[] block = new byte[key_buffer_decrypt];
                         int i;
-                        _Logger.append("Percentage completed: 0% ");
+                        progressBar.setValue(0);
                         while ((i = fis.read(block)) != -1) {
                             byte[] cipherBlock = rsaCipher.doFinal(block);
                             fos.write(cipherBlock);
                             cnt += key_buffer_decrypt;
                             if (cnt % 100 == 0) {
-                                _Logger.append(String.format("%.2f%% ", cnt * 100.0 / size));
+                            	progressBar.setValue((int)(cnt * 100.0 / size));
                             }
                         }
-                        _Logger.append("100%\n");
+                        progressBar.setValue(100);
                     }
                     finally {
                     	fos.close();

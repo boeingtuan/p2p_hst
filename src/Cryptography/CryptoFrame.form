@@ -891,7 +891,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextRSAq">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonGenPrimeQ">
@@ -912,7 +912,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextRSAp">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">
@@ -928,7 +928,7 @@
             <Component class="javax.swing.JTextField" name="jTextRSAN">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel16">
@@ -939,12 +939,12 @@
             <Component class="javax.swing.JTextField" name="jTextRSAPhiN">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextRSAE">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel17">
@@ -963,7 +963,7 @@
             <Component class="javax.swing.JTextField" name="jTextRSAD">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel18">
@@ -1022,7 +1022,7 @@
             <Component class="javax.swing.JTextField" name="jTextFilePathRSA">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel19">
@@ -1067,7 +1067,7 @@
             <Component class="javax.swing.JTextField" name="jTextMD5RSA">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonEncryptRSA">
@@ -1448,7 +1448,7 @@
             </Container>
             <Component class="javax.swing.JTextField" name="jTextKeyBlowfish">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="64 bit (8 byte) key"/>
+                <Property name="toolTipText" type="java.lang.String" value="32 - 448 bit (4 - 56 byte) key"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">

@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 /**
@@ -58,7 +59,7 @@ public class SendFile implements Runnable {
         try {
             String fileEncrypt = CryptographyModel.cryptoRSAFile(CryptographyModel.ModeCrypto.ENCRYPT,
                     CryptographyModel.ModeBlockCipher.ECB, CryptographyModel.ModePadding.PKCS5, pKey.getN(),
-                    pKey.getE(), pKey.getE(), filepath, new JTextArea());
+                    pKey.getE(), pKey.getE(), filepath, new JProgressBar());
             this.file = new File(fileEncrypt);
             this.In = new FileInputStream(file);
             this.Bin = new BufferedInputStream(In);           
