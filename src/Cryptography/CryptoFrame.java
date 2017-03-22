@@ -589,7 +589,7 @@ public class CryptoFrame extends javax.swing.JFrame {
 
         jLabel13.setText("Prime q:");
 
-        jTextRSAq.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAq.setToolTipText("64 bit (8 byte) key");
 
         jButtonGenPrimeQ.setText("Generate Random");
         jButtonGenPrimeQ.addActionListener(new java.awt.event.ActionListener() {
@@ -605,21 +605,21 @@ public class CryptoFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextRSAp.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAp.setToolTipText("64 bit (8 byte) key");
 
         jLabel14.setText("Prime p:");
 
         jLabel15.setText("n = p * q:");
 
         jTextRSAN.setEditable(false);
-        jTextRSAN.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAN.setToolTipText("64 bit (8 byte) key");
 
         jLabel16.setText("phi(n):");
 
         jTextRSAPhiN.setEditable(false);
-        jTextRSAPhiN.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAPhiN.setToolTipText("64 bit (8 byte) key");
 
-        jTextRSAE.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAE.setToolTipText("64 bit (8 byte) key");
 
         jLabel17.setText("Private e:");
 
@@ -631,7 +631,7 @@ public class CryptoFrame extends javax.swing.JFrame {
         });
 
         jTextRSAD.setEditable(false);
-        jTextRSAD.setToolTipText("64 bit (8 byte) key");
+        //jTextRSAD.setToolTipText("64 bit (8 byte) key");
 
         jLabel18.setText("Public d:");
 
@@ -678,7 +678,7 @@ public class CryptoFrame extends javax.swing.JFrame {
         });
 
         jTextFilePathRSA.setEditable(false);
-        jTextFilePathRSA.setToolTipText("64 bit (8 byte) key");
+        //jTextFilePathRSA.setToolTipText("64 bit (8 byte) key");
 
         jLabel19.setText("File");
 
@@ -697,7 +697,7 @@ public class CryptoFrame extends javax.swing.JFrame {
         jLabel22.setText("MD5");
 
         jTextMD5RSA.setEditable(false);
-        jTextMD5RSA.setToolTipText("64 bit (8 byte) key");
+        //jTextMD5RSA.setToolTipText("64 bit (8 byte) key");
 
         jButtonEncryptRSA.setText("Encrypt");
         jButtonEncryptRSA.addActionListener(new java.awt.event.ActionListener() {
@@ -964,7 +964,7 @@ public class CryptoFrame extends javax.swing.JFrame {
         jTextArea3.setPreferredSize(new java.awt.Dimension(260, 90));
         jScrollPane3.setViewportView(jTextArea3);
 
-        jTextKeyBlowfish.setToolTipText("64 bit (8 byte) key");
+        jTextKeyBlowfish.setToolTipText("32 - 448 bit (4 - 56 byte) key");
 
         jLabel7.setText("Key (hex): ");
 
